@@ -1,12 +1,23 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
   "extends": [
-    "plugin:react/recommended",
     "airbnb",
+    "plugin:react/recommended",
     "prettier",
     "next/core-web-vitals",
-    "import",
-    "import-resolver-alias"
+    "plugin:import/errors",
+    "plugin:import/warnings"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    }
+  },
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
