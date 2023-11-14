@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import { Button, Flex, Text, VStack } from '@chakra-ui/react';
+import Link from 'next/link';
+import { BsBookHalf } from 'react-icons/bs';
 
 export default function Home() {
   return (
@@ -13,12 +15,21 @@ export default function Home() {
       <main>
         <Flex height="100vh" alignItems="center" justifyContent="center">
           <Flex flexDirection="column" alignItems="center">
-            <Text textStyle="headline-2-medium">Bibliotheque-E</Text>
+            <Flex alignItems="center">
+              <BsBookHalf size={64} />
+              <Text textStyle="headline-2-medium" marginLeft='4px'>Bibliotheque-E</Text>
+            </Flex>
             <VStack spacing="24px" align="stretch" width="380px" marginTop="90px">
-              <Button colorScheme="actionPrimary">Create Account</Button>
-              <Button colorScheme="actionSecondary" color="white">
-                Login
-              </Button>
+              <Link href="/signup">
+                <Button width="100%" colorScheme="actionPrimary">
+                  Create Account
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button width="100%" colorScheme="actionSecondary" color="white">
+                  Login
+                </Button>
+              </Link>
             </VStack>
           </Flex>
         </Flex>
