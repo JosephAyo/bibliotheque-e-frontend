@@ -4,7 +4,7 @@ import { AuthPageLayout } from 'components/Layouts';
 import Link from 'next/link';
 import React from 'react';
 
-const Signup = () => {
+const Login = () => {
   const formBackground = useColorModeValue('#f6f6f6', 'gray.600');
 
   return (
@@ -16,22 +16,8 @@ const Signup = () => {
         padding="44px"
         width="464px"
         spacing="28px">
-        <Text textStyle="headline-5-medium">Create account</Text>
+        <Text textStyle="headline-5-medium">Log In</Text>
         <VStack align="stretch" width="100%" spacing="22px">
-          <AuthFormInputField
-            fieldLabel="First name"
-            inputFieldProps={{
-              name: 'first_name',
-              placeholder: 'John'
-            }}
-          />
-          <AuthFormInputField
-            fieldLabel="Last name"
-            inputFieldProps={{
-              name: 'last_name',
-              placeholder: 'Doe'
-            }}
-          />
           <AuthFormInputField
             fieldLabel="Email"
             inputFieldProps={{
@@ -49,17 +35,16 @@ const Signup = () => {
             }}
           />
         </VStack>
-
         <Button colorScheme="actionPrimary" width="100%">
-          Sign Up
+          Login
         </Button>
         <Flex>
           <Text marginRight="4px" textStyle="caption">
-            Have an account already
+            Don&rsquo;t have an account?
           </Text>
-          <Link href="/login">
+          <Link href="/signup">
             <Text color="primary.default" textStyle="caption-medium">
-              Log In
+              Sign Up
             </Text>
           </Link>
         </Flex>
@@ -68,4 +53,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
