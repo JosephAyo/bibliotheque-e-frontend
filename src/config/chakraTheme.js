@@ -1,22 +1,9 @@
 export const chakraThemeColors = {
-  primaryFontColor: '#FFFFFF',
-  secondaryFontColor: '#EF4874',
+  primaryFontColor: '#000000',
+  secondaryFontColor : '#FFFFFF',
   plainOldBlue: 'blue',
   primaryBgColor: '#552EA3',
   actionPrimary: {
-    default: '#000000',
-    900: '#000000',
-    800: '#000000',
-    700: '#000000',
-    600: '#000000',
-    500: '#000000',
-    400: '#000000',
-    300: '#000000',
-    200: '#000000',
-    100: '#000000',
-    50: '#000000'
-  },
-  actionSecondary: {
     default: '#EF4874',
     900: '#EF4874',
     800: '#EF4874',
@@ -28,6 +15,19 @@ export const chakraThemeColors = {
     200: '#EF4874',
     100: '#EF4874',
     50: '#EF4874'
+  },
+  actionSecondary: {
+    default: '#000000',
+    900: '#000000',
+    800: '#000000',
+    700: '#000000',
+    600: '#000000',
+    500: '#000000',
+    400: '#000000',
+    300: '#000000',
+    200: '#000000',
+    100: '#000000',
+    50: '#000000'
   },
   primary: {
     default: '#0066F5',
