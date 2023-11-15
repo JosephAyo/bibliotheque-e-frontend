@@ -1,4 +1,5 @@
-import { Button, Flex, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { AuthFormActionButton } from 'components/Buttons';
 import { AuthFormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import Link from 'next/link';
@@ -48,10 +49,7 @@ const Signup = () => {
             }}
           />
         </VStack>
-
-        <Button colorScheme="actionPrimary" width="100%">
-          Sign Up
-        </Button>
+        <AuthFormActionButton>Sign Up</AuthFormActionButton>
         <Flex>
           <Text marginRight="4px" textStyle="caption">
             Have an account already

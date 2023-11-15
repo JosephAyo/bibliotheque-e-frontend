@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
 import { mode } from '@chakra-ui/theme-tools';
 import 'styles/globals.css';
-import ThemeToggleButton from 'components/ThemeToggle';
+import { ThemeToggleButton } from 'components/ThemeToggle';
 
 const queryClient = new QueryClient({
   defaultOptions: {
