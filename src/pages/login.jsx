@@ -2,7 +2,6 @@ import { Button, Flex, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import { AuthFormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import Link from 'next/link';
-import React from 'react';
 
 const Login = () => {
   const formBackground = useColorModeValue('#f6f6f6', 'gray.600');
