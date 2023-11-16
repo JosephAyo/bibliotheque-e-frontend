@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 
-const AuthFormActionButton = ({ children }) => (
-  <Button colorScheme="actionPrimary" width="100%" color="white">
+const AuthFormActionButton = ({ children, ...rest }) => (
+  <Button colorScheme="actionPrimary" width="100%" color="white" {...rest}>
     {children}
   </Button>
 );

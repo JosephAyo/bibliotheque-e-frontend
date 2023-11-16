@@ -167,22 +167,28 @@ export const chakraThemeTextStyles = {
     letterSpacing: '0.004em',
     fontWeight: 500
   },
-  'subtile-1': {
+  'subtitle-1': {
     fontSize: '12px',
     lineHeight: '15px',
     letterSpacing: '0.004em',
     fontWeight: 400
   },
-  'subtile-2': {
+  'subtitle-2': {
+    fontSize: '10px',
+    lineHeight: '10px',
+    letterSpacing: '0.004em',
+    fontWeight: 400
+  },
+  'subtitle-2-medium': {
+    fontSize: '10px',
+    lineHeight: '10px',
+    letterSpacing: '0.004em',
+    fontWeight: 500
+  },
+  'subtitle-3': {
     fontSize: '8px',
     lineHeight: '10px',
     letterSpacing: '0.004em',
     fontWeight: 400
   },
-  'subtile-2-medium': {
-    fontSize: '8px',
-    lineHeight: '10px',
-    letterSpacing: '0.004em',
-    fontWeight: 500
-  }
 };

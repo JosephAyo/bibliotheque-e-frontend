@@ -3,8 +3,10 @@ import { AuthFormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { AuthFormActionButton } from 'components/Buttons';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Login = () => {
+  const router = useRouter();
   const formBackground = useColorModeValue('#f6f6f6', 'gray.600');
 
   return (
@@ -35,7 +37,9 @@ const Login = () => {
             }}
           />
         </VStack>
-        <AuthFormActionButton>Login</AuthFormActionButton>
+        <AuthFormActionButton onClick={() => router.push('/library/books')}>
+          Login
+        </AuthFormActionButton>
         <Flex>
           <Text marginRight="4px" textStyle="caption">
             Don&rsquo;t have an account?
