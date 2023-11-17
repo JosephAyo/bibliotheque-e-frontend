@@ -5,7 +5,9 @@ import {
   MenuItem,
   IconButton,
   MenuOptionGroup,
-  MenuItemOption
+  Radio,
+  RadioGroup,
+  VStack
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaUserCircle } from 'react-icons/fa';
@@ -24,27 +26,26 @@ const userRoles = [
   }
 ];
 const UserMenu = () => (
-  <Menu closeOnSelect={false}>
+  <Menu>
     <MenuButton rounded="100%" as={IconButton} aria-label="User" icon={<FaUserCircle />} />
-    <MenuList>
+    <MenuList minWidth='160px'>
       <MenuItem as={Link} href="/users/account" textStyle="caption-medium">
         Profile settings
       </MenuItem>
-      <MenuOptionGroup
-        title="Account type"
-        type="radio"
-        textStyle="caption-medium"
-        defaultValue={userRoles[0].id}
-        marginX="12px">
-        {userRoles.map((role) => (
-          <MenuItemOption
-            key={role.id}
-            value={role.id}
-            textStyle="caption-medium"
-            textTransform="capitalize">
-            {role.name}
-          </MenuItemOption>
-        ))}
+      <MenuOptionGroup title="Account type" type="radio" textStyle="caption-medium" marginX="12px">
+        <RadioGroup defaultValue={userRoles[0].id}>
+          <VStack
+            alignItems="flex-start"
+            textStyle="caption"
+            textTransform="capitalize"
+            marginLeft="12px">
+            {userRoles.map((role) => (
+              <Radio key={role.id} value={role.id} size="sm">
+                {role.name}
+              </Radio>
+            ))}
+          </VStack>
+        </RadioGroup>
       </MenuOptionGroup>
     </MenuList>
   </Menu>
