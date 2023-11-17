@@ -2,7 +2,7 @@ import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
+import { chakraLayerStyles, chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
 import 'styles/globals.css';
 import { ThemeToggleButton } from 'components/ThemeToggle';
 import { needAbsoluteThemeToggle } from 'config/layout';
@@ -18,6 +18,7 @@ const queryClient = new QueryClient({
 const theme = extendTheme({
   colors: chakraThemeColors,
   textStyles: chakraThemeTextStyles,
+  layerStyles: chakraLayerStyles,
   components: {
     // Text: {
     //   baseStyle: (_props) => ({

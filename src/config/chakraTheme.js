@@ -250,3 +250,10 @@ export const chakraThemeTextStyles = {
     fontWeight: 400
   }
 };
+
+export const chakraLayerStyles = {
+  auth_form_container: {
+    bg: '#f6f6f6',
+    '.chakra-ui-dark &': { bg: 'gray.600' }
+  }
+};
