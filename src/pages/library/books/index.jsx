@@ -6,7 +6,7 @@ import { BiSolidSearchAlt2 } from 'react-icons/bi';
 
 const Books = () => (
   <LibraryPageLayout
-    pageTitle="Book"
+    pageTitle="Books"
     searchBar={
       <Flex flex={1} gap="10px">
         <SearchInputField
