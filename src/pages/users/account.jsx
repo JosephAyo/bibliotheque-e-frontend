@@ -9,13 +9,15 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { AuthFormInputField } from 'components/Inputs';
 import { UserAccountPageLayout } from 'components/Layouts';
 import { useRef } from 'react';
 
 const Account = () => {
+  const modalOverlayBg = useColorModeValue('#555555ee', '#000000ee');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef(null);
@@ -84,7 +86,7 @@ const Account = () => {
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay background={modalOverlayBg} />
         <ModalContent>
           <ModalHeader>
             <Text>Change password</Text>
