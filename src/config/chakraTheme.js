@@ -1,6 +1,6 @@
 export const chakraThemeColors = {
   primaryFontColor: '#000000',
-  secondaryFontColor : '#FFFFFF',
+  secondaryFontColor: '#FFFFFF',
   plainOldBlue: 'blue',
   primaryBgColor: '#552EA3',
   actionPrimary: {
@@ -15,6 +15,32 @@ export const chakraThemeColors = {
     200: '#EF4874',
     100: '#EF4874',
     50: '#EF4874'
+  },
+  actionPrimaryLight: {
+    default: '#EF4874',
+    900: '#EF4874',
+    800: '#EF4874',
+    700: '#EF4874',
+    600: '#EF4874',
+    500: '#EF4874',
+    400: '#EF4874',
+    300: '#EF4874',
+    200: '#EF4874',
+    100: '#EF4874',
+    50: '#EF4874'
+  },
+  actionPrimaryDark: {
+    default: '#ecabbc',
+    900: '#ecabbc',
+    800: '#ecabbc',
+    700: '#ecabbc',
+    600: '#ecabbc',
+    500: '#ecabbc',
+    400: '#ecabbc',
+    300: '#ecabbc',
+    200: '#ecabbc',
+    100: '#ecabbc',
+    50: '#ecabbc'
   },
   actionSecondary: {
     default: '#000000',
@@ -41,6 +67,32 @@ export const chakraThemeColors = {
     200: '#EF4874',
     100: '#EF4874',
     50: '#EF4874'
+  },
+  primaryLight: {
+    default: '#EF4874',
+    900: '#EF4874',
+    800: '#EF4874',
+    700: '#EF4874',
+    600: '#EF4874',
+    500: '#EF4874',
+    400: '#EF4874',
+    300: '#EF4874',
+    200: '#EF4874',
+    100: '#EF4874',
+    50: '#EF4874'
+  },
+  primaryDark: {
+    default: '#ecabbc',
+    900: '#ecabbc',
+    800: '#ecabbc',
+    700: '#ecabbc',
+    600: '#ecabbc',
+    500: '#ecabbc',
+    400: '#ecabbc',
+    300: '#ecabbc',
+    200: '#ecabbc',
+    100: '#ecabbc',
+    50: '#ecabbc'
   },
   lightGray: {
     default: '#EFEFEF',
@@ -196,5 +248,5 @@ export const chakraThemeTextStyles = {
     lineHeight: '10px',
     letterSpacing: '0.004em',
     fontWeight: 400
-  },
+  }
 };

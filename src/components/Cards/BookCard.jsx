@@ -24,6 +24,7 @@ const bookDetails = {
 const BookCard = () => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
+  const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
 
   return (
     <Popover placement="right-start">
@@ -60,7 +61,7 @@ const BookCard = () => {
                 {bookDetails.author}
               </Text>
             </Flex>
-            <Flex alignItems="center" color="primary.default" gap="4px">
+            <Flex alignItems="center" color={countsColor} gap="4px">
               <GiBookshelf size={14} />
               <Text textStyle="subtitle-2">4</Text>
             </Flex>

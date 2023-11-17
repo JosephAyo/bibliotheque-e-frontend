@@ -1,4 +1,5 @@
 import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
@@ -29,6 +30,12 @@ const theme = extendTheme({
         primary_action: (_props) => ({
           color: 'whiteAlpha.900',
           backgroundColor: 'actionPrimary.200',
+          ...chakraThemeTextStyles.button
+        }),
+        // used as <Button variant="primary_action_themed">
+        primary_action_themed: (_props) => ({
+          color: 'whiteAlpha.900',
+          backgroundColor: mode('actionPrimaryLight.200', 'actionPrimaryDark.200')(_props),
           ...chakraThemeTextStyles.button
         }),
         // used as <Button variant="secondary_action">

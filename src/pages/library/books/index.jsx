@@ -15,7 +15,7 @@ const Books = () => (
             placeholder: 'Search'
           }}
         />
-        <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
+        <IconButton variant="primary_action_themed" icon={<BiSolidSearchAlt2 />} />
       </Flex>
     }
     >
