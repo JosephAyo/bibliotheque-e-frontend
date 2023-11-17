@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import { Box, Flex, IconButton } from '@chakra-ui/react';
-import { SearchInputField } from 'components/Inputs';
-import { BiSolidSearchAlt2 } from 'react-icons/bi';
+import { Box, ButtonGroup, Flex, IconButton } from '@chakra-ui/react';
+import { FaUserCircle } from 'react-icons/fa';
+import { ThemeToggleButton } from 'components/ThemeToggle';
 
-const LibraryPageLayout = ({ children, pageTitle }) => (
+const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
   <>
     <Head>
       <title>Bibliotheque-E {pageTitle ? `| ${pageTitle}` : ''}</title>
@@ -19,16 +19,14 @@ const LibraryPageLayout = ({ children, pageTitle }) => (
         maxWidth="893px"
         marginLeft="auto"
         marginRight="auto"
-        paddingY="48px"
+        paddingY="20px"
         paddingX="23px">
-        <Flex gap="8px" marginBottom="16px" width="100%">
-          <SearchInputField
-            containerProps={{ flex: 1 }}
-            inputFieldProps={{
-              placeholder: 'Search'
-            }}
-          />
-          <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
+        <Flex gap="18px" marginBottom="16px" width="100%">
+          {searchBar}
+          <ButtonGroup marginLeft="auto" spacing="10px" width="155px" justifyContent="flex-end">
+            <IconButton icon={<FaUserCircle />} rounded="100%" />
+            <ThemeToggleButton />
+          </ButtonGroup>
         </Flex>
         <Box>{children}</Box>
       </Flex>

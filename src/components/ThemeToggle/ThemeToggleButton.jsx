@@ -7,9 +7,6 @@ const ThemeToggleButton = () => {
     <IconButton
       onClick={toggleColorMode}
       rounded="100%"
-      position="absolute"
-      top="20px"
-      right="20px"
       icon={colorMode === 'dark' ? <BsSunFill /> : <BsMoonFill />}
     />
   );

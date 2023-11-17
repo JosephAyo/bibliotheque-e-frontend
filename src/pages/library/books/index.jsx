@@ -1,9 +1,24 @@
-import { Wrap } from '@chakra-ui/react';
+import { Flex, IconButton, Wrap } from '@chakra-ui/react';
 import BookCard from 'components/Cards/BookCard';
 import { LibraryPageLayout } from 'components/Layouts';
+import { SearchInputField } from 'components/Inputs';
+import { BiSolidSearchAlt2 } from 'react-icons/bi';
 
 const Books = () => (
-  <LibraryPageLayout pageTitle="Book">
+  <LibraryPageLayout
+    pageTitle="Book"
+    searchBar={
+      <Flex flex={1} gap="5px">
+        <SearchInputField
+          containerProps={{ flex: 1 }}
+          inputFieldProps={{
+            placeholder: 'Search'
+          }}
+        />
+        <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
+      </Flex>
+    }
+    >
     <Wrap spacing="18px">
       {[
         {
