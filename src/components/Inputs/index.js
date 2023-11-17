@@ -1,4 +1,4 @@
 import AuthFormInputField from './AuthFormInputField';
+import SearchInputField from './SearchInputField';
 
-export { AuthFormInputField };
-export default AuthFormInputField;
+export { AuthFormInputField, SearchInputField };

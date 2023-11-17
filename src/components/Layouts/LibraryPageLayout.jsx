@@ -16,7 +16,8 @@ const LibraryPageLayout = ({ children, pageTitle }) => (
         justifyContent="center"
         maxWidth="1184px"
         marginLeft="auto"
-        marginRight="auto">
+        marginRight="auto"
+        paddingY="48px">
         {children}
       </Flex>
     </main>
