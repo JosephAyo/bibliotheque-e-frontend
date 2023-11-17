@@ -17,16 +17,18 @@ export default function Home() {
           <Flex flexDirection="column" alignItems="center">
             <Flex alignItems="center">
               <BsBookHalf size={64} />
-              <Text textStyle="headline-2-medium" marginLeft='4px'>Bibliotheque-E</Text>
+              <Text textStyle="headline-2-medium" marginLeft="4px">
+                Bibliotheque-E
+              </Text>
             </Flex>
             <VStack spacing="24px" align="stretch" width="380px" marginTop="90px">
               <Link href="/signup">
-                <Button width="100%" colorScheme="actionPrimary">
+                <Button width="100%" variant="primary_action">
                   Create Account
                 </Button>
               </Link>
               <Link href="/login">
-                <Button width="100%" colorScheme="actionSecondary" color="white">
+                <Button width="100%" variant="secondary_action">
                   Login
                 </Button>
               </Link>
