@@ -173,6 +173,12 @@ export const chakraThemeTextStyles = {
     letterSpacing: '0.004em',
     fontWeight: 400
   },
+  'subtitle-1-medium': {
+    fontSize: '12px',
+    lineHeight: '15px',
+    letterSpacing: '0.004em',
+    fontWeight: 500
+  },
   'subtitle-2': {
     fontSize: '10px',
     lineHeight: '10px',
