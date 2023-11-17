@@ -1,5 +1,7 @@
 import Head from 'next/head';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex, IconButton } from '@chakra-ui/react';
+import { SearchInputField } from 'components/Inputs';
+import { BiSolidSearchAlt2 } from 'react-icons/bi';
 
 const LibraryPageLayout = ({ children, pageTitle }) => (
   <>
@@ -11,14 +13,24 @@ const LibraryPageLayout = ({ children, pageTitle }) => (
     </Head>
     <main>
       <Flex
-        height="100vh"
+        flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        maxWidth="1184px"
+        maxWidth="893px"
         marginLeft="auto"
         marginRight="auto"
-        paddingY="48px">
-        {children}
+        paddingY="48px"
+        paddingX="23px">
+        <Flex gap="8px" marginBottom="16px" width="100%">
+          <SearchInputField
+            containerProps={{ flex: 1 }}
+            inputFieldProps={{
+              placeholder: 'Search'
+            }}
+          />
+          <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
+        </Flex>
+        <Box>{children}</Box>
       </Flex>
     </main>
   </>

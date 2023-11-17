@@ -68,7 +68,7 @@ const BookCard = () => {
           </VStack>
         </Box>
       </PopoverTrigger>
-      <PopoverContent backgroundColor={cardBackgroundColor} width='400px'>
+      <PopoverContent backgroundColor={cardBackgroundColor} width="400px">
         <PopoverArrow backgroundColor={cardBackgroundColor} />
         <PopoverCloseButton />
         <PopoverHeader>
