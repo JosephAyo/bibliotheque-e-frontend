@@ -46,6 +46,22 @@ const theme = extendTheme({
           ...chakraThemeTextStyles.button
         })
       }
+    },
+    Input: {
+      variants: {
+        // used as <Input variant="auth_plain">
+        auth_plain: (_props) => ({
+          field: {
+            backgroundColor: mode('white', 'unset')(_props)
+          }
+        }),
+        // used as <Input variant="auth_filled">
+        auth_filled: (_props) => ({
+          field: {
+            backgroundColor: mode('#f6f6f6', 'gray.600')(_props)
+          }
+        })
+      }
     }
   }
 });

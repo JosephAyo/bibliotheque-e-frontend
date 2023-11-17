@@ -7,7 +7,6 @@ import Link from 'next/link';
 const Signup = () => (
   <AuthPageLayout>
     <VStack
-      flexDirection="column"
       rounded="10px"
       padding="44px"
       width="464px"
@@ -19,14 +18,16 @@ const Signup = () => (
           fieldLabel="First name"
           inputFieldProps={{
             name: 'first_name',
-            placeholder: 'John'
+            placeholder: 'John',
+            variant: 'auth_plain'
           }}
         />
         <AuthFormInputField
           fieldLabel="Last name"
           inputFieldProps={{
             name: 'last_name',
-            placeholder: 'Doe'
+            placeholder: 'Doe',
+            variant: 'auth_plain'
           }}
         />
         <AuthFormInputField
@@ -34,7 +35,8 @@ const Signup = () => (
           inputFieldProps={{
             name: 'email',
             placeholder: 'example@email.com',
-            type: 'email'
+            type: 'email',
+            variant: 'auth_plain'
           }}
         />
         <AuthFormInputField
@@ -42,7 +44,8 @@ const Signup = () => (
           inputFieldProps={{
             name: 'password',
             placeholder: '******',
-            type: 'password'
+            type: 'password',
+            variant: 'auth_plain'
           }}
         />
       </VStack>

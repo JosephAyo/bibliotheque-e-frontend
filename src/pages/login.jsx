@@ -11,7 +11,6 @@ const Login = () => {
   return (
     <AuthPageLayout>
       <VStack
-        flexDirection="column"
         rounded="10px"
         padding="44px"
         width="464px"
@@ -24,7 +23,8 @@ const Login = () => {
             inputFieldProps={{
               name: 'email',
               placeholder: 'example@email.com',
-              type: 'email'
+              type: 'email',
+              variant: 'auth_plain'
             }}
           />
           <AuthFormInputField
@@ -32,7 +32,8 @@ const Login = () => {
             inputFieldProps={{
               name: 'password',
               placeholder: '******',
-              type: 'password'
+              type: 'password',
+              variant: 'auth_plain'
             }}
           />
         </VStack>
