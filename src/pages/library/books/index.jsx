@@ -8,7 +8,7 @@ const Books = () => (
   <LibraryPageLayout
     pageTitle="Book"
     searchBar={
-      <Flex flex={1} gap="5px">
+      <Flex flex={1} gap="10px">
         <SearchInputField
           containerProps={{ flex: 1 }}
           inputFieldProps={{

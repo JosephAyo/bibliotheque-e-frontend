@@ -13,7 +13,6 @@ import {
   VStack,
   useColorModeValue
 } from '@chakra-ui/react';
-import React from 'react';
 import { GiBookshelf } from 'react-icons/gi';
 
 const bookDetails = {

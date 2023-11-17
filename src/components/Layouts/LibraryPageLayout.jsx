@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { Box, ButtonGroup, Flex, IconButton } from '@chakra-ui/react';
-import { FaUserCircle } from 'react-icons/fa';
+import { Box, ButtonGroup, Flex } from '@chakra-ui/react';
 import { ThemeToggleButton } from 'components/ThemeToggle';
+import { UserMenu } from 'components/UserMenu';
 
 const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
   <>
@@ -23,8 +23,8 @@ const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
         paddingX="23px">
         <Flex gap="18px" marginBottom="16px" width="100%">
           {searchBar}
-          <ButtonGroup marginLeft="auto" spacing="10px" width="155px" justifyContent="flex-end">
-            <IconButton icon={<FaUserCircle />} rounded="100%" />
+          <ButtonGroup marginLeft="auto" spacing="15px" width="155px" justifyContent="flex-end">
+            <UserMenu />
             <ThemeToggleButton />
           </ButtonGroup>
         </Flex>

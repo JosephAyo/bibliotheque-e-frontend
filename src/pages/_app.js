@@ -28,12 +28,14 @@ const theme = extendTheme({
         // used as <Button variant="primary_action">
         primary_action: (_props) => ({
           color: 'whiteAlpha.900',
-          backgroundColor: 'actionPrimary.200'
+          backgroundColor: 'actionPrimary.200',
+          ...chakraThemeTextStyles.button
         }),
         // used as <Button variant="secondary_action">
         secondary_action: (_props) => ({
           color: 'whiteAlpha.900',
-          backgroundColor: 'actionSecondary.200'
+          backgroundColor: 'actionSecondary.200',
+          ...chakraThemeTextStyles.button
         })
       }
     }
