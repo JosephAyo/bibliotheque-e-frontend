@@ -15,13 +15,12 @@ import { AuthPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { getOr } from 'utils/objects';
 import * as yup from 'yup';
 
 const ResetPassword = () => {
   const router = useRouter();
-  const formikRef = useRef(null);
 
   const phase = useMemo(() => {
     const email = getOr(router, 'query.email', null);
@@ -84,7 +83,6 @@ const ResetPassword = () => {
   return (
     <AuthPageLayout>
       <Formik
-        innerRef={formikRef}
         validationSchema={getValidationSchema()}
         initialValues={{
           email: getOr(router, 'query.email', ''),
@@ -215,7 +213,7 @@ const ResetPassword = () => {
               )}
             </VStack>
             <Box width="100%">
-              <AuthFormActionButton onClick={() => handleSubmit()}>
+              <AuthFormActionButton onClick={handleSubmit}>
                 {getSubmitBtnText()}
               </AuthFormActionButton>
               {phase === 1 ? (
