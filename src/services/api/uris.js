@@ -1,5 +1,6 @@
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const BASE_URL = 'https://bibliotheque-e-backend.onrender.com';
+// const BASE_URL = 'https://bibliotheque-e-backend.onrender.com';
+const BASE_URL = 'http://0.0.0.0:8000';
 const URI_MAP = {
   users: {
     users_base_url: `${BASE_URL}/users`,

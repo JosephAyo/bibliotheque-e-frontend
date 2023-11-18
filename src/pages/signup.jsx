@@ -1,4 +1,5 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import { AuthFormActionButton } from 'components/Buttons';
 import { AuthFormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
@@ -6,10 +7,16 @@ import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { signup } from 'services/api/queries/users';
+import { getAxiosErrorDetail } from 'utils/objects';
+import { errorToast } from 'utils/toast';
 import * as yup from 'yup';
 
 const Signup = () => {
   const router = useRouter();
+
+  const formikRef = useRef(null);
 
   const validationSchema = yup.object().shape({
     first_name: yup.string().required().label('first name'),
@@ -18,9 +25,22 @@ const Signup = () => {
     password: yup.string().min(6).required()
   });
 
+  const { mutate: mutateSignUp } = useMutation({
+    mutationFn: signup,
+    mutationKey: 'registerRequest',
+    onSuccess: () => {
+      const email = get(formikRef.current, 'values.email');
+      router.push({ pathname: '/verification', query: { email } });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
   return (
     <AuthPageLayout>
       <Formik
+        innerRef={formikRef}
         validationSchema={validationSchema}
         initialValues={{
           first_name: '',
@@ -29,9 +49,8 @@ const Signup = () => {
           password: ''
         }}
         validateOnChange={false}
-        onSubmit={(...args) => {
-          console.log({ args });
-          router.push('/verification');
+        onSubmit={(values) => {
+          mutateSignUp(values);
         }}>
         {({ values, errors, handleSubmit, setFieldValue }) => (
           <VStack
