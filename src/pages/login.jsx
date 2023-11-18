@@ -50,6 +50,13 @@ const Login = () => {
             </Text>
           </Link>
         </Flex>
+        <Flex>
+          <Link href="/reset-password">
+            <Text color="primary.default" textStyle="caption-medium">
+              Forgot password?
+            </Text>
+          </Link>
+        </Flex>
       </VStack>
     </AuthPageLayout>
   );
