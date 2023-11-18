@@ -1,16 +1,6 @@
-import {
-  Text,
-  VStack,
-  HStack,
-  PinInput,
-  PinInputField,
-  FormErrorMessage,
-  Box,
-  FormControl,
-  Button
-} from '@chakra-ui/react';
+import { Text, VStack, Box, Button } from '@chakra-ui/react';
 import { AuthFormActionButton } from 'components/Buttons';
-import { AuthFormInputField } from 'components/Inputs';
+import { AuthFormInputField, OtpInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
@@ -53,7 +43,7 @@ const ResetPassword = () => {
   });
 
   const codeValidationSchema = yup.object().shape({
-    code: yup.string().min(6).required()
+    code: yup.string().length(6).required()
   });
 
   const passwordValidationSchema = yup.object().shape({
@@ -141,26 +131,12 @@ const ResetPassword = () => {
               )}
               {phase === 1 ? (
                 <VStack spacing="23px">
-                  <FormControl isInvalid={get(errors, 'code')}>
-                    <VStack>
-                      <HStack>
-                        <PinInput
-                          otp
-                          isInvalid={get(errors, 'code')}
-                          onChange={(value) => setFieldValue('code', value, !isEmpty(errors))}>
-                          <PinInputField />
-                          <PinInputField />
-                          <PinInputField />
-                          <PinInputField />
-                          <PinInputField />
-                          <PinInputField />
-                        </PinInput>
-                      </HStack>
-                      <Box>
-                        <FormErrorMessage>{get(errors, 'code')}</FormErrorMessage>
-                      </Box>
-                    </VStack>
-                  </FormControl>
+                  <OtpInputField
+                    value={get(values, 'code')}
+                    hasError={get(errors, 'code')}
+                    errorText={get(errors, 'code')}
+                    onChange={(value) => setFieldValue('code', value, !isEmpty(errors))}
+                  />
                   <Text textStyle="caption" textAlign="center">
                     Enter the code that was send your email
                     <br />
@@ -169,7 +145,7 @@ const ResetPassword = () => {
                     </Box>
                   </Text>
                   <Text textStyle="caption" marginTop="30px">
-                    This code will expire inå&nbsp;
+                    This code will expire in&nbsp;
                     <Box as="span" textStyle="caption-medium" color="primary.default">
                       5 minutes
                     </Box>
