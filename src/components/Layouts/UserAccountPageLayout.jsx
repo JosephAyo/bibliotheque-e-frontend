@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import MainContentContainer from './MainContentContainer';
+import RouterReadyWrapper from './RouterReadyWrapper';
 
 const UserAccountPageLayout = ({ children, pageTitle }) => (
   <>
@@ -10,7 +11,9 @@ const UserAccountPageLayout = ({ children, pageTitle }) => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <main>
-      <MainContentContainer>{children}</MainContentContainer>
+      <RouterReadyWrapper>
+        <MainContentContainer>{children}</MainContentContainer>
+      </RouterReadyWrapper>
     </main>
   </>
 );

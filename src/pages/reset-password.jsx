@@ -87,8 +87,8 @@ const ResetPassword = () => {
         innerRef={formikRef}
         validationSchema={getValidationSchema()}
         initialValues={{
-          email: '',
-          code: '',
+          email: getOr(router, 'query.email', ''),
+          code: getOr(router, 'query.code', ''),
           password: '',
           confirm_password: ''
         }}
