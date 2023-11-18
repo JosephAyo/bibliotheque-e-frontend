@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { Flex, Text } from '@chakra-ui/react';
 import { BsBookHalf } from 'react-icons/bs';
 import RouterReadyWrapper from './RouterReadyWrapper';
+import Link from 'next/link';
 
 const AuthPageLayout = ({ children, pageTitle }) => (
   <>
@@ -13,12 +14,14 @@ const AuthPageLayout = ({ children, pageTitle }) => (
     </Head>
     <main>
       <RouterReadyWrapper>
-        <Flex alignItems="center" position="fixed" top="20px" left="20px">
-          <BsBookHalf size={48} />
-          <Text textStyle="headline-4-medium" marginLeft="4px">
-            Bibliotheque-E
-          </Text>
-        </Flex>
+        <Link href="/">
+          <Flex alignItems="center" position="fixed" top="20px" left="20px">
+            <BsBookHalf size={48} />
+            <Text textStyle="headline-4-medium" marginLeft="4px">
+              Bibliotheque-E
+            </Text>
+          </Flex>
+        </Link>
         <Flex height="100vh" alignItems="center" justifyContent="center">
           {children}
         </Flex>
