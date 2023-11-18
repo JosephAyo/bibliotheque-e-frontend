@@ -3,9 +3,11 @@ import { mode } from '@chakra-ui/theme-tools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { chakraLayerStyles, chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
+import 'react-toastify/dist/ReactToastify.css';
 import 'styles/globals.css';
 import { ThemeToggleButton } from 'components/ThemeToggle';
 import { needAbsoluteThemeToggle } from 'config/layout';
+import { ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -79,6 +81,18 @@ const MyApp = ({ Component, pageProps, router }) => {
         ) : (
           ''
         )}
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
         <Component {...pageProps} />
       </ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />
