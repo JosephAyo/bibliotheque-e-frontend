@@ -1,4 +1,4 @@
-import { Flex, HStack, PinInput, PinInputField, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, PinInput, PinInputField, Text, VStack } from '@chakra-ui/react';
 import { AuthPageLayout } from 'components/Layouts';
 import { AuthFormActionButton } from 'components/Buttons';
 import { useRouter } from 'next/router';
@@ -36,14 +36,12 @@ const Verification = () => {
         <AuthFormActionButton onClick={() => router.push('/library/books')}>
           Verify
         </AuthFormActionButton>
-        <Flex>
-          <Text marginRight="4px" textStyle="caption">
-            Didn&rsquo;t receive code?
-          </Text>
-          <Text color="primary.default" textStyle="caption-medium">
+        <Text textStyle="caption">
+          Didn&rsquo;t receive code?&nbsp;
+          <Box as="button" textStyle="caption-medium" color="primary.default">
             Resend code
-          </Text>
-        </Flex>
+          </Box>
+        </Text>
       </VStack>
     </AuthPageLayout>
   );

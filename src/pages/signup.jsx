@@ -1,4 +1,4 @@
-import { Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Text, VStack } from '@chakra-ui/react';
 import { AuthFormActionButton } from 'components/Buttons';
 import { AuthFormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
@@ -56,16 +56,12 @@ const Signup = () => {
         <AuthFormActionButton onClick={() => router.push('/verification')}>
           Sign Up
         </AuthFormActionButton>
-        <Flex>
-          <Text marginRight="4px" textStyle="caption">
-            Have an account already
-          </Text>
-          <Link href="/login">
-            <Text color="primary.default" textStyle="caption-medium">
-              Log In
-            </Text>
-          </Link>
-        </Flex>
+        <Text textStyle="caption">
+          Have an account already&nbsp;
+          <Box as="span" textStyle="caption-medium" color="primary.default">
+            <Link href="/login">Log In</Link>
+          </Box>
+        </Text>
       </VStack>
     </AuthPageLayout>
   );

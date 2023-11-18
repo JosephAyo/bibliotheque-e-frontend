@@ -171,7 +171,7 @@ const ResetPassword = () => {
                     </Box>
                   </Text>
                   <Text textStyle="caption" marginTop="30px">
-                    This code will expire in &nbsp;
+                    This code will expire inå&nbsp;
                     <Box as="span" textStyle="caption-medium" color="primary.default">
                       5 minutes
                     </Box>

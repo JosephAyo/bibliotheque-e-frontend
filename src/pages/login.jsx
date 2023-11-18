@@ -1,4 +1,4 @@
-import { Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 import { AuthFormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { AuthFormActionButton } from 'components/Buttons';
@@ -40,16 +40,12 @@ const Login = () => {
         <AuthFormActionButton onClick={() => router.push('/library/books')}>
           Login
         </AuthFormActionButton>
-        <Flex>
-          <Text marginRight="4px" textStyle="caption">
-            Don&rsquo;t have an account?
-          </Text>
-          <Link href="/signup">
-            <Text color="primary.default" textStyle="caption-medium">
-              Sign Up
-            </Text>
-          </Link>
-        </Flex>
+        <Text textStyle="caption">
+          Don&rsquo;t have an account?&nbsp;
+          <Box as="span" textStyle="caption-medium" color="primary.default">
+            <Link href="/signup">Sign Up</Link>
+          </Box>
+        </Text>
         <Flex>
           <Link href="/reset-password">
             <Text color="primary.default" textStyle="caption-medium">
