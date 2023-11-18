@@ -28,7 +28,7 @@ const userRoles = [
 const UserMenu = () => (
   <Menu>
     <MenuButton rounded="100%" as={IconButton} aria-label="User" icon={<FaUserCircle />} />
-    <MenuList minWidth='160px'>
+    <MenuList minWidth="160px">
       <MenuItem as={Link} href="/users/account" textStyle="caption-medium">
         Profile settings
       </MenuItem>
@@ -47,6 +47,9 @@ const UserMenu = () => (
           </VStack>
         </RadioGroup>
       </MenuOptionGroup>
+      <MenuItem as={Link} href="/logout" textStyle="caption-medium">
+        Logout
+      </MenuItem>
     </MenuList>
   </Menu>
 );
