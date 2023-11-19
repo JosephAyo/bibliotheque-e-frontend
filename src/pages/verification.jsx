@@ -27,7 +27,7 @@ const Verification = () => {
     mutationFn: verifyEmail,
     mutationKey: 'verifyEmail',
     onSuccess: () => {
-      router.push('/library/books');
+      router.push('/login');
     },
     onError: (error) => {
       errorToast({ message: getAxiosErrorDetail(error) });

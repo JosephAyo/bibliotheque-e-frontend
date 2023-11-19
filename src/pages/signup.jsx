@@ -21,7 +21,7 @@ const Signup = () => {
   const validationSchema = yup.object().shape({
     first_name: yup.string().required().label('first name'),
     last_name: yup.string().required().label('last name'),
-    email: yup.string().email().required('Input a valid email address'),
+    email: yup.string().email().required('input a valid email address'),
     password: yup.string().min(6).required()
   });
 

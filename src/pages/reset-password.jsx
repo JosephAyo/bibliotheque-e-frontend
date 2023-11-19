@@ -39,7 +39,7 @@ const ResetPassword = () => {
   };
 
   const emailValidationSchema = yup.object().shape({
-    email: yup.string().email().required('Input a valid email address')
+    email: yup.string().email().required('input a valid email address')
   });
 
   const codeValidationSchema = yup.object().shape({
