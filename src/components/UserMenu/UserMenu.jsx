@@ -25,6 +25,7 @@ const userRoles = [
     id: '633d9319-f661-4452-9173-110fcaacf2cb'
   }
 ];
+
 const UserMenu = () => (
   <Menu>
     <MenuButton rounded="100%" as={IconButton} aria-label="User" icon={<FaUserCircle />} />

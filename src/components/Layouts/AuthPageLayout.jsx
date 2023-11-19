@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { Flex, Text } from '@chakra-ui/react';
 import { BsBookHalf } from 'react-icons/bs';
-import RouterReadyWrapper from './RouterReadyWrapper';
 import Link from 'next/link';
+import { RouterReadyWrapper } from 'components/Wrappers';
 
 const AuthPageLayout = ({ children, pageTitle }) => (
   <>

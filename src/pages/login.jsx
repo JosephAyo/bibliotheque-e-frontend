@@ -10,8 +10,9 @@ import { login } from 'services/api/queries/users';
 import { useMutation } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { errorToast } from 'utils/toast';
-import { getAxiosErrorDetail } from 'utils/objects';
+import { getAxiosErrorDetail, getAxiosResponseBody } from 'utils/objects';
 import * as yup from 'yup';
+import { setAuthToken, setUser } from 'config/axios';
 
 const Login = () => {
   const router = useRouter();
@@ -25,8 +26,11 @@ const Login = () => {
   const { mutate: mutateLogin } = useMutation({
     mutationFn: login,
     mutationKey: 'login',
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const resBody = getAxiosResponseBody(data);
       router.push('/library/books');
+      setAuthToken(get(resBody, 'access_token'));
+      setUser(get(resBody, 'user'));
     },
     onError: (error) => {
       errorToast({ message: getAxiosErrorDetail(error) });
@@ -81,9 +85,7 @@ const Login = () => {
                 }}
               />
             </VStack>
-            <AuthFormActionButton onClick={handleSubmit}>
-              Login
-            </AuthFormActionButton>
+            <AuthFormActionButton onClick={handleSubmit}>Login</AuthFormActionButton>
             <Text textStyle="caption">
               Don&rsquo;t have an account?&nbsp;
               <Box as="span" textStyle="caption-medium" color="primary.default">

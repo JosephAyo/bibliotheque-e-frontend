@@ -1,6 +1,6 @@
 import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { chakraLayerStyles, chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,17 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false
     }
-  }
+  },
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      // 🎉 only show error toasts if we already have data in the cache
+      // which indicates a failed background update
+      console.log({ query, queryCacheError: error });
+      // if (query.state.data !== undefined) {
+      //   errorToast(getAxiosErrorDetail(error));
+      // }
+    }
+  })
 });
 
 const theme = extendTheme({

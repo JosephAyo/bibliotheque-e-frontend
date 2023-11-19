@@ -3,6 +3,7 @@ import { Box, ButtonGroup, Flex } from '@chakra-ui/react';
 import { ThemeToggleButton } from 'components/ThemeToggle';
 import { UserMenu } from 'components/UserMenu';
 import MainContentContainer from './MainContentContainer';
+import { UserAuthWrapper } from 'components/Wrappers';
 
 const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
   <>
@@ -13,16 +14,18 @@ const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <main>
-      <MainContentContainer>
-        <Flex gap="18px" marginBottom="16px" width="100%">
-          {searchBar}
-          <ButtonGroup marginLeft="auto" spacing="15px" width="155px" justifyContent="flex-end">
-            <UserMenu />
-            <ThemeToggleButton />
-          </ButtonGroup>
-        </Flex>
-        <Box>{children}</Box>
-      </MainContentContainer>
+      <UserAuthWrapper>
+        <MainContentContainer>
+          <Flex gap="18px" marginBottom="16px" width="100%">
+            {searchBar}
+            <ButtonGroup marginLeft="auto" spacing="15px" width="155px" justifyContent="flex-end">
+              <UserMenu />
+              <ThemeToggleButton />
+            </ButtonGroup>
+          </Flex>
+          <Box>{children}</Box>
+        </MainContentContainer>
+      </UserAuthWrapper>
     </main>
   </>
 );

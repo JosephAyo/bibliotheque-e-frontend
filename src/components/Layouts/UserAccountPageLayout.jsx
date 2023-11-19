@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import MainContentContainer from './MainContentContainer';
-import RouterReadyWrapper from './RouterReadyWrapper';
+import { RouterReadyWrapper, UserAuthWrapper } from 'components/Wrappers';
 
 const UserAccountPageLayout = ({ children, pageTitle }) => (
   <>
@@ -12,7 +12,9 @@ const UserAccountPageLayout = ({ children, pageTitle }) => (
     </Head>
     <main>
       <RouterReadyWrapper>
-        <MainContentContainer>{children}</MainContentContainer>
+        <UserAuthWrapper>
+          <MainContentContainer>{children}</MainContentContainer>
+        </UserAuthWrapper>
       </RouterReadyWrapper>
     </main>
   </>
