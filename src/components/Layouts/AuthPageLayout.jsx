@@ -3,11 +3,12 @@ import { Flex, Text } from '@chakra-ui/react';
 import { BsBookHalf } from 'react-icons/bs';
 import Link from 'next/link';
 import { RouterReadyWrapper } from 'components/Wrappers';
+import { HeadTitle } from 'components/Head';
 
 const AuthPageLayout = ({ children, pageTitle }) => (
   <>
     <Head>
-      <title>Bibliotheque-E {pageTitle ? `| ${pageTitle}` : ''}</title>
+      <HeadTitle pageTitle={pageTitle} />
       <meta name="description" content="Bibliotheque Electronic" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />

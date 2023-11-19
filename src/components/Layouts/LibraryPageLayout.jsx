@@ -4,11 +4,12 @@ import { ThemeToggleButton } from 'components/ThemeToggle';
 import { UserMenu } from 'components/UserMenu';
 import MainContentContainer from './MainContentContainer';
 import { UserAuthWrapper } from 'components/Wrappers';
+import { HeadTitle } from 'components/Head';
 
 const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
   <>
     <Head>
-      <title>Bibliotheque-E {pageTitle ? `| ${pageTitle}` : ''}</title>
+      <HeadTitle pageTitle={pageTitle} />
       <meta name="description" content="Bibliotheque Electronic" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
