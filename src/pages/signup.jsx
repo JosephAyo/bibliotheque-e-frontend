@@ -27,7 +27,7 @@ const Signup = () => {
 
   const { mutate: mutateSignUp } = useMutation({
     mutationFn: signup,
-    mutationKey: 'registerRequest',
+    mutationKey: 'signup',
     onSuccess: () => {
       const email = get(formikRef.current, 'values.email');
       router.push({ pathname: '/verification', query: { email } });

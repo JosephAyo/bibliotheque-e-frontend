@@ -15,5 +15,7 @@ export const removeEmptyItems = (obj) => {
   return obj;
 };
 
+export const getAxiosResponseBody = (response) => getOr(response, 'data');
+
 export const getAxiosErrorDetail = (error) =>
   error instanceof AxiosError ? getOr(error, 'response.data.detail') : '';
