@@ -1,15 +1,24 @@
 import { Text } from '@chakra-ui/react';
+import { clearAllUserData } from 'config/axios';
+import useAppStore from 'lib/store';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
-const Books = () => {
+const Logout = () => {
   const router = useRouter();
+  const {
+    userSlice: { clearCurrentUser }
+  } = useAppStore();
+
+  const handleClearCurrentUser = useCallback(() => clearCurrentUser(), [clearCurrentUser]);
 
   useEffect(() => {
+    clearAllUserData();
+    handleClearCurrentUser();
     router.push('/');
-  }, [router]);
+  }, [router, handleClearCurrentUser]);
 
   return <Text textStyle="headline-5-medium">Logging out...</Text>;
 };
 
-export default Books;
+export default Logout;

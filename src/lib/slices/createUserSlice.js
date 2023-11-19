@@ -1,6 +1,7 @@
 import { isEmpty, merge } from 'lodash';
 
 const defaultState = {
+  is_logged_in: false,
   first_name: '',
   last_name: '',
   email: '',
@@ -13,13 +14,21 @@ const defaultState = {
 const createUserSlice = (set) => ({
   currentUser: defaultState,
   setCurrentUser: (currentUser) => {
-    console.log('currentUser :>> ', currentUser);
     set((state) => ({
       userSlice: {
         ...state.userSlice,
         currentUser: isEmpty(currentUser)
           ? defaultState
-          : merge(state.userSlice.currentUser, currentUser)
+          : merge(state.userSlice.currentUser, currentUser, { is_logged_in: true })
+      }
+    }));
+  },
+  clearCurrentUser: () => {
+    console.log('hitƒ');
+    set((state) => ({
+      userSlice: {
+        ...state.userSlice,
+        currentUser: defaultState
       }
     }));
   }

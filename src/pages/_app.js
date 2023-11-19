@@ -8,24 +8,8 @@ import 'styles/globals.css';
 import { ThemeToggleButton } from 'components/ThemeToggle';
 import { needAbsoluteThemeToggle } from 'config/layout';
 import { ToastContainer } from 'react-toastify';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false
-    }
-  },
-  queryCache: new QueryCache({
-    onError: (error, query) => {
-      // 🎉 only show error toasts if we already have data in the cache
-      // which indicates a failed background update
-      console.log({ query, queryCacheError: error });
-      // if (query.state.data !== undefined) {
-      //   errorToast(getAxiosErrorDetail(error));
-      // }
-    }
-  })
-});
+import { AxiosError } from 'axios';
+import useAppStore from 'lib/store';
 
 const theme = extendTheme({
   colors: chakraThemeColors,
@@ -79,7 +63,34 @@ const theme = extendTheme({
 });
 
 const MyApp = ({ Component, pageProps, router }) => {
+  const {
+    userSlice: { clearCurrentUser }
+  } = useAppStore();
   const isAbsoluteNeeded = needAbsoluteThemeToggle.includes(router.pathname);
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false
+      }
+    },
+    queryCache: new QueryCache({
+      onError: (error, query) => {
+        // 🎉 only show error toasts if we already have data in the cache
+        // which indicates a failed background update
+        console.log({
+          query,
+          queryCacheError: error
+        });
+        if (error && error instanceof AxiosError && query.queryKey.includes('viewProfile')) {
+          clearCurrentUser();
+        }
+        // if (query.state.data !== undefined) {
+        //   errorToast(getAxiosErrorDetail(error));
+        // }
+      }
+    })
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
