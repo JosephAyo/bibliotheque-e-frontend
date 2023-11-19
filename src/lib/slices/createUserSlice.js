@@ -24,7 +24,6 @@ const createUserSlice = (set) => ({
     }));
   },
   clearCurrentUser: () => {
-    console.log('hitƒ');
     set((state) => ({
       userSlice: {
         ...state.userSlice,
