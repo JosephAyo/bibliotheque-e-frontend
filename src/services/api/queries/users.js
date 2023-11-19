@@ -32,7 +32,11 @@ export const resetPassword = async (data) => {
 };
 
 export const changePassword = async (data) => {
-  const res = await axios.patch(`${URI_MAP.users.resetPassword()}`, JSON.stringify(data));
+  const res = await axios.patch(`${URI_MAP.users.changePassword()}`, JSON.stringify(data), {
+    headers: {
+      Authorization: getAuthToken()
+    }
+  });
   return res;
 };
 
