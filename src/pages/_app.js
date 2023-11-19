@@ -62,35 +62,33 @@ const theme = extendTheme({
   }
 });
 
-const MyApp = ({ Component, pageProps, router }) => {
-  const {
-    userSlice: { clearCurrentUser }
-  } = useAppStore();
-  const isAbsoluteNeeded = needAbsoluteThemeToggle.includes(router.pathname);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  },
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      // 🎉 only show error toasts if we already have data in the cache
+      // which indicates a failed background update
+      console.log({
+        query,
+        queryCacheError: error
+      });
+      if (error && error instanceof AxiosError && query.queryKey.includes('viewProfile')) {
+        // clearCurrentUser();
+        useAppStore.getState().userSlice.clearCurrentUser();
+      }
+      // if (query.state.data !== undefined) {
+      //   errorToast(getAxiosErrorDetail(error));
+      // }
+    }
+  })
+});
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false
-      }
-    },
-    queryCache: new QueryCache({
-      onError: (error, query) => {
-        // 🎉 only show error toasts if we already have data in the cache
-        // which indicates a failed background update
-        console.log({
-          query,
-          queryCacheError: error
-        });
-        if (error && error instanceof AxiosError && query.queryKey.includes('viewProfile')) {
-          clearCurrentUser();
-        }
-        // if (query.state.data !== undefined) {
-        //   errorToast(getAxiosErrorDetail(error));
-        // }
-      }
-    })
-  });
+const MyApp = ({ Component, pageProps, router }) => {
+  const isAbsoluteNeeded = needAbsoluteThemeToggle.includes(router.pathname);
 
   return (
     <QueryClientProvider client={queryClient}>

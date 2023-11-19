@@ -15,13 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { GiBookshelf } from 'react-icons/gi';
 
-const bookDetails = {
-  title: 'Book title: blah blah',
-  author: 'Book author',
-  summary:
-    'Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur. Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur. Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur. Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur. Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur. Velit velit ullamco ullamco id ullamco ullamco. Veniam ad adipisicing laborum non culpa anim enim pariatur esse excepteur sit. Fugiat aliquip esse incididunt do tempor qui. Adipisicing officia minim non et esse et consectetur'
-};
-const BookCard = () => {
+const BookCard = ({ title, author_name, description, public_shelf_quantity }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
@@ -56,14 +50,20 @@ const BookCard = () => {
             width="100%"
             alignItems="flex-start">
             <Flex gap="8px" flexDirection="column">
-              <Text textStyle="subtitle-1">{bookDetails.title}</Text>
-              <Text textStyle="subtitle-2-medium" color={authorColor}>
-                {bookDetails.author}
+              <Text textStyle="subtitle-1" noOfLines={1}>
+                {title}
+              </Text>
+              <Text textStyle="subtitle-2-medium" noOfLines={1} color={authorColor}>
+                {author_name}
               </Text>
             </Flex>
             <Flex alignItems="center" color={countsColor} gap="4px">
               <GiBookshelf size={14} />
-              <Text textStyle="subtitle-2">4</Text>
+              <Text textStyle="subtitle-2">
+                {new Intl.NumberFormat(undefined, {
+                  notation: 'compact'
+                }).format(public_shelf_quantity)}
+              </Text>
             </Flex>
           </VStack>
         </Box>
@@ -72,11 +72,11 @@ const BookCard = () => {
         <PopoverArrow backgroundColor={cardBackgroundColor} />
         <PopoverCloseButton />
         <PopoverHeader>
-          <strong>{bookDetails.title}</strong> <br />
-          <Text textStyle="subtitle-1-medium">{bookDetails.author}</Text>
+          <strong>{title}</strong> <br />
+          <Text textStyle="subtitle-1-medium">{author_name}</Text>
         </PopoverHeader>
         <PopoverBody>
-          <Text noOfLines={20}>{bookDetails.summary}</Text>
+          <Text noOfLines={20}>{description}</Text>
         </PopoverBody>
       </PopoverContent>
     </Popover>

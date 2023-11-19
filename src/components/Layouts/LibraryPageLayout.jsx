@@ -24,7 +24,9 @@ const LibraryPageLayout = ({ children, pageTitle, searchBar }) => (
               <ThemeToggleButton />
             </ButtonGroup>
           </Flex>
-          <Box>{children}</Box>
+          <Box minHeight="80vh" width="100%" sx={{ '&>div': { width: '100%' } }}>
+            {children}
+          </Box>
         </MainContentContainer>
       </UserAuthWrapper>
     </main>

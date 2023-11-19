@@ -62,7 +62,7 @@
     "no-prototype-builtins": "warn",
     "react/jsx-filename-extension": "off",
     "import/no-extraneous-dependencies": "off",
-    "camelcase": "warn",
+    "camelcase": "off",
     "jsx-a11y/media-has-caption": "off",
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["obj"] }]
   }

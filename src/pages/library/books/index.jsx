@@ -3,80 +3,38 @@ import BookCard from 'components/Cards/BookCard';
 import { LibraryPageLayout } from 'components/Layouts';
 import { SearchInputField } from 'components/Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
+import { viewLibrary } from 'services/api/queries/library';
+import { useQuery } from '@tanstack/react-query';
+import { getOr } from 'utils/objects';
 
-const Books = () => (
-  <LibraryPageLayout
-    pageTitle="Books"
-    searchBar={
-      <Flex flex={1} gap="10px">
-        <SearchInputField
-          containerProps={{ flex: 1 }}
-          inputFieldProps={{
-            placeholder: 'Search'
-          }}
-        />
-        <IconButton variant="primary_action_themed" icon={<BiSolidSearchAlt2 />} />
-      </Flex>
-    }
-    >
-    <Wrap spacing="18px">
-      {[
-        {
-          id: 55
-        },
-        {
-          id: 22
-        },
-        {
-          id: 86
-        },
-        {
-          id: 54
-        },
-        {
-          id: 463
-        },
-        {
-          id: 26767
-        },
-        {
-          id: 57332
-        },
-        {
-          id: 3226
-        },
-        {
-          id: 786
-        },
-        {
-          id: 906
-        },
-        {
-          id: 691
-        },
-        {
-          id: 576
-        },
-        {
-          id: 66789
-        },
-        {
-          id: 2221
-        },
-        {
-          id: 778
-        },
-        {
-          id: 4211
-        },
-        {
-          id: 454
-        }
-      ].map((data) => (
-        <BookCard key={data.id} />
-      ))}
-    </Wrap>
-  </LibraryPageLayout>
-);
+const Books = () => {
+  const { data: viewLibraryResponse } = useQuery({
+    queryKey: ['viewLibrary'],
+    queryFn: viewLibrary,
+    refetchOnWindowFocus: true
+  });
+
+  return (
+    <LibraryPageLayout
+      pageTitle="Books"
+      searchBar={
+        <Flex flex={1} gap="10px">
+          <SearchInputField
+            containerProps={{ flex: 1 }}
+            inputFieldProps={{
+              placeholder: 'Search'
+            }}
+          />
+          <IconButton variant="primary_action_themed" icon={<BiSolidSearchAlt2 />} />
+        </Flex>
+      }>
+      <Wrap spacing="18px">
+        {getOr(viewLibraryResponse, 'data', []).map((data) => (
+          <BookCard key={data.id} {...data} />
+        ))}
+      </Wrap>
+    </LibraryPageLayout>
+  );
+};
 
 export default Books;
