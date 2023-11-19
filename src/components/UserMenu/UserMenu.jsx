@@ -7,7 +7,8 @@ import {
   MenuOptionGroup,
   Radio,
   RadioGroup,
-  VStack
+  VStack,
+  MenuDivider
 } from '@chakra-ui/react';
 import useAppStore from 'lib/store';
 import Link from 'next/link';
@@ -26,6 +27,7 @@ const UserMenu = () => {
         <MenuItem as={Link} href="/users/account" textStyle="caption-medium">
           Profile settings
         </MenuItem>
+        <MenuDivider />
         <MenuOptionGroup
           title="Account type"
           type="radio"
@@ -54,6 +56,7 @@ const UserMenu = () => {
             </VStack>
           </RadioGroup>
         </MenuOptionGroup>
+        <MenuDivider />
         <MenuItem as={Link} href="/logout" textStyle="caption-medium">
           Logout
         </MenuItem>
