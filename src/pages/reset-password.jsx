@@ -1,16 +1,20 @@
 import { Text, VStack, Box, Button } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import { AuthFormActionButton } from 'components/Buttons';
 import { AuthFormInputField, OtpInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
-import { getOr } from 'utils/objects';
+import { useMemo, useRef } from 'react';
+import { forgotPassword, resetPassword } from 'services/api/queries/users';
+import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from 'utils/objects';
+import { errorToast, successToast } from 'utils/toast';
 import * as yup from 'yup';
 
 const ResetPassword = () => {
   const router = useRouter();
+  const formikRef = useRef(null);
 
   const phase = useMemo(() => {
     const email = getOr(router, 'query.email', null);
@@ -70,9 +74,34 @@ const ResetPassword = () => {
     }
   };
 
+  const { mutate: mutateForgotPassword } = useMutation({
+    mutationFn: forgotPassword,
+    mutationKey: 'forgotPassword',
+    onSuccess: (data) => {
+      const email = get(formikRef.current, 'values.email');
+      successToast({ message: get(getAxiosResponseBody(data), 'detail', '') });
+      router.push({ pathname: 'reset-password', query: { email } });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateResetPassword } = useMutation({
+    mutationFn: resetPassword,
+    mutationKey: 'resetPassword',
+    onSuccess: () => {
+      router.push('/login');
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
   return (
     <AuthPageLayout>
       <Formik
+        innerRef={formikRef}
         validationSchema={getValidationSchema()}
         initialValues={{
           email: getOr(router, 'query.email', ''),
@@ -83,8 +112,18 @@ const ResetPassword = () => {
         validateOnChange={false}
         onSubmit={(values) => {
           switch (phase) {
+            case 0:
+              mutateForgotPassword({
+                email: values.email
+              });
+              break;
+
             case 2:
-              router.push('/login');
+              mutateResetPassword({
+                email: values.email,
+                code: values.code,
+                password: values.password
+              });
               break;
 
             default:
