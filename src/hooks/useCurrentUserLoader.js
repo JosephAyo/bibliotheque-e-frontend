@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { viewProfile } from 'services/api/queries/users';
 import { getAxiosResponseBody } from 'utils/objects';
 
-const useCurrentUser = () => {
+const useCurrentUserLoader = () => {
   const {
     userSlice: { setCurrentUser, currentUser }
   } = useAppStore();
@@ -27,4 +27,4 @@ const useCurrentUser = () => {
   return { currentUser };
 };
 
-export default useCurrentUser;
+export default useCurrentUserLoader;

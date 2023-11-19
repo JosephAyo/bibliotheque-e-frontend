@@ -1,7 +1,7 @@
-import useCurrentUser from 'hooks/useCurrentUser';
+import useCurrentUserLoader from 'hooks/useCurrentUserLoader';
 
 const UserAuthWrapper = ({ children }) => {
-  useCurrentUser();
+  useCurrentUserLoader();
 
   return children;
 };
