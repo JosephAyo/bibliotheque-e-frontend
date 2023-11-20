@@ -1,4 +1,4 @@
-import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { Box, ChakraProvider, extendTheme, theme as chakraTheme } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -11,7 +11,14 @@ import { ToastContainer } from 'react-toastify';
 import { AxiosError } from 'axios';
 import useAppStore from 'lib/store';
 
+const fonts = {
+  ...chakraTheme.fonts,
+  body: `Inter`,
+  heading: `Inter`
+};
+
 const theme = extendTheme({
+  fonts,
   colors: chakraThemeColors,
   textStyles: chakraThemeTextStyles,
   layerStyles: chakraLayerStyles,
