@@ -10,6 +10,7 @@ import {
   VStack,
   MenuDivider
 } from '@chakra-ui/react';
+import useUserRoles from 'hooks/useUserRoles';
 import useAppStore from 'lib/store';
 import { get } from 'lodash';
 import Link from 'next/link';
@@ -21,6 +22,15 @@ const UserMenu = () => {
     userSlice: { currentUser, setCurrentUser }
   } = useAppStore();
 
+  const { librarianRoleId } = useUserRoles();
+
+  const current_role_id = getOr(
+    currentUser,
+    'current_role_id',
+    getOr(currentUser, 'user_role_associations.0.role_id', null)
+  );
+
+  const isLibrarian = current_role_id === librarianRoleId;
   return (
     <Menu>
       <MenuButton rounded="100%" as={IconButton} aria-label="User" icon={<FaUserCircle />} />
@@ -37,11 +47,7 @@ const UserMenu = () => {
               textStyle="caption-medium"
               marginX="12px">
               <RadioGroup
-                value={getOr(
-                  currentUser,
-                  'current_role_id',
-                  getOr(currentUser, 'user_role_associations.0.role_id', null)
-                )}
+                value={current_role_id}
                 onChange={(value) => setCurrentUser({ current_role_id: value })}>
                 <VStack
                   alignItems="flex-start"
@@ -59,6 +65,16 @@ const UserMenu = () => {
                 </VStack>
               </RadioGroup>
             </MenuOptionGroup>
+            {isLibrarian ? (
+              <>
+                <MenuDivider />
+                <MenuItem as={Link} href="/users/manage" textStyle="caption-medium">
+                  Manage users
+                </MenuItem>
+              </>
+            ) : (
+              ''
+            )}
             <MenuDivider />
             <MenuItem as={Link} href="/logout" textStyle="caption-medium">
               Logout
