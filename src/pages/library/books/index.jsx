@@ -18,14 +18,14 @@ const Books = () => {
     <LibraryPageLayout
       pageTitle="Books"
       searchBar={
-        <Flex flex={1} gap="10px">
+        <Flex width="420px" gap="10px">
           <SearchInputField
             containerProps={{ flex: 1 }}
             inputFieldProps={{
               placeholder: 'Search'
             }}
           />
-          <IconButton variant="primary_action_themed" icon={<BiSolidSearchAlt2 />} />
+          <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
         </Flex>
       }>
       <Wrap spacing="18px">

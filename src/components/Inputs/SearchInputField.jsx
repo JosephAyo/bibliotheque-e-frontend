@@ -1,19 +1,29 @@
-import { Input, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Input, Text, VStack } from '@chakra-ui/react';
 
-const SearchInputField = ({ inputFieldProps, fieldLabel, containerProps }) => {
-  const inputBackground = useColorModeValue('#f6f6f6', 'gray.600');
-  return (
-    <VStack spacing="4px" alignItems="flex-start" {...containerProps}>
-      {fieldLabel ? <Text textStyle="body-medium">{fieldLabel}</Text> : ''}
-      <Input
-        variant="filled"
-        type="text"
-        borderWidth="1px"
-        backgroundColor={inputBackground}
-        {...inputFieldProps}
-      />
-    </VStack>
-  );
-};
+const SearchInputField = ({ inputFieldProps, fieldLabel, containerProps }) => (
+  <VStack spacing="4px" alignItems="flex-start" {...containerProps}>
+    {fieldLabel ? <Text textStyle="body-medium">{fieldLabel}</Text> : ''}
+    <Input
+      type="text"
+      borderWidth="1px"
+      backgroundColor="#f6f6f620"
+      color="white"
+      borderColor="whiteAlpha.600"
+      _focus={{
+        outlineWidth: '0px'
+      }}
+      _active={{
+        outlineWidth: '0px'
+      }}
+      _focusVisible={{
+        outlineWidth: '0px'
+      }}
+      _placeholder={{
+        color: '#aaa'
+      }}
+      {...inputFieldProps}
+    />
+  </VStack>
+);
 
 export default SearchInputField;

@@ -24,7 +24,7 @@ const UserMenu = () => {
   return (
     <Menu>
       <MenuButton rounded="100%" as={IconButton} aria-label="User" icon={<FaUserCircle />} />
-      <MenuList minWidth="160px">
+      <MenuList minWidth="160px" zIndex={4}>
         {get(currentUser, 'is_logged_in', false) ? (
           <>
             <MenuItem as={Link} href="/users/account" textStyle="caption-medium">
