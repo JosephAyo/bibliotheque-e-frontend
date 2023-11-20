@@ -50,56 +50,60 @@ const Login = () => {
           mutateLogin(values);
         }}>
         {({ values, errors, handleSubmit, setFieldValue }) => (
-          <VStack
-            rounded="10px"
-            padding="44px"
-            width="464px"
-            spacing="28px"
-            layerStyle="auth_form_container">
-            <Text textStyle="headline-5-medium">Log In</Text>
-            <VStack align="stretch" width="100%" spacing="22px">
-              <AuthFormInputField
-                fieldLabel="Email"
-                hasError={get(errors, 'email')}
-                errorText={get(errors, 'email')}
-                inputFieldProps={{
-                  name: 'email',
-                  placeholder: 'example@email.com',
-                  type: 'email',
-                  variant: 'auth_plain',
-                  value: get(values, 'email'),
-                  onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors))
-                }}
-              />
-              <AuthFormInputField
-                fieldLabel="Password"
-                hasError={get(errors, 'password')}
-                errorText={get(errors, 'password')}
-                inputFieldProps={{
-                  name: 'password',
-                  placeholder: '******',
-                  type: 'password',
-                  variant: 'auth_plain',
-                  value: get(values, 'password'),
-                  onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors))
-                }}
-              />
+          <form>
+            <VStack
+              rounded="10px"
+              padding="44px"
+              width="464px"
+              spacing="28px"
+              layerStyle="auth_form_container">
+              <Text textStyle="headline-5-medium">Log In</Text>
+              <VStack align="stretch" width="100%" spacing="22px">
+                <AuthFormInputField
+                  fieldLabel="Email"
+                  hasError={get(errors, 'email')}
+                  errorText={get(errors, 'email')}
+                  inputFieldProps={{
+                    name: 'email',
+                    placeholder: 'example@email.com',
+                    type: 'email',
+                    variant: 'auth_plain',
+                    value: get(values, 'email'),
+                    onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors)),
+                    autoComplete: 'email'
+                  }}
+                />
+                <AuthFormInputField
+                  fieldLabel="Password"
+                  hasError={get(errors, 'password')}
+                  errorText={get(errors, 'password')}
+                  inputFieldProps={{
+                    name: 'password',
+                    placeholder: '******',
+                    type: 'password',
+                    variant: 'auth_plain',
+                    value: get(values, 'password'),
+                    onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors)),
+                    autoComplete: 'current-password'
+                  }}
+                />
+              </VStack>
+              <AuthFormActionButton onClick={handleSubmit}>Login</AuthFormActionButton>
+              <Text textStyle="caption">
+                Don&rsquo;t have an account?&nbsp;
+                <Box as="span" textStyle="caption-medium" color="primary.default">
+                  <Link href="/signup">Sign Up</Link>
+                </Box>
+              </Text>
+              <Flex>
+                <Link href="/reset-password">
+                  <Text color="primary.default" textStyle="caption-medium">
+                    Forgot password?
+                  </Text>
+                </Link>
+              </Flex>
             </VStack>
-            <AuthFormActionButton onClick={handleSubmit}>Login</AuthFormActionButton>
-            <Text textStyle="caption">
-              Don&rsquo;t have an account?&nbsp;
-              <Box as="span" textStyle="caption-medium" color="primary.default">
-                <Link href="/signup">Sign Up</Link>
-              </Box>
-            </Text>
-            <Flex>
-              <Link href="/reset-password">
-                <Text color="primary.default" textStyle="caption-medium">
-                  Forgot password?
-                </Text>
-              </Link>
-            </Flex>
-          </VStack>
+          </form>
         )}
       </Formik>
     </AuthPageLayout>

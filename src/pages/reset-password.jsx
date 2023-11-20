@@ -29,7 +29,7 @@ const ResetPassword = () => {
   const getSubmitBtnText = () => {
     switch (phase) {
       case 0:
-        return 'Send Verification Code';
+        return 'Send Code';
 
       case 1:
         return 'Verify';
@@ -38,7 +38,7 @@ const ResetPassword = () => {
         return 'Reset Password';
 
       default:
-        return 'Send Verification Code';
+        return 'Send Code';
     }
   };
 

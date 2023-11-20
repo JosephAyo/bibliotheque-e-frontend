@@ -146,16 +146,19 @@ const Account = () => {
           )}
         </Formik>
         <br />
-        <AuthFormInputField
-          fieldLabel="Current password"
-          inputFieldProps={{
-            name: 'password',
-            placeholder: '******',
-            type: 'password',
-            isDisabled: true,
-            variant: 'auth_filled'
-          }}
-        />
+        <form>
+          <AuthFormInputField
+            fieldLabel="Current password"
+            inputFieldProps={{
+              name: 'password',
+              placeholder: '******',
+              type: 'password',
+              isDisabled: true,
+              variant: 'auth_filled',
+              autoComplete: 'off'
+            }}
+          />
+        </form>
         <Button variant="primary_action" width="max-content" marginLeft="auto" onClick={onOpen}>
           Change password
         </Button>
@@ -188,37 +191,53 @@ const Account = () => {
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody pb={6}>
-                <VStack align="stretch" width="100%" spacing="22px">
+                <form>
                   <AuthFormInputField
-                    fieldLabel="Current password"
-                    hasError={get(errors, 'current_password')}
-                    errorText={get(errors, 'current_password')}
                     inputFieldProps={{
-                      name: 'password',
-                      placeholder: '******',
-                      type: 'password',
+                      name: 'email',
+                      placeholder: 'example@email.com',
+                      type: 'email',
+                      isDisabled: true,
                       variant: 'auth_filled',
-                      ref: initialRef,
-                      value: get(values, 'current_password'),
-                      onChange: (e) =>
-                        setFieldValue('current_password', e.target.value, !isEmpty(errors))
+                      value: get(values, 'email'),
+                      display: 'none',
+                      autoComplete: 'email'
                     }}
                   />
-                  <AuthFormInputField
-                    fieldLabel="New password"
-                    hasError={get(errors, 'new_password')}
-                    errorText={get(errors, 'new_password')}
-                    inputFieldProps={{
-                      name: 'new_password',
-                      placeholder: '******',
-                      variant: 'auth_filled',
-                      type: 'password',
-                      value: get(values, 'new_password'),
-                      onChange: (e) =>
-                        setFieldValue('new_password', e.target.value, !isEmpty(errors))
-                    }}
-                  />
-                </VStack>
+                  <VStack align="stretch" width="100%" spacing="22px">
+                    <AuthFormInputField
+                      fieldLabel="Current password"
+                      hasError={get(errors, 'current_password')}
+                      errorText={get(errors, 'current_password')}
+                      inputFieldProps={{
+                        name: 'password',
+                        placeholder: '******',
+                        type: 'password',
+                        variant: 'auth_filled',
+                        ref: initialRef,
+                        value: get(values, 'current_password'),
+                        onChange: (e) =>
+                          setFieldValue('current_password', e.target.value, !isEmpty(errors)),
+                        autoComplete: 'current-password'
+                      }}
+                    />
+                    <AuthFormInputField
+                      fieldLabel="New password"
+                      hasError={get(errors, 'new_password')}
+                      errorText={get(errors, 'new_password')}
+                      inputFieldProps={{
+                        name: 'new_password',
+                        placeholder: '******',
+                        variant: 'auth_filled',
+                        type: 'password',
+                        value: get(values, 'new_password'),
+                        onChange: (e) =>
+                          setFieldValue('new_password', e.target.value, !isEmpty(errors)),
+                        autoComplete: 'new-password'
+                      }}
+                    />
+                  </VStack>
+                </form>
               </ModalBody>
               <ModalFooter>
                 <Button variant="primary_action" mr="10px" onClick={handleSubmit}>
