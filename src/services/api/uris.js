@@ -33,6 +33,9 @@ const URI_MAP = {
     },
     manager: {
       add: () => `${URI_MAP.users.users_base_url}/manager/add`
+    },
+    viewAll() {
+      return `${this.users_base_url}/all`;
     }
   },
   library: {

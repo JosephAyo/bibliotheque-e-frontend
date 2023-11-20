@@ -75,3 +75,12 @@ export const addManager = async (data) => {
   });
   return res;
 };
+
+export const viewAll = async () => {
+  const res = await axios.get(`${URI_MAP.users.viewAll()}`, {
+    headers: {
+      Authorization: getAuthToken()
+    }
+  });
+  return res;
+};
