@@ -50,7 +50,11 @@ const ManageAccounts = () => {
     roles: yup.array().of(yup.object()).required('selected at least one role')
   });
 
-  const { data, refetch } = useQuery({ queryKey: ['viewAllUsers'], queryFn: viewAllUsers });
+  const { data, refetch } = useQuery({
+    queryKey: ['viewAllUsers'],
+    queryFn: viewAllUsers,
+    refetchOnWindowFocus: true
+  });
 
   const { mutate: mutateRegulateManager, isPending: mutateRegulateManagerIsPending } = useMutation({
     mutationFn: regulateManager,
@@ -135,7 +139,15 @@ const ManageAccounts = () => {
       key: 'created_at',
       label: 'date joined',
       path: 'created_at',
-      render: (date) => new Intl.DateTimeFormat(undefined).format(new Date(date))
+      render: (date) =>
+        new Intl.DateTimeFormat(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+        }).format(new Date(date))
     },
     {
       key: 'action',
