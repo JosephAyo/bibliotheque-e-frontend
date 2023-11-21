@@ -175,11 +175,11 @@ const ManageAccounts = () => {
                       roles: user.user_role_associations.map((item) => item.role)
                     });
                   };
-                  let element = getOr(user, col.path);
+                  let element = get(user, col.path);
                   if (col.render) {
                     if (col.key === 'action')
                       element = col.render(onClickHandler, currentUser.email === user.email);
-                    else element = col.render(getOr(user, col.path));
+                    else element = col.render(get(user, col.path));
                   }
                   return (
                     <Td
@@ -236,13 +236,10 @@ const ManageAccounts = () => {
                           : [...formSelectedRoles, selectedRole];
                         setFieldValue('roles', formSelectedRoles, !isEmpty(errors));
                       };
-                      let detail = getOr(selectedUser, col.path);
+                      let detail = get(selectedUser, col.path);
                       if (col.renderEditor)
-                        detail = col.renderEditor(
-                          getOr(formValues, col.editorPath),
-                          onChangeHandler
-                        );
-                      else if (col.render) detail = col.render(getOr(selectedUser, col.path));
+                        detail = col.renderEditor(get(formValues, col.editorPath), onChangeHandler);
+                      else if (col.render) detail = col.render(get(selectedUser, col.path));
 
                       return <UserInfo key={col.key} label={col.label} detail={detail} />;
                     })}
@@ -253,7 +250,8 @@ const ManageAccounts = () => {
                   variant="primary_action"
                   mr="10px"
                   onClick={handleSubmit}
-                  isLoading={mutateRegulateManagerIsPending}>
+                  isLoading={mutateRegulateManagerIsPending}
+                  isDisabled={currentUser.email === selectedUser.email}>
                   Save
                 </Button>
                 <Button onClick={() => setSelectedUser(null)}>Cancel</Button>
@@ -267,7 +265,9 @@ const ManageAccounts = () => {
 };
 
 const ManageAccountsComponent = () => (
-  <AuthorizationGate permittedRoles={[USER_ROLES.LIBRARIAN]}>{ManageAccounts}</AuthorizationGate>
+  <AuthorizationGate permittedRoles={[USER_ROLES.LIBRARIAN]}>
+    <ManageAccounts />
+  </AuthorizationGate>
 );
 
 export default ManageAccountsComponent;
