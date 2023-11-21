@@ -36,7 +36,8 @@ const Verification = () => {
     mutationFn: verifyEmail,
     mutationKey: 'verifyEmail',
     onSuccess: () => {
-      router.push('/login');
+      if (is_logged_in) router.back();
+      else router.push('/login');
     },
     onError: (error) => {
       errorToast({ message: getAxiosErrorDetail(error) });
