@@ -40,7 +40,7 @@ const Account = () => {
     last_name: yup.string().required().label('last name')
   });
 
-  const { mutate: mutateEditProfile } = useMutation({
+  const { mutate: mutateEditProfile, isPending: mutateEditProfileIsPending } = useMutation({
     mutationFn: editProfile,
     mutationKey: 'editProfile',
     onSuccess: (data) => {
@@ -56,7 +56,7 @@ const Account = () => {
     new_password: yup.string().min(6).required().label('new password')
   });
 
-  const { mutate: mutateChangePassword } = useMutation({
+  const { mutate: mutateChangePassword, isPending: mutateChangePasswordIsPending } = useMutation({
     mutationFn: changePassword,
     mutationKey: 'changePassword',
     onSuccess: (data) => {
@@ -137,7 +137,8 @@ const Account = () => {
                 variant="primary_action"
                 width="max-content"
                 marginLeft="auto"
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+                isLoading={mutateEditProfileIsPending}>
                 Save
               </Button>
             </>
@@ -239,7 +240,11 @@ const Account = () => {
                 </form>
               </ModalBody>
               <ModalFooter>
-                <Button variant="primary_action" mr="10px" onClick={handleSubmit}>
+                <Button
+                  variant="primary_action"
+                  mr="10px"
+                  onClick={handleSubmit}
+                  isLoading={mutateChangePasswordIsPending}>
                   Save
                 </Button>
                 <Button onClick={onClose}>Cancel</Button>

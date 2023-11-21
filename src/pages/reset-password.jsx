@@ -74,9 +74,9 @@ const ResetPassword = () => {
     }
   };
 
-  const { mutate: mutateForgotPassword } = useMutation({
+  const { mutate: mutateSendCode, isPending: mutateSendCodeIsPending } = useMutation({
     mutationFn: forgotPassword,
-    mutationKey: 'forgotPassword',
+    mutationKey: 'sendCode',
     onSuccess: (data) => {
       const email = get(formikRef.current, 'values.email');
       successToast({ message: get(getAxiosResponseBody(data), 'detail', '') });
@@ -87,7 +87,18 @@ const ResetPassword = () => {
     }
   });
 
-  const { mutate: mutateResetPassword } = useMutation({
+  const { mutate: mutateResendCode, isPending: mutateResendCodeIsPending } = useMutation({
+    mutationFn: forgotPassword,
+    mutationKey: 'resendCode',
+    onSuccess: (data) => {
+      successToast({ message: get(getAxiosResponseBody(data), 'detail', '') });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateResetPassword, isPending: mutateResetPasswordIsPending } = useMutation({
     mutationFn: resetPassword,
     mutationKey: 'resetPassword',
     onSuccess: () => {
@@ -113,7 +124,7 @@ const ResetPassword = () => {
         onSubmit={(values) => {
           switch (phase) {
             case 0:
-              mutateForgotPassword({
+              mutateSendCode({
                 email: values.email
               });
               break;
@@ -228,11 +239,23 @@ const ResetPassword = () => {
               )}
             </VStack>
             <Box width="100%">
-              <AuthFormActionButton onClick={handleSubmit}>
+              <AuthFormActionButton
+                onClick={handleSubmit}
+                isLoading={mutateSendCodeIsPending || mutateResetPasswordIsPending}
+                isDisabled={mutateResendCodeIsPending}>
                 {getSubmitBtnText()}
               </AuthFormActionButton>
               {phase === 1 ? (
-                <Button width="100%" variant="secondary_action" marginTop="18px">
+                <Button
+                  width="100%"
+                  variant="secondary_action"
+                  marginTop="18px"
+                  isLoading={mutateResendCodeIsPending}
+                  onClick={() =>
+                    mutateResendCode({
+                      email: values.email
+                    })
+                  }>
                   Resend code
                 </Button>
               ) : (

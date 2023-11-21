@@ -23,7 +23,7 @@ const Verification = () => {
     verification_code: yup.string().length(6).required().label('verification code')
   });
 
-  const { mutate: mutateVerifyEmail } = useMutation({
+  const { mutate: mutateVerifyEmail, isPending: mutateVerifyEmailIsPending } = useMutation({
     mutationFn: verifyEmail,
     mutationKey: 'verifyEmail',
     onSuccess: () => {
@@ -34,7 +34,10 @@ const Verification = () => {
     }
   });
 
-  const { mutate: mutateResendVerificationEmail } = useMutation({
+  const {
+    mutate: mutateResendVerificationEmail,
+    isPending: mutateResendVerificationEmailIsPending
+  } = useMutation({
     mutationFn: resendVerificationEmail,
     mutationKey: 'resendVerificationEmail',
     onSuccess: (data) => {
@@ -79,7 +82,12 @@ const Verification = () => {
                 onChange={(value) => setFieldValue('verification_code', value, !isEmpty(errors))}
               />
             </VStack>
-            <AuthFormActionButton onClick={handleSubmit}>Verify</AuthFormActionButton>
+            <AuthFormActionButton
+              onClick={handleSubmit}
+              isLoading={mutateVerifyEmailIsPending}
+              isDisabled={mutateResendVerificationEmailIsPending}>
+              Verify
+            </AuthFormActionButton>
             <Text textStyle="caption">
               Didn&rsquo;t receive code?&nbsp;
               <Box

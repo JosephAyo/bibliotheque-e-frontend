@@ -23,7 +23,7 @@ const Login = () => {
     password: yup.string().min(6).required()
   });
 
-  const { mutate: mutateLogin } = useMutation({
+  const { mutate: mutateLogin, isPending } = useMutation({
     mutationFn: login,
     mutationKey: 'login',
     onSuccess: (data) => {
@@ -88,7 +88,9 @@ const Login = () => {
                   }}
                 />
               </VStack>
-              <AuthFormActionButton onClick={handleSubmit}>Login</AuthFormActionButton>
+              <AuthFormActionButton onClick={handleSubmit} isLoading={isPending}>
+                Login
+              </AuthFormActionButton>
               <Text textStyle="caption">
                 Don&rsquo;t have an account?&nbsp;
                 <Box as="span" textStyle="caption-medium" color="primary.default">

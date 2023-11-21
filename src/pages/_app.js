@@ -66,6 +66,11 @@ const theme = extendTheme({
         secondary_action: (_props) => ({
           color: 'whiteAlpha.900',
           backgroundColor: 'actionSecondary.200',
+          _hover: {
+            _disabled: {
+              backgroundColor: 'actionSecondary.200'
+            }
+          },
           ...chakraThemeTextStyles.button
         })
       }

@@ -51,7 +51,7 @@ const Account = () => {
 
   const { data, refetch } = useQuery({ queryKey: ['viewAllUsers'], queryFn: viewAllUsers });
 
-  const { mutate: mutateRegulateManager } = useMutation({
+  const { mutate: mutateRegulateManager, isPending: mutateRegulateManagerIsPending } = useMutation({
     mutationFn: regulateManager,
     mutationKey: 'regulateManager',
     onSuccess: (response) => {
@@ -250,7 +250,11 @@ const Account = () => {
                 </Wrap>
               </ModalBody>
               <ModalFooter>
-                <Button variant="primary_action" mr="10px" onClick={handleSubmit}>
+                <Button
+                  variant="primary_action"
+                  mr="10px"
+                  onClick={handleSubmit}
+                  isLoading={mutateRegulateManagerIsPending}>
                   Save
                 </Button>
                 <Button onClick={() => setSelectedUser(null)}>Cancel</Button>
