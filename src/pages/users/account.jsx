@@ -9,7 +9,10 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
+  Flex,
+  Box,
+  Tag
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { AuthFormInputField } from 'components/Inputs';
@@ -17,6 +20,7 @@ import { UserAccountPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import useAppStore from 'lib/store';
 import { get, isEmpty } from 'lodash';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { changePassword, editProfile } from 'services/api/queries/users';
 import { getAxiosErrorDetail, getAxiosResponseBody } from 'utils/objects';
@@ -67,6 +71,8 @@ const Account = () => {
       errorToast({ message: getAxiosErrorDetail(error) });
     }
   });
+
+  console.log('currentUser :>> ', currentUser);
 
   return (
     <UserAccountPageLayout pageTitle="Account">
@@ -144,6 +150,26 @@ const Account = () => {
             </>
           )}
         </Formik>
+        <Box>
+          <Text textStyle="body-medium">Email verified</Text>
+          <Flex justifyContent="space-between" marginTop="5px">
+            <Tag
+              colorScheme={currentUser.is_email_verified ? 'green' : 'red'}
+              fontSize="12.5px"
+              height="fit-content">
+              {currentUser.is_email_verified ? 'yes' : 'no'}
+            </Tag>
+            {currentUser.is_email_verified ? (
+              ''
+            ) : (
+              <Link href={`/verification?email${currentUser.email}`}>
+                <Button variant="primary_action" width="max-content" marginLeft="auto">
+                  Verify
+                </Button>
+              </Link>
+            )}
+          </Flex>
+        </Box>
         <br />
         <form>
           <AuthFormInputField

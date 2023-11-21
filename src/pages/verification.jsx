@@ -11,13 +11,22 @@ import { resendVerificationEmail, verifyEmail } from 'services/api/queries/users
 import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from 'utils/objects';
 import { errorToast, successToast } from 'utils/toast';
 import { useEffect } from 'react';
+import useAppStore from 'lib/store';
 
 const Verification = () => {
   const router = useRouter();
+  const {
+    userSlice: {
+      currentUser: { is_logged_in }
+    }
+  } = useAppStore();
 
   useEffect(() => {
-    if (!router.query.email) router.push('/login');
-  }, [router]);
+    if (!router.query.email)
+      if (is_logged_in) {
+        router.back();
+      } else router.push('/login');
+  }, [router, is_logged_in]);
 
   const validationSchema = yup.object().shape({
     verification_code: yup.string().length(6).required().label('verification code')
