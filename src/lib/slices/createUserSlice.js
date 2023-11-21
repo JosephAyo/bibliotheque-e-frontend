@@ -8,7 +8,8 @@ const defaultState = {
   is_email_verified: false,
   is_verified: false,
   user_role_associations: [],
-  current_role_id: ''
+  current_role_id: '',
+  not_set: true
 };
 
 const createUserSlice = (set) => ({
@@ -18,8 +19,8 @@ const createUserSlice = (set) => ({
       userSlice: {
         ...state.userSlice,
         currentUser: isEmpty(currentUser)
-          ? defaultState
-          : merge(state.userSlice.currentUser, currentUser, { is_logged_in: true })
+          ? { ...defaultState, not_set: false }
+          : merge(state.userSlice.currentUser, currentUser, { is_logged_in: true, not_set: false })
       }
     }));
   },
@@ -27,7 +28,7 @@ const createUserSlice = (set) => ({
     set((state) => ({
       userSlice: {
         ...state.userSlice,
-        currentUser: defaultState
+        currentUser: { ...defaultState, not_set: false }
       }
     }));
   }

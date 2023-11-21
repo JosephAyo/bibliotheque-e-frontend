@@ -36,8 +36,9 @@ import useUserRoles from 'hooks/useUserRoles';
 import { USER_ROLES } from 'utils/constants';
 import useAppStore from 'lib/store';
 import { iff } from 'utils/helpers';
+import { AuthorizationGate } from 'components/Wrappers';
 
-const Account = () => {
+const ManageAccounts = () => {
   const { roles } = useUserRoles();
   const {
     userSlice: { currentUser }
@@ -265,4 +266,8 @@ const Account = () => {
   );
 };
 
-export default Account;
+const ManageAccountsComponent = () => (
+  <AuthorizationGate permittedRoles={[USER_ROLES.LIBRARIAN]}>{ManageAccounts}</AuthorizationGate>
+);
+
+export default ManageAccountsComponent;
