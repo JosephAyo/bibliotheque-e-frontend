@@ -11,7 +11,11 @@ const useCurrentUserLoader = () => {
     userSlice: { setCurrentUser, currentUser }
   } = useAppStore();
 
-  const { data } = useQuery({ queryKey: ['viewProfile'], queryFn: viewProfile });
+  const { data, isFetching } = useQuery({
+    queryKey: ['viewProfile'],
+    queryFn: viewProfile,
+    refetchOnWindowFocus: true
+  });
 
   const handleSetCurrentUser = useCallback(
     (userData) => {
@@ -35,7 +39,7 @@ const useCurrentUserLoader = () => {
   useEffect(() => {
     const resBody = getAxiosResponseBody(data);
     handleSetCurrentUser(get(resBody, 'data', null));
-  }, [data, handleSetCurrentUser]);
+  }, [data, handleSetCurrentUser, isFetching]);
 
   return { currentUser };
 };

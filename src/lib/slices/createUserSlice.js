@@ -15,14 +15,21 @@ const defaultState = {
 const createUserSlice = (set) => ({
   currentUser: defaultState,
   setCurrentUser: (currentUser) => {
-    set((state) => ({
-      userSlice: {
-        ...state.userSlice,
-        currentUser: isEmpty(currentUser)
-          ? { ...defaultState, not_set: false }
-          : merge(state.userSlice.currentUser, currentUser, { is_logged_in: true, not_set: false })
-      }
-    }));
+    set((state) => {
+      const update = isEmpty(currentUser)
+        ? { ...defaultState, not_set: false }
+        : merge(state.userSlice.currentUser, currentUser, {
+            is_logged_in: true,
+            not_set: false
+          });
+      if (isEmpty(currentUser)) update.user_role_associations = currentUser.user_role_associations;
+      return {
+        userSlice: {
+          ...state.userSlice,
+          currentUser: update
+        }
+      };
+    });
   },
   clearCurrentUser: () => {
     set((state) => ({
