@@ -20,14 +20,15 @@ import { UserAccountPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import useAppStore from 'lib/store';
 import { get, isEmpty } from 'lodash';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useRef } from 'react';
-import { changePassword, editProfile } from 'services/api/queries/users';
+import { changePassword, editProfile, resendVerificationEmail } from 'services/api/queries/users';
 import { getAxiosErrorDetail, getAxiosResponseBody } from 'utils/objects';
 import { errorToast, successToast } from 'utils/toast';
 import * as yup from 'yup';
 
 const Account = () => {
+  const router = useRouter();
   const {
     userSlice: { currentUser }
   } = useAppStore();
@@ -72,7 +73,20 @@ const Account = () => {
     }
   });
 
-  console.log('currentUser :>> ', currentUser);
+  const {
+    mutate: mutateResendVerificationEmail,
+    isPending: mutateResendVerificationEmailIsPending
+  } = useMutation({
+    mutationFn: resendVerificationEmail,
+    mutationKey: 'resendVerificationEmail',
+    onSuccess: (data) => {
+      successToast({ message: get(getAxiosResponseBody(data), 'detail', '') });
+      router.push(`/verification?email=${currentUser.email}`);
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
 
   return (
     <UserAccountPageLayout pageTitle="Account">
@@ -162,11 +176,18 @@ const Account = () => {
             {currentUser.is_email_verified ? (
               ''
             ) : (
-              <Link href={`/verification?email${currentUser.email}`}>
-                <Button variant="primary_action" width="max-content" marginLeft="auto">
-                  Verify
-                </Button>
-              </Link>
+              <Button
+                variant="primary_action"
+                width="max-content"
+                marginLeft="auto"
+                onClick={() =>
+                  mutateResendVerificationEmail({
+                    email: currentUser.email
+                  })
+                }
+                isLoading={mutateResendVerificationEmailIsPending}>
+                Verify
+              </Button>
             )}
           </Flex>
         </Box>

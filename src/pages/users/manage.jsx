@@ -151,8 +151,6 @@ const Account = () => {
     }
   ];
 
-  console.log('selectedUser :>> ', selectedUser);
-
   return (
     <UserAccountPageLayout pageTitle="Manage">
       <TableContainer width="100%">
