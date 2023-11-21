@@ -67,8 +67,8 @@ export const viewRoles = async () => {
   return res;
 };
 
-export const addManager = async (data) => {
-  const res = await axios.get(`${URI_MAP.users.manager.add(data)}`, {
+export const regulateManager = async (data) => {
+  const res = await axios.post(`${URI_MAP.users.regulate()}`, JSON.stringify(data), {
     headers: {
       Authorization: getAuthToken()
     }

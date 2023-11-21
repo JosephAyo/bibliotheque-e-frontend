@@ -10,7 +10,7 @@ const useUserRoles = () => {
   const resBody = getAxiosResponseBody(data);
 
   return {
-    roles: get(resBody, 'data', null),
+    roles: get(resBody, 'data', []).map((role) => ({ ...role, value: role.id, label: role.name })),
     librarianRoleId: get(
       getOr(resBody, 'data', []).find((role) => role.name === USER_ROLES.LIBRARIAN),
       'id',

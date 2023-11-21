@@ -1,5 +1,4 @@
 import { Center, Flex, IconButton, Spinner, Text, Wrap } from '@chakra-ui/react';
-import BookCard from 'components/Cards/BookCard';
 import { LibraryPageLayout } from 'components/Layouts';
 import { SearchInputField } from 'components/Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
@@ -8,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getOr } from 'utils/objects';
 import { iff } from 'utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
+import { BookCard } from 'components/Cards';
 
 const Books = () => {
   const { data: viewLibraryResponse, isLoading } = useQuery({

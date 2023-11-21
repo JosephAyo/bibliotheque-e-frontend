@@ -31,8 +31,8 @@ const URI_MAP = {
     roles: {
       view: () => `${URI_MAP.users.users_base_url}/roles`
     },
-    manager: {
-      add: () => `${URI_MAP.users.users_base_url}/manager/add`
+    regulate() {
+      return `${URI_MAP.users.users_base_url}/manager`;
     },
     viewAll() {
       return `${this.users_base_url}/all`;

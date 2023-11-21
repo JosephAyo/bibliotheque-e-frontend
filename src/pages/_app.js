@@ -49,6 +49,11 @@ const theme = extendTheme({
         primary_action: (_props) => ({
           color: 'whiteAlpha.900',
           backgroundColor: 'actionPrimary.200',
+          _hover: {
+            _disabled: {
+              backgroundColor: 'actionPrimary.200'
+            }
+          },
           ...chakraThemeTextStyles.button
         }),
         // used as <Button variant="primary_action_themed">
