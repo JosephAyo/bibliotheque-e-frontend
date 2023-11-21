@@ -156,8 +156,8 @@ const Account = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal isOpen={!isEmpty(selectedUser)} onClose={() => setSelectedUser(null)}>
-        <ModalOverlay background={modalOverlayBg} />
+      <Modal isOpen={!isEmpty(selectedUser)} onClose={() => setSelectedUser(null)} variant="themed">
+        <ModalOverlay />
         <Formik
           innerRef={passwordFormikRef}
           validationSchema={validationSchema}

@@ -10,12 +10,27 @@ import { needAbsoluteThemeToggle } from 'config/layout';
 import { ToastContainer } from 'react-toastify';
 import { AxiosError } from 'axios';
 import useAppStore from 'lib/store';
+import { modalAnatomy as parts } from '@chakra-ui/anatomy';
+import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system';
+
+const { definePartsStyle } = createMultiStyleConfigHelpers(parts.keys);
 
 const fonts = {
   ...chakraTheme.fonts,
   body: `Inter`,
   heading: `Inter`
 };
+
+const customModalVariant = definePartsStyle({
+  overlay: {
+    bg: '#555555ee',
+
+    // Let's also provide dark mode alternatives
+    _dark: {
+      bg: '#000000ee'
+    }
+  }
+});
 
 const theme = extendTheme({
   fonts,
@@ -64,6 +79,11 @@ const theme = extendTheme({
             backgroundColor: mode('#f6f6f6', 'gray.600')(_props)
           }
         })
+      }
+    },
+    Modal: {
+      variants: {
+        themed: customModalVariant
       }
     }
   }

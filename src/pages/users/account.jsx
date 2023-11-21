@@ -9,8 +9,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
-  useColorModeValue
+  useDisclosure
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { AuthFormInputField } from 'components/Inputs';
@@ -29,7 +28,6 @@ const Account = () => {
     userSlice: { currentUser }
   } = useAppStore();
 
-  const modalOverlayBg = useColorModeValue('#555555ee', '#000000ee');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef(null);
@@ -168,8 +166,9 @@ const Account = () => {
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
-        onClose={onClose}>
-        <ModalOverlay background={modalOverlayBg} />
+        onClose={onClose}
+        variant="themed">
+        <ModalOverlay />
         <Formik
           innerRef={passwordFormikRef}
           validationSchema={passwordValidationSchema}
