@@ -124,6 +124,7 @@ const BookCard = ({ details, isBorrower, isProprietor, refetch, onClickEditBook 
           <Text textStyle="subtitle-1-medium">{author_name}</Text>
         </PopoverHeader>
         <PopoverBody
+          minH="200px"
           maxHeight="400px"
           overflowY="scroll"
           sx={{
@@ -144,12 +145,7 @@ const BookCard = ({ details, isBorrower, isProprietor, refetch, onClickEditBook 
           }}>
           <Text>{description}</Text>
         </PopoverBody>
-        <PopoverFooter
-          border="0"
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          pb={4}>
+        <PopoverFooter display="flex" alignItems="center" justifyContent="space-between">
           <ButtonGroup width="100%" size="sm" fontSize="16px" justifyContent="end">
             {isBorrower ? (
               <Button
