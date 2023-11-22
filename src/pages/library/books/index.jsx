@@ -30,7 +30,8 @@ const Books = () => {
           />
           <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
         </Flex>
-      }>
+      }
+      showHeroSection>
       {iff(
         isLoading,
         <Center height="400px">
