@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   Flex,
+  IconButton,
   Image,
   Popover,
   PopoverArrow,
@@ -16,12 +17,13 @@ import {
   VStack,
   useColorModeValue
 } from '@chakra-ui/react';
-import { GiBookshelf } from 'react-icons/gi';
-import { FaEyeSlash } from 'react-icons/fa';
+import { PiBooksDuotone } from "react-icons/pi";
+import { TbBooksOff } from "react-icons/tb";
 import { borrowBook, deleteBook } from 'services/api/queries/library';
 import { errorToast, successToast } from 'utils/toast';
 import { getAxiosErrorDetail } from 'utils/objects';
 import { useMutation } from '@tanstack/react-query';
+import { MdDelete, MdModeEdit } from 'react-icons/md';
 
 const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onClickEditBook }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
@@ -93,7 +95,7 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
             </Flex>
             <Flex width="100%" justifyContent="space-between">
               <Flex alignItems="center" color={countsColor} gap="4px">
-                <GiBookshelf size={14} />
+                <PiBooksDuotone  size={14} />
                 <Text textStyle="subtitle-2">
                   {new Intl.NumberFormat(undefined, {
                     notation: 'compact'
@@ -104,7 +106,7 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
                 ''
               ) : (
                 <Flex alignItems="center" color={countsColor} gap="4px">
-                  <FaEyeSlash size={14} />
+                  <TbBooksOff size={14} />
                   <Text textStyle="subtitle-2">
                     {new Intl.NumberFormat(undefined, {
                       notation: 'compact'
@@ -186,16 +188,17 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
             )}
             {isProprietor ? (
               <>
-                <Button variant="primary_action" onClick={onClickEditBook} fontSize="inherit">
-                  Edit
-                </Button>
-                <Button
+                <IconButton
+                  variant="primary_action"
+                  onClick={onClickEditBook}
+                  icon={<MdModeEdit />}
+                />
+                <IconButton
                   variant="delete_action"
                   onClick={() => mutateDeleteBook(details.id)}
                   isLoading={mutateDeleteBookIsPending}
-                  fontSize="inherit">
-                  Delete
-                </Button>
+                  icon={<MdDelete />}
+                />
               </>
             ) : (
               ''
