@@ -43,6 +43,7 @@ const ManageAccounts = () => {
   const {
     userSlice: { currentUser }
   } = useAppStore();
+
   const [selectedUser, setSelectedUser] = useState(null);
 
   const validationSchema = yup.object().shape({

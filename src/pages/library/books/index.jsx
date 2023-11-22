@@ -37,8 +37,11 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { get, isEmpty } from 'lodash';
 import { errorToast, successToast } from 'utils/toast';
+import useUserRoles from 'hooks/useUserRoles';
 
 const Books = () => {
+  const { isProprietor } = useUserRoles();
+
   const {
     data: viewLibraryResponse,
     isLoading,
@@ -106,10 +109,12 @@ const Books = () => {
           </Center>
         ) : (
           <Wrap spacing="18px">
-            {getOr(viewLibraryResponse, 'data', []).map((data) => (
-              <BookCard key={data.id} {...data} />
-            ))}
-            <AddBookButton onClick={onOpen} />
+            {getOr(viewLibraryResponse, 'data', []).map((data) => {
+              const details = { ...data };
+              if (!isProprietor) delete details.private_shelf_quantity;
+              return <BookCard key={data.id} {...details} />;
+            })}
+            {isProprietor ? <AddBookButton onClick={onOpen} /> : ''}
           </Wrap>
         )
       )}

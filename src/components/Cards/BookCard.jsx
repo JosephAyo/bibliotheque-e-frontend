@@ -15,7 +15,13 @@ import {
 } from '@chakra-ui/react';
 import { GiBookshelf } from 'react-icons/gi';
 
-const BookCard = ({ title, author_name, description, public_shelf_quantity }) => {
+const BookCard = ({
+  title,
+  author_name,
+  description,
+  public_shelf_quantity,
+  private_shelf_quantity
+}) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
@@ -57,13 +63,27 @@ const BookCard = ({ title, author_name, description, public_shelf_quantity }) =>
                 {author_name}
               </Text>
             </Flex>
-            <Flex alignItems="center" color={countsColor} gap="4px">
-              <GiBookshelf size={14} />
-              <Text textStyle="subtitle-2">
-                {new Intl.NumberFormat(undefined, {
-                  notation: 'compact'
-                }).format(public_shelf_quantity)}
-              </Text>
+            <Flex justifyContent="space-between">
+              <Flex alignItems="center" color={countsColor} gap="4px">
+                <GiBookshelf size={14} />
+                <Text textStyle="subtitle-2">
+                  {new Intl.NumberFormat(undefined, {
+                    notation: 'compact'
+                  }).format(public_shelf_quantity)}
+                </Text>
+              </Flex>
+              {Number.isNaN(parseFloat(private_shelf_quantity)) ? (
+                ''
+              ) : (
+                <Flex alignItems="center" color={countsColor} gap="4px">
+                  <GiBookshelf size={14} />
+                  <Text textStyle="subtitle-2">
+                    {new Intl.NumberFormat(undefined, {
+                      notation: 'compact'
+                    }).format(private_shelf_quantity)}
+                  </Text>
+                </Flex>
+              )}
             </Flex>
           </VStack>
         </Box>

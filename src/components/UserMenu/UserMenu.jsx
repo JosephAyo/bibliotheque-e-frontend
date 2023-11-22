@@ -22,7 +22,7 @@ const UserMenu = () => {
     userSlice: { currentUser, setCurrentUser }
   } = useAppStore();
 
-  const { librarianRoleId } = useUserRoles();
+  const { isLibrarian } = useUserRoles();
 
   const current_role_id = getOr(
     currentUser,
@@ -30,7 +30,6 @@ const UserMenu = () => {
     getOr(currentUser, 'user_role_associations.0.role_id', null)
   );
 
-  const isLibrarian = current_role_id === librarianRoleId;
   return (
     <Menu>
       <MenuButton rounded="100%" as={IconButton} aria-label="User" icon={<FaUserCircle />} />
