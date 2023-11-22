@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Flex,
   Image,
   Popover,
@@ -7,6 +9,7 @@ import {
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
   Text,
@@ -14,18 +17,14 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { GiBookshelf } from 'react-icons/gi';
-import { FaEyeSlash } from "react-icons/fa";
+import { FaEyeSlash } from 'react-icons/fa';
 
-const BookCard = ({
-  title,
-  author_name,
-  description,
-  public_shelf_quantity,
-  private_shelf_quantity
-}) => {
+const BookCard = ({ details, isBorrower, isProprietor, onClickBorrow, onClickEdit }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
+  const { title, author_name, description, public_shelf_quantity, private_shelf_quantity } =
+    details;
 
   return (
     <Popover placement="right-start">
@@ -96,9 +95,50 @@ const BookCard = ({
           <strong>{title}</strong> <br />
           <Text textStyle="subtitle-1-medium">{author_name}</Text>
         </PopoverHeader>
-        <PopoverBody>
-          <Text noOfLines={20}>{description}</Text>
+        <PopoverBody
+          maxHeight="400px"
+          overflowY="scroll"
+          sx={{
+            '&::-webkit-scrollbar': {
+              width: '6px'
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '8px'
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#000000aa',
+              borderRadius: '24px'
+            },
+            '&': {
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#000000aa transparent'
+            }
+          }}>
+          <Text>{description}</Text>
         </PopoverBody>
+        <PopoverFooter
+          border="0"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          pb={4}>
+          <ButtonGroup width="100%" size="sm" justifyContent="end">
+            {isBorrower ? (
+              <Button variant="primary_action" onClick={onClickBorrow}>
+                Borrow
+              </Button>
+            ) : (
+              ''
+            )}
+            {isProprietor ? (
+              <Button variant="primary_action" onClick={() => onClickEdit(details)}>
+                Edit
+              </Button>
+            ) : (
+              ''
+            )}
+          </ButtonGroup>
+        </PopoverFooter>
       </PopoverContent>
     </Popover>
   );

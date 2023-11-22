@@ -40,7 +40,7 @@ import { errorToast, successToast } from 'utils/toast';
 import useUserRoles from 'hooks/useUserRoles';
 
 const Books = () => {
-  const { isProprietor, isLibrarian } = useUserRoles();
+  const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
   const {
     data: viewLibraryResponse,
     isLoading,
@@ -111,7 +111,14 @@ const Books = () => {
             {getOr(viewLibraryResponse, 'data', []).map((data) => {
               const details = { ...data };
               if (!isProprietor) delete details.private_shelf_quantity;
-              return <BookCard key={data.id} {...details} />;
+              return (
+                <BookCard
+                  key={data.id}
+                  details={details}
+                  isBorrower={isBorrower}
+                  isProprietor={isProprietor}
+                />
+              );
             })}
             {isProprietor ? <AddBookButton onClick={onOpen} /> : ''}
           </Wrap>
