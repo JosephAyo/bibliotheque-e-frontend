@@ -23,7 +23,7 @@ import { errorToast, successToast } from 'utils/toast';
 import { getAxiosErrorDetail } from 'utils/objects';
 import { useMutation } from '@tanstack/react-query';
 
-const BookCard = ({ details, isBorrower, isProprietor, refetch }) => {
+const BookCard = ({ details, isBorrower, isProprietor, refetch, onClickEditBook }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
@@ -168,14 +168,7 @@ const BookCard = ({ details, isBorrower, isProprietor, refetch }) => {
             )}
             {isProprietor ? (
               <>
-                <Button
-                  variant="primary_action"
-                  onClick={() =>
-                    mutateBorrowBook({
-                      book_id: details.id
-                    })
-                  }
-                  fontSize="inherit">
+                <Button variant="primary_action" onClick={onClickEditBook} fontSize="inherit">
                   Edit
                 </Button>
                 <Button

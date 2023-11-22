@@ -25,14 +25,20 @@ import {
 import { LibraryPageLayout } from 'components/Layouts';
 import { FormInputField, SearchInputField } from 'components/Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
-import { createBook, viewLibrary, viewLibraryAsManager } from 'services/api/queries/library';
+import {
+  createBook,
+  editBookDetails,
+  editQuantity,
+  viewLibrary,
+  viewLibraryAsManager
+} from 'services/api/queries/library';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from 'utils/objects';
 import { iff } from 'utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
 import { BookCard } from 'components/Cards';
 import { AddBookButton } from 'components/Buttons';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { get, isEmpty } from 'lodash';
@@ -51,18 +57,40 @@ const Books = () => {
     refetchOnWindowFocus: true
   });
 
+  const [selectedEditBook, setSelectedEditBook] = useState(null);
+  const [editingQuantity, setEditingQuantity] = useState(false);
+
   const libraryBooks = getOr(viewLibraryResponse, 'data', []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleModalClose = () => {
+    setSelectedEditBook(null);
+    onClose();
+  };
+
   const formikRef = useRef(null);
 
   const initialRef = useRef(null);
   const finalRef = useRef(null);
 
-  const passwordValidationSchema = yup.object().shape({
+  const createBookValidationSchema = yup.object().shape({
     title: yup.string().required(),
     author_name: yup.string().required().label('author name'),
     description: yup.string().required(),
+    public_shelf_quantity: yup.number().min(0).required().label('public shelf quantity'),
+    private_shelf_quantity: yup.number().min(0).required().label('private shelf quantity')
+  });
+
+  const editBookDetailsValidationSchema = yup.object().shape({
+    id: yup.string().required(),
+    title: yup.string().required(),
+    author_name: yup.string().required().label('author name'),
+    description: yup.string().required()
+  });
+
+  const editBookQuantityValidationSchema = yup.object().shape({
+    id: yup.string().required(),
     public_shelf_quantity: yup.number().min(0).required().label('public shelf quantity'),
     private_shelf_quantity: yup.number().min(0).required().label('private shelf quantity')
   });
@@ -72,9 +100,34 @@ const Books = () => {
     mutationKey: 'createBook',
     onSuccess: () => {
       formikRef.current.resetForm();
-      onClose();
+      handleModalClose();
       refetch();
       successToast({ message: 'book added' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateEditBookDetails, isPending: mutateEditBookDetailsIsPending } = useMutation({
+    mutationFn: editBookDetails,
+    mutationKey: 'editBookDetails',
+    onSuccess: () => {
+      refetch();
+      successToast({ message: 'book details edited' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateEditQuantity, isPending: mutateEditQuantityIsPending } = useMutation({
+    mutationFn: editQuantity,
+    mutationKey: 'editQuantity',
+    onSuccess: () => {
+      setEditingQuantity(false);
+      refetch();
+      successToast({ message: 'book quantity edited' });
     },
     onError: (error) => {
       errorToast({ message: getAxiosErrorDetail(error) });
@@ -118,6 +171,10 @@ const Books = () => {
                   isBorrower={isBorrower}
                   isProprietor={isProprietor}
                   refetch={refetch}
+                  onClickEditBook={() => {
+                    setSelectedEditBook(data);
+                    onOpen();
+                  }}
                 />
               );
             })}
@@ -130,30 +187,66 @@ const Books = () => {
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          handleModalClose();
+        }}
         variant="themed">
         <ModalOverlay />
         <Formik
-          innerRef={formikRef}
-          validationSchema={passwordValidationSchema}
-          initialValues={{
-            title: '',
-            author_name: '',
-            description: '',
-            public_shelf_quantity: '',
-            private_shelf_quantity: ''
+          // innerRef={formikRef}
+          innerRef={(ref) => {
+            formikRef.current = ref;
           }}
+          validationSchema={iff(
+            isEmpty(selectedEditBook),
+            createBookValidationSchema,
+            editingQuantity ? editBookQuantityValidationSchema : editBookDetailsValidationSchema
+          )}
+          initialValues={
+            isEmpty(selectedEditBook)
+              ? {
+                  title: '',
+                  author_name: '',
+                  description: '',
+                  public_shelf_quantity: '',
+                  private_shelf_quantity: ''
+                }
+              : {
+                  id: selectedEditBook.id,
+                  title: selectedEditBook.title,
+                  author_name: selectedEditBook.author_name,
+                  description: selectedEditBook.description,
+                  public_shelf_quantity: selectedEditBook.public_shelf_quantity,
+                  private_shelf_quantity: selectedEditBook.private_shelf_quantity
+                }
+          }
           validateOnChange={false}
           onSubmit={(values) => {
-            mutateCreateBook({
-              title: get(values, 'title'),
-              author_name: get(values, 'author_name'),
-              current_password: get(values, 'current_password'),
-              description: get(values, 'description'),
-              public_shelf_quantity: get(values, 'public_shelf_quantity'),
-              private_shelf_quantity: get(values, 'private_shelf_quantity')
-            });
-          }}>
+            console.log('values :>> ', values);
+            if (isEmpty(selectedEditBook)) {
+              mutateCreateBook({
+                title: get(values, 'title'),
+                author_name: get(values, 'author_name'),
+                description: get(values, 'description'),
+                public_shelf_quantity: get(values, 'public_shelf_quantity'),
+                private_shelf_quantity: get(values, 'private_shelf_quantity')
+              });
+            } else if (editingQuantity) {
+              mutateEditQuantity({
+                id: get(values, 'id'),
+                public_shelf_quantity: get(values, 'public_shelf_quantity'),
+                private_shelf_quantity: get(values, 'private_shelf_quantity')
+              });
+            } else {
+              mutateEditBookDetails({
+                id: get(values, 'id'),
+                title: get(values, 'title'),
+                author_name: get(values, 'author_name'),
+                description: get(values, 'description')
+              });
+            }
+          }}
+          enableReinitialize>
           {({ values, errors, handleSubmit, setFieldValue }) => (
             <ModalContent maxWidth="600px">
               <ModalHeader>
@@ -205,11 +298,23 @@ const Books = () => {
                           onChange={(e) =>
                             setFieldValue('description', e.target.value, !isEmpty(errors))
                           }
-                          rows={10}
+                          rows={5}
                           borderColor={get(errors, 'description') ? 'red.300' : ''}
                         />
                       }
                     />
+                    {!isEmpty(selectedEditBook) ? (
+                      <Button
+                        variant="primary_action"
+                        width="fit-content"
+                        marginBottom="20px"
+                        onClick={handleSubmit}
+                        isLoading={mutateEditBookDetailsIsPending}>
+                        Save
+                      </Button>
+                    ) : (
+                      ''
+                    )}
                     <Flex>
                       <FormInputField
                         fieldLabel="Public shelf quantity"
@@ -223,7 +328,8 @@ const Books = () => {
                             }
                             min={0}
                             clampValueOnBlur={false}
-                            variant="themed">
+                            variant="themed"
+                            isDisabled={!isEmpty(selectedEditBook) && !editingQuantity}>
                             <NumberInputField />
                             <NumberInputStepper>
                               <NumberIncrementStepper />
@@ -244,7 +350,8 @@ const Books = () => {
                             }
                             max={30}
                             clampValueOnBlur={false}
-                            variant="themed">
+                            variant="themed"
+                            isDisabled={!isEmpty(selectedEditBook) && !editingQuantity}>
                             <NumberInputField />
                             <NumberInputStepper>
                               <NumberIncrementStepper />
@@ -254,18 +361,42 @@ const Books = () => {
                         }
                       />
                     </Flex>
+                    {!isEmpty(selectedEditBook) ? (
+                      <Button
+                        variant="primary_action"
+                        width="fit-content"
+                        marginBottom="20px"
+                        onClick={() => {
+                          if (editingQuantity) handleSubmit();
+                          else setEditingQuantity(true);
+                        }}
+                        isLoading={mutateEditQuantityIsPending}>
+                        {editingQuantity ? 'Save' : 'Edit'}
+                      </Button>
+                    ) : (
+                      ''
+                    )}
                   </VStack>
                 </form>
               </ModalBody>
               <ModalFooter>
+                {isEmpty(selectedEditBook) ? (
+                  <Button
+                    variant="primary_action"
+                    mr="10px"
+                    onClick={handleSubmit}
+                    isLoading={mutateCreateBookIsPending}>
+                    Create
+                  </Button>
+                ) : (
+                  ''
+                )}
                 <Button
-                  variant="primary_action"
-                  mr="10px"
-                  onClick={handleSubmit}
-                  isLoading={mutateCreateBookIsPending}>
-                  Create
+                  onClick={() => {
+                    handleModalClose();
+                  }}>
+                  {isEmpty(selectedEditBook) ? 'Cancel' : 'Close'}
                 </Button>
-                <Button onClick={onClose}>Cancel</Button>
               </ModalFooter>
             </ModalContent>
           )}
