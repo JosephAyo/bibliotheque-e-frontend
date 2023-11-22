@@ -19,7 +19,14 @@ import {
 import { GiBookshelf } from 'react-icons/gi';
 import { FaEyeSlash } from 'react-icons/fa';
 
-const BookCard = ({ details, isBorrower, isProprietor, onClickBorrow, onClickEdit }) => {
+const BookCard = ({
+  details,
+  isBorrower,
+  isProprietor,
+  onClickBorrow,
+  onClickEdit,
+  isBorrowing
+}) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
@@ -124,7 +131,7 @@ const BookCard = ({ details, isBorrower, isProprietor, onClickBorrow, onClickEdi
           pb={4}>
           <ButtonGroup width="100%" size="sm" justifyContent="end">
             {isBorrower ? (
-              <Button variant="primary_action" onClick={onClickBorrow}>
+              <Button variant="primary_action" onClick={onClickBorrow} isLoading={isBorrowing}>
                 Borrow
               </Button>
             ) : (

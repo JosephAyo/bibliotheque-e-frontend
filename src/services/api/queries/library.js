@@ -84,7 +84,7 @@ export const viewBorrowedBooks = async () => {
 };
 
 export const borrowBook = async (data) => {
-  const res = await axios.post(`${URI_MAP.library.borrow()}`, JSON.stringify(data), {
+  const res = await axios.put(`${URI_MAP.library.borrow()}`, JSON.stringify(data), {
     headers: {
       Authorization: getAuthToken()
     }
