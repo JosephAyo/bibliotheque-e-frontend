@@ -18,7 +18,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { PiBooksDuotone } from 'react-icons/pi';
-import { borrowBook, deleteBook } from 'services/api/queries/library';
+import { borrowBook, deleteBook, returnBorrowedBook } from 'services/api/queries/library';
 import { errorToast, successToast } from 'utils/toast';
 import { getAxiosErrorDetail } from 'utils/objects';
 import { useMutation } from '@tanstack/react-query';
@@ -58,6 +58,19 @@ const BookCard = ({
       errorToast({ message: getAxiosErrorDetail(error) });
     }
   });
+
+  const { mutate: mutateReturnBorrowedBook, isPending: mutateReturnBorrowedBookIsPending } =
+    useMutation({
+      mutationFn: returnBorrowedBook,
+      mutationKey: 'returnBorrowedBook',
+      onSuccess: () => {
+        refetch();
+        successToast({ message: 'book returned' });
+      },
+      onError: (error) => {
+        errorToast({ message: getAxiosErrorDetail(error) });
+      }
+    });
 
   const { mutate: mutateDeleteBook, isPending: mutateDeleteBookIsPending } = useMutation({
     mutationFn: deleteBook,
@@ -195,12 +208,17 @@ const BookCard = ({
             {isBorrower ? (
               <Button
                 variant="primary_action"
-                onClick={() =>
-                  mutateBorrowBook({
-                    book_id: details.id
-                  })
-                }
-                isLoading={mutateBorrowBookIsPending}
+                onClick={() => {
+                  if (isBorrowView)
+                    mutateReturnBorrowedBook({
+                      id: details.borrow_id
+                    });
+                  else
+                    mutateBorrowBook({
+                      book_id: details.id
+                    });
+                }}
+                isLoading={mutateBorrowBookIsPending || mutateReturnBorrowedBookIsPending}
                 fontSize="inherit">
                 {isBorrowView ? 'Return' : 'Borrow'}
               </Button>

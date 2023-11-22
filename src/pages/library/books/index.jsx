@@ -76,11 +76,13 @@ const Books = () => {
     queryFn: viewBorrowedBooks,
     refetchOnWindowFocus: true,
     select: (queryResponse) => {
-      const books = getOr(queryResponse, 'data', []).map((borrowData) => ({
-        borrowData,
-        borrow_id: borrowData.id,
-        ...borrowData.book
-      }));
+      const books = getOr(queryResponse, 'data', [])
+        .filter((book) => !book.returned)
+        .map((borrowData) => ({
+          borrowData,
+          borrow_id: borrowData.id,
+          ...borrowData.book
+        }));
       return { ...queryResponse, data: searchText ? bookSearch(books, searchText) : books };
     }
   });
