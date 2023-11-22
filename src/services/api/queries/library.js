@@ -35,7 +35,7 @@ export const viewLibraryAsManager = async () => {
       Authorization: getAuthToken()
     }
   });
-  return res;
+  return getAxiosResponseBody(res);
 };
 
 export const deleteBook = async (id) => {

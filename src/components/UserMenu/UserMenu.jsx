@@ -10,6 +10,7 @@ import {
   VStack,
   MenuDivider
 } from '@chakra-ui/react';
+import { setStoredRoleId } from 'config/axios';
 import useUserRoles from 'hooks/useUserRoles';
 import useAppStore from 'lib/store';
 import { get } from 'lodash';
@@ -47,7 +48,10 @@ const UserMenu = () => {
               marginX="12px">
               <RadioGroup
                 value={current_role_id}
-                onChange={(value) => setCurrentUser({ current_role_id: value })}>
+                onChange={(value) => {
+                  setCurrentUser({ current_role_id: value });
+                  setStoredRoleId(value);
+                }}>
                 <VStack
                   alignItems="flex-start"
                   textStyle="caption"

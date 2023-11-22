@@ -14,6 +14,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { GiBookshelf } from 'react-icons/gi';
+import { FaEyeSlash } from "react-icons/fa";
 
 const BookCard = ({
   title,
@@ -63,7 +64,7 @@ const BookCard = ({
                 {author_name}
               </Text>
             </Flex>
-            <Flex justifyContent="space-between">
+            <Flex width="100%" justifyContent="space-between">
               <Flex alignItems="center" color={countsColor} gap="4px">
                 <GiBookshelf size={14} />
                 <Text textStyle="subtitle-2">
@@ -76,7 +77,7 @@ const BookCard = ({
                 ''
               ) : (
                 <Flex alignItems="center" color={countsColor} gap="4px">
-                  <GiBookshelf size={14} />
+                  <FaEyeSlash size={14} />
                   <Text textStyle="subtitle-2">
                     {new Intl.NumberFormat(undefined, {
                       notation: 'compact'

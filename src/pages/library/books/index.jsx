@@ -25,7 +25,7 @@ import {
 import { LibraryPageLayout } from 'components/Layouts';
 import { FormInputField, SearchInputField } from 'components/Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
-import { createBook, viewLibrary } from 'services/api/queries/library';
+import { createBook, viewLibrary, viewLibraryAsManager } from 'services/api/queries/library';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from 'utils/objects';
 import { iff } from 'utils/helpers';
@@ -40,15 +40,14 @@ import { errorToast, successToast } from 'utils/toast';
 import useUserRoles from 'hooks/useUserRoles';
 
 const Books = () => {
-  const { isProprietor } = useUserRoles();
-
+  const { isProprietor, isLibrarian } = useUserRoles();
   const {
     data: viewLibraryResponse,
     isLoading,
     refetch
   } = useQuery({
-    queryKey: ['viewLibrary'],
-    queryFn: viewLibrary,
+    queryKey: ['viewLibrary', isProprietor, isLibrarian],
+    queryFn: isProprietor || isLibrarian ? viewLibraryAsManager : viewLibrary,
     refetchOnWindowFocus: true
   });
 

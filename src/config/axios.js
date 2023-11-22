@@ -48,7 +48,7 @@ export const getUser = () => {
 
 export const getStoredRoleId = () => {
   if (typeof window !== 'undefined') {
-    const role_id = JSON.parse(localStorage.getItem('role_id'));
+    const role_id = localStorage.getItem('role_id');
     return role_id;
   }
   return null;
