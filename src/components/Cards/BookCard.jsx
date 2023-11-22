@@ -17,20 +17,27 @@ import {
   VStack,
   useColorModeValue
 } from '@chakra-ui/react';
-import { PiBooksDuotone } from "react-icons/pi";
-import { TbBooksOff } from "react-icons/tb";
+import { PiBooksDuotone } from 'react-icons/pi';
 import { borrowBook, deleteBook } from 'services/api/queries/library';
 import { errorToast, successToast } from 'utils/toast';
 import { getAxiosErrorDetail } from 'utils/objects';
 import { useMutation } from '@tanstack/react-query';
 import { MdDelete, MdModeEdit } from 'react-icons/md';
+import { LuBookUp } from 'react-icons/lu';
+import { IconBookQuantity } from 'components/DataDisplay';
+import { TbBooksOff } from 'react-icons/tb';
 
 const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onClickEditBook }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
-  const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
-  const { title, author_name, description, public_shelf_quantity, private_shelf_quantity } =
-    details;
+  const {
+    title,
+    author_name,
+    description,
+    public_shelf_quantity,
+    private_shelf_quantity,
+    current_borrow_count
+  } = details;
 
   const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
     mutationFn: borrowBook,
@@ -93,27 +100,22 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
                 {author_name}
               </Text>
             </Flex>
-            <Flex width="100%" justifyContent="space-between">
-              <Flex alignItems="center" color={countsColor} gap="4px">
-                <PiBooksDuotone  size={14} />
-                <Text textStyle="subtitle-2">
-                  {new Intl.NumberFormat(undefined, {
-                    notation: 'compact'
-                  }).format(public_shelf_quantity)}
-                </Text>
+            <Flex width="100%" justifyContent="space-between" alignItems="end">
+              <Flex flex={1} justifyContent="space-between">
+                <IconBookQuantity quantity={current_borrow_count} icon={<LuBookUp size={12} />} />
+                <IconBookQuantity
+                  quantity={public_shelf_quantity}
+                  icon={<PiBooksDuotone size={14} />}
+                />
               </Flex>
-              {Number.isNaN(parseFloat(private_shelf_quantity)) ? (
-                ''
-              ) : (
-                <Flex alignItems="center" color={countsColor} gap="4px">
-                  <TbBooksOff size={14} />
-                  <Text textStyle="subtitle-2">
-                    {new Intl.NumberFormat(undefined, {
-                      notation: 'compact'
-                    }).format(private_shelf_quantity)}
-                  </Text>
-                </Flex>
-              )}
+              <IconBookQuantity
+                containerProps={{
+                  flex: 2,
+                  justifyContent: 'flex-end'
+                }}
+                quantity={private_shelf_quantity}
+                icon={<TbBooksOff size={14} />}
+              />
             </Flex>
           </VStack>
         </Box>
@@ -148,12 +150,23 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
           <Text>{description}</Text>
         </PopoverBody>
         <PopoverFooter display="flex" alignItems="center" justifyContent="space-between">
-          <VStack spacing="8px" alignItems="flex-start">
+          <VStack spacing="2px" alignItems="flex-start">
+            {Number.isNaN(parseFloat(current_borrow_count)) ? (
+              ''
+            ) : (
+              <Text textStyle="subtitle-1">
+                Borrowed:&nbsp;
+                {new Intl.NumberFormat(undefined, {
+                  notation: 'compact'
+                }).format(current_borrow_count)}
+              </Text>
+            )}
             {Number.isNaN(parseFloat(public_shelf_quantity)) ? (
               ''
             ) : (
               <Text textStyle="subtitle-1">
-                {isProprietor || isLibrarian ? 'Public shelf quantity' : 'On shelf quantity'}:&nbsp;
+                {isProprietor || isLibrarian ? 'Public shelf' : 'Total'}
+                :&nbsp;
                 {new Intl.NumberFormat(undefined, {
                   notation: 'compact'
                 }).format(public_shelf_quantity)}
@@ -163,14 +176,14 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
               ''
             ) : (
               <Text textStyle="subtitle-1">
-                Private shelf quantity:&nbsp;
+                Private shelf:&nbsp;
                 {new Intl.NumberFormat(undefined, {
                   notation: 'compact'
                 }).format(private_shelf_quantity)}
               </Text>
             )}
           </VStack>
-          <ButtonGroup size="sm" fontSize="16px" justifyContent="end">
+          <ButtonGroup size="sm" fontSize="16px" justifyContent="end" marginTop="auto">
             {isBorrower ? (
               <Button
                 variant="primary_action"
