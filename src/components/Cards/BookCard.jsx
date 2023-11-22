@@ -27,7 +27,15 @@ import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from 'components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
 
-const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onClickEditBook }) => {
+const BookCard = ({
+  details,
+  isLibrarian,
+  isBorrower,
+  isProprietor,
+  refetch,
+  onClickEditBook,
+  isBorrowView
+}) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const {
@@ -194,7 +202,7 @@ const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onC
                 }
                 isLoading={mutateBorrowBookIsPending}
                 fontSize="inherit">
-                Borrow
+                {isBorrowView ? 'Return' : 'Borrow'}
               </Button>
             ) : (
               ''

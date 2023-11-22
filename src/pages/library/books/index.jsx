@@ -29,15 +29,16 @@ import {
   createBook,
   editBookDetails,
   editQuantity,
+  viewBorrowedBooks,
   viewLibrary,
   viewLibraryAsManager
 } from 'services/api/queries/library';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from 'utils/objects';
-import { iff } from 'utils/helpers';
+import { bookSearch, iff } from 'utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
 import { BookCard } from 'components/Cards';
-import { AddBookButton } from 'components/Buttons';
+import { AddBookButton, FilterBooksButton } from 'components/Buttons';
 import { useRef, useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -48,38 +49,61 @@ import useUserRoles from 'hooks/useUserRoles';
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
   const [searchText, setSearchText] = useState('');
+  const [isAllBooksQuery, setIsAllBooksQuery] = useState(true);
 
   const {
     data: viewLibraryResponse,
-    isLoading,
+    isLoading: viewLibraryIsLoading,
     refetch
   } = useQuery({
-    queryKey: ['viewLibrary', isProprietor, isLibrarian],
+    enabled: isAllBooksQuery,
+    queryKey: ['viewLibrary', isProprietor, isLibrarian, isAllBooksQuery],
     queryFn: isProprietor || isLibrarian ? viewLibraryAsManager : viewLibrary,
     refetchOnWindowFocus: true,
     select: (queryResponse) => {
-      let books = getOr(queryResponse, 'data', []);
-      if (searchText)
-        books = books.filter(
-          (book) =>
-            book.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
-            book.author_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
-            book.description.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-        );
-      return { ...queryResponse, data: books };
+      const books = getOr(queryResponse, 'data', []);
+      return { ...queryResponse, data: searchText ? bookSearch(books, searchText) : books };
+    }
+  });
+
+  const {
+    data: viewBorrowedBooksResponse,
+    isLoading: isLoadingBorrowedBooks,
+    refetch: refetchBorrowedBooks
+  } = useQuery({
+    enabled: isBorrower && !isAllBooksQuery,
+    queryKey: ['viewBorrowedBooks', isBorrower, isAllBooksQuery],
+    queryFn: viewBorrowedBooks,
+    refetchOnWindowFocus: true,
+    select: (queryResponse) => {
+      const books = getOr(queryResponse, 'data', []).map((borrowData) => ({
+        borrowData,
+        borrow_id: borrowData.id,
+        ...borrowData.book
+      }));
+      return { ...queryResponse, data: searchText ? bookSearch(books, searchText) : books };
     }
   });
 
   const [selectedEditBook, setSelectedEditBook] = useState(null);
   const [editingQuantity, setEditingQuantity] = useState(false);
 
-  const libraryBooks = getOr(viewLibraryResponse, 'data', []);
+  const bookList = getOr(
+    isAllBooksQuery ? viewLibraryResponse : viewBorrowedBooksResponse,
+    'data',
+    []
+  );
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleModalClose = () => {
     setSelectedEditBook(null);
     onClose();
+  };
+
+  const handleRefetch = () => {
+    refetch();
+    refetchBorrowedBooks();
   };
 
   const formikRef = useRef(null);
@@ -114,7 +138,7 @@ const Books = () => {
     onSuccess: () => {
       formikRef.current.resetForm();
       handleModalClose();
-      refetch();
+      handleRefetch();
       successToast({ message: 'book added' });
     },
     onError: (error) => {
@@ -126,7 +150,7 @@ const Books = () => {
     mutationFn: editBookDetails,
     mutationKey: 'editBookDetails',
     onSuccess: () => {
-      refetch();
+      handleRefetch();
       successToast({ message: 'book details edited' });
     },
     onError: (error) => {
@@ -139,7 +163,7 @@ const Books = () => {
     mutationKey: 'editQuantity',
     onSuccess: () => {
       setEditingQuantity(false);
-      refetch();
+      handleRefetch();
       successToast({ message: 'book quantity edited' });
     },
     onError: (error) => {
@@ -163,21 +187,34 @@ const Books = () => {
         </Flex>
       }
       showHeroSection>
+      {isBorrower || isProprietor ? (
+        <Flex gap="12px" marginBottom="10px">
+          <FilterBooksButton isActive={isAllBooksQuery} onClick={() => setIsAllBooksQuery(true)}>
+            All
+          </FilterBooksButton>
+          <FilterBooksButton isActive={!isAllBooksQuery} onClick={() => setIsAllBooksQuery(false)}>
+            Borrowed
+          </FilterBooksButton>
+        </Flex>
+      ) : (
+        ''
+      )}
       {iff(
-        isLoading,
+        viewLibraryIsLoading || isLoadingBorrowedBooks,
         <Center height="400px">
           <Spinner color="primary.500" />
         </Center>,
-        libraryBooks.length === 0 ? (
+        bookList.length === 0 ? (
           <Center height="400px" textStyle="headline-5-medium" flexDirection="column">
             <GiCrossMark />
             <Text>No book found</Text>
           </Center>
         ) : (
           <Wrap spacing="18px">
-            {getOr(viewLibraryResponse, 'data', []).map((data) => {
+            {bookList.map((data) => {
               const details = { ...data };
               if (!isProprietor) delete details.private_shelf_quantity;
+              if (!isAllBooksQuery) delete details.public_shelf_quantity;
               return (
                 <BookCard
                   key={data.id}
@@ -185,11 +222,12 @@ const Books = () => {
                   isBorrower={isBorrower}
                   isProprietor={isProprietor}
                   isLibrarian={isLibrarian}
-                  refetch={refetch}
+                  refetch={handleRefetch}
                   onClickEditBook={() => {
                     setSelectedEditBook(data);
                     onOpen();
                   }}
+                  isBorrowView={!isAllBooksQuery}
                 />
               );
             })}
@@ -237,7 +275,6 @@ const Books = () => {
           }
           validateOnChange={false}
           onSubmit={(values) => {
-            console.log('values :>> ', values);
             if (isEmpty(selectedEditBook)) {
               mutateCreateBook({
                 title: get(values, 'title'),

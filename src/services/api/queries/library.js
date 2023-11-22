@@ -80,7 +80,7 @@ export const viewBorrowedBooks = async () => {
       Authorization: getAuthToken()
     }
   });
-  return res;
+  return getAxiosResponseBody(res);
 };
 
 export const borrowBook = async (data) => {
