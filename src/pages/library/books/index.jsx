@@ -47,6 +47,8 @@ import useUserRoles from 'hooks/useUserRoles';
 
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
+  const [searchText, setSearchText] = useState('');
+
   const {
     data: viewLibraryResponse,
     isLoading,
@@ -54,7 +56,18 @@ const Books = () => {
   } = useQuery({
     queryKey: ['viewLibrary', isProprietor, isLibrarian],
     queryFn: isProprietor || isLibrarian ? viewLibraryAsManager : viewLibrary,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
+    select: (queryResponse) => {
+      let books = getOr(queryResponse, 'data', []);
+      if (searchText)
+        books = books.filter(
+          (book) =>
+            book.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+            book.author_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+            book.description.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        );
+      return { ...queryResponse, data: books };
+    }
   });
 
   const [selectedEditBook, setSelectedEditBook] = useState(null);
@@ -142,7 +155,8 @@ const Books = () => {
           <SearchInputField
             containerProps={{ flex: 1 }}
             inputFieldProps={{
-              placeholder: 'Search'
+              placeholder: 'Search',
+              onChange: (e) => setSearchText(e.target.value)
             }}
           />
           <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
