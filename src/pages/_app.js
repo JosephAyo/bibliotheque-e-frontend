@@ -72,6 +72,17 @@ const theme = extendTheme({
             }
           },
           ...chakraThemeTextStyles.button
+        }),
+        // used as <Button variant="delete_action">
+        delete_action: (_props) => ({
+          color: 'whiteAlpha.900',
+          backgroundColor: 'red.500',
+          _hover: {
+            _disabled: {
+              backgroundColor: 'red.500'
+            }
+          },
+          ...chakraThemeTextStyles.button
         })
       }
     },

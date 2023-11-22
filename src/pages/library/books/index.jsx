@@ -25,12 +25,7 @@ import {
 import { LibraryPageLayout } from 'components/Layouts';
 import { FormInputField, SearchInputField } from 'components/Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
-import {
-  borrowBook,
-  createBook,
-  viewLibrary,
-  viewLibraryAsManager
-} from 'services/api/queries/library';
+import { createBook, viewLibrary, viewLibraryAsManager } from 'services/api/queries/library';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from 'utils/objects';
 import { iff } from 'utils/helpers';
@@ -86,18 +81,6 @@ const Books = () => {
     }
   });
 
-  const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
-    mutationFn: borrowBook,
-    mutationKey: 'borrowBook',
-    onSuccess: () => {
-      refetch();
-      successToast({ message: 'book borrowed' });
-    },
-    onError: (error) => {
-      errorToast({ message: getAxiosErrorDetail(error) });
-    }
-  });
-
   return (
     <LibraryPageLayout
       pageTitle="Books"
@@ -134,12 +117,7 @@ const Books = () => {
                   details={details}
                   isBorrower={isBorrower}
                   isProprietor={isProprietor}
-                  onClickBorrow={() =>
-                    mutateBorrowBook({
-                      book_id: data.id
-                    })
-                  }
-                  isBorrowing={mutateBorrowBookIsPending}
+                  refetch={refetch}
                 />
               );
             })}

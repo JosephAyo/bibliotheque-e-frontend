@@ -18,20 +18,41 @@ import {
 } from '@chakra-ui/react';
 import { GiBookshelf } from 'react-icons/gi';
 import { FaEyeSlash } from 'react-icons/fa';
+import { borrowBook, deleteBook } from 'services/api/queries/library';
+import { errorToast, successToast } from 'utils/toast';
+import { getAxiosErrorDetail } from 'utils/objects';
+import { useMutation } from '@tanstack/react-query';
 
-const BookCard = ({
-  details,
-  isBorrower,
-  isProprietor,
-  onClickBorrow,
-  onClickEdit,
-  isBorrowing
-}) => {
+const BookCard = ({ details, isBorrower, isProprietor, refetch }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
   const { title, author_name, description, public_shelf_quantity, private_shelf_quantity } =
     details;
+
+  const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
+    mutationFn: borrowBook,
+    mutationKey: 'borrowBook',
+    onSuccess: () => {
+      refetch();
+      successToast({ message: 'book borrowed' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateDeleteBook, isPending: mutateDeleteBookIsPending } = useMutation({
+    mutationFn: deleteBook,
+    mutationKey: 'deleteBook',
+    onSuccess: () => {
+      refetch();
+      successToast({ message: 'book deleted' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
 
   return (
     <Popover placement="right-start">
@@ -129,18 +150,42 @@ const BookCard = ({
           alignItems="center"
           justifyContent="space-between"
           pb={4}>
-          <ButtonGroup width="100%" size="sm" justifyContent="end">
+          <ButtonGroup width="100%" size="sm" fontSize="16px" justifyContent="end">
             {isBorrower ? (
-              <Button variant="primary_action" onClick={onClickBorrow} isLoading={isBorrowing}>
+              <Button
+                variant="primary_action"
+                onClick={() =>
+                  mutateBorrowBook({
+                    book_id: details.id
+                  })
+                }
+                isLoading={mutateBorrowBookIsPending}
+                fontSize="inherit">
                 Borrow
               </Button>
             ) : (
               ''
             )}
             {isProprietor ? (
-              <Button variant="primary_action" onClick={() => onClickEdit(details)}>
-                Edit
-              </Button>
+              <>
+                <Button
+                  variant="primary_action"
+                  onClick={() =>
+                    mutateBorrowBook({
+                      book_id: details.id
+                    })
+                  }
+                  fontSize="inherit">
+                  Edit
+                </Button>
+                <Button
+                  variant="delete_action"
+                  onClick={() => mutateDeleteBook(details.id)}
+                  isLoading={mutateDeleteBookIsPending}
+                  fontSize="inherit">
+                  Delete
+                </Button>
+              </>
             ) : (
               ''
             )}
