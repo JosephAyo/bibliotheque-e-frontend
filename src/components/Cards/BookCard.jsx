@@ -23,7 +23,7 @@ import { errorToast, successToast } from 'utils/toast';
 import { getAxiosErrorDetail } from 'utils/objects';
 import { useMutation } from '@tanstack/react-query';
 
-const BookCard = ({ details, isBorrower, isProprietor, refetch, onClickEditBook }) => {
+const BookCard = ({ details, isLibrarian, isBorrower, isProprietor, refetch, onClickEditBook }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const countsColor = useColorModeValue('primaryLight.default', 'primaryDark.default');
@@ -146,7 +146,29 @@ const BookCard = ({ details, isBorrower, isProprietor, refetch, onClickEditBook 
           <Text>{description}</Text>
         </PopoverBody>
         <PopoverFooter display="flex" alignItems="center" justifyContent="space-between">
-          <ButtonGroup width="100%" size="sm" fontSize="16px" justifyContent="end">
+          <VStack spacing="8px" alignItems="flex-start">
+            {Number.isNaN(parseFloat(public_shelf_quantity)) ? (
+              ''
+            ) : (
+              <Text textStyle="subtitle-1">
+                {isProprietor || isLibrarian ? 'Public shelf quantity' : 'On shelf quantity'}:&nbsp;
+                {new Intl.NumberFormat(undefined, {
+                  notation: 'compact'
+                }).format(public_shelf_quantity)}
+              </Text>
+            )}
+            {Number.isNaN(parseFloat(private_shelf_quantity)) ? (
+              ''
+            ) : (
+              <Text textStyle="subtitle-1">
+                Private shelf quantity:&nbsp;
+                {new Intl.NumberFormat(undefined, {
+                  notation: 'compact'
+                }).format(private_shelf_quantity)}
+              </Text>
+            )}
+          </VStack>
+          <ButtonGroup size="sm" fontSize="16px" justifyContent="end">
             {isBorrower ? (
               <Button
                 variant="primary_action"

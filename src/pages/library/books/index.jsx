@@ -170,6 +170,7 @@ const Books = () => {
                   details={details}
                   isBorrower={isBorrower}
                   isProprietor={isProprietor}
+                  isLibrarian={isLibrarian}
                   refetch={refetch}
                   onClickEditBook={() => {
                     setSelectedEditBook(data);
