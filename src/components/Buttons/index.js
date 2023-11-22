@@ -1,4 +1,4 @@
 import AuthFormActionButton from './AuthFormActionButton';
+import AddBookButton from './AddBookButton';
 
-export { AuthFormActionButton };
-export default AuthFormActionButton;
+export { AuthFormActionButton, AddBookButton  };

@@ -8,6 +8,7 @@ import { getOr } from 'utils/objects';
 import { iff } from 'utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
 import { BookCard } from 'components/Cards';
+import { AddBookButton } from 'components/Buttons';
 
 const Books = () => {
   const { data: viewLibraryResponse, isLoading } = useQuery({
@@ -47,6 +48,7 @@ const Books = () => {
             {getOr(viewLibraryResponse, 'data', []).map((data) => (
               <BookCard key={data.id} {...data} />
             ))}
+            <AddBookButton />
           </Wrap>
         )
       )}
