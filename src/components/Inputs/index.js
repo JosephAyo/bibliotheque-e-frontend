@@ -1,5 +1,5 @@
-import AuthFormInputField from './AuthFormInputField';
+import FormInputField from './FormInputField';
 import SearchInputField from './SearchInputField';
 import OtpInputField from './OtpInputField';
 
-export { AuthFormInputField, SearchInputField, OtpInputField };
+export { FormInputField, SearchInputField, OtpInputField };

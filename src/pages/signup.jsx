@@ -1,7 +1,7 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { AuthFormActionButton } from 'components/Buttons';
-import { AuthFormInputField } from 'components/Inputs';
+import { FormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
@@ -62,33 +62,33 @@ const Signup = () => {
               layerStyle="auth_form_container">
               <Text textStyle="headline-5-medium">Create account</Text>
               <VStack align="stretch" width="100%" spacing="22px">
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="First name"
                   hasError={get(errors, 'first_name')}
                   errorText={get(errors, 'first_name')}
                   inputFieldProps={{
                     name: 'first_name',
                     placeholder: 'John',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'first_name'),
                     onChange: (e) => setFieldValue('first_name', e.target.value, !isEmpty(errors)),
                     autoComplete: 'given-name'
                   }}
                 />
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="Last name"
                   hasError={get(errors, 'last_name')}
                   errorText={get(errors, 'last_name')}
                   inputFieldProps={{
                     name: 'last_name',
                     placeholder: 'Doe',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'last_name'),
                     onChange: (e) => setFieldValue('last_name', e.target.value, !isEmpty(errors)),
                     autoComplete: 'family-name'
                   }}
                 />
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="Email"
                   hasError={get(errors, 'email')}
                   errorText={get(errors, 'email')}
@@ -96,13 +96,13 @@ const Signup = () => {
                     name: 'email',
                     placeholder: 'example@email.com',
                     type: 'email',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'email'),
                     onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors)),
                     autoComplete: 'email'
                   }}
                 />
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="Password"
                   hasError={get(errors, 'password')}
                   errorText={get(errors, 'password')}
@@ -110,7 +110,7 @@ const Signup = () => {
                     name: 'password',
                     placeholder: '******',
                     type: 'password',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'password'),
                     onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors)),
                     autoComplete: 'current-password'

@@ -77,17 +77,36 @@ const theme = extendTheme({
     },
     Input: {
       variants: {
-        // used as <Input variant="auth_plain">
-        auth_plain: (_props) => ({
+        // used as <Input variant="plain">
+        plain: (_props) => ({
           field: {
             backgroundColor: mode('white', 'unset')(_props)
           }
         }),
-        // used as <Input variant="auth_filled">
-        auth_filled: (_props) => ({
+        // used as <Input variant="themed">
+        themed: (_props) => ({
           field: {
             backgroundColor: mode('#f6f6f6', 'gray.600')(_props)
           }
+        })
+      }
+    },
+    NumberInput: {
+      variants: {
+        // used as <Input variant="themed">
+        themed: (_props) => ({
+          field: {
+            backgroundColor: mode('#f6f6f6', 'gray.600')(_props)
+          }
+        })
+      }
+    },
+    Textarea: {
+      variants: {
+        // used as <Textarea variant="themed">
+        themed: (_props) => ({
+          backgroundColor: mode('#f6f6f6', 'gray.600')(_props),
+          borderWidth: '1px'
         })
       }
     },

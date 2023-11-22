@@ -1,7 +1,7 @@
 import { Text, VStack, Box, Button } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { AuthFormActionButton } from 'components/Buttons';
-import { AuthFormInputField, OtpInputField } from 'components/Inputs';
+import { FormInputField, OtpInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
@@ -163,7 +163,7 @@ const ResetPassword = () => {
             </Text>
             <VStack align="stretch" width="100%" spacing="22px">
               {phase === 0 ? (
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="Email"
                   hasError={get(errors, 'email')}
                   errorText={get(errors, 'email')}
@@ -171,7 +171,7 @@ const ResetPassword = () => {
                     name: 'email',
                     placeholder: 'example@email.com',
                     type: 'email',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'email'),
                     onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors))
                   }}
@@ -206,7 +206,7 @@ const ResetPassword = () => {
               )}
               {phase === 2 ? (
                 <>
-                  <AuthFormInputField
+                  <FormInputField
                     fieldLabel="Password"
                     hasError={get(errors, 'password')}
                     errorText={get(errors, 'password')}
@@ -214,12 +214,12 @@ const ResetPassword = () => {
                       name: 'password',
                       placeholder: '******',
                       type: 'password',
-                      variant: 'auth_plain',
+                      variant: 'plain',
                       value: get(values, 'password'),
                       onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors))
                     }}
                   />
-                  <AuthFormInputField
+                  <FormInputField
                     fieldLabel="Confirm password"
                     hasError={get(errors, 'confirm_password')}
                     errorText={get(errors, 'confirm_password')}
@@ -227,7 +227,7 @@ const ResetPassword = () => {
                       name: 'confirm_password',
                       placeholder: '******',
                       type: 'password',
-                      variant: 'auth_plain',
+                      variant: 'plain',
                       value: get(values, 'confirm_password'),
                       onChange: (e) =>
                         setFieldValue('confirm_password', e.target.value, !isEmpty(errors))

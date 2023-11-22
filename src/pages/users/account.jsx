@@ -15,7 +15,7 @@ import {
   Tag
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { AuthFormInputField } from 'components/Inputs';
+import { FormInputField } from 'components/Inputs';
 import { UserAccountPageLayout } from 'components/Layouts';
 import { AuthorizationGate } from 'components/Wrappers';
 import { Formik } from 'formik';
@@ -119,38 +119,38 @@ const Account = () => {
           enableReinitialize>
           {({ values, errors, handleSubmit, setFieldValue }) => (
             <>
-              <AuthFormInputField
+              <FormInputField
                 fieldLabel="First name"
                 hasError={get(errors, 'first_name')}
                 errorText={get(errors, 'first_name')}
                 inputFieldProps={{
                   name: 'first_name',
                   placeholder: 'John',
-                  variant: 'auth_plain',
+                  variant: 'plain',
                   value: get(values, 'first_name'),
                   onChange: (e) => setFieldValue('first_name', e.target.value, !isEmpty(errors))
                 }}
               />
-              <AuthFormInputField
+              <FormInputField
                 fieldLabel="Last name"
                 hasError={get(errors, 'last_name')}
                 errorText={get(errors, 'last_name')}
                 inputFieldProps={{
                   name: 'last_name',
                   placeholder: 'Doe',
-                  variant: 'auth_plain',
+                  variant: 'plain',
                   value: get(values, 'last_name'),
                   onChange: (e) => setFieldValue('last_name', e.target.value, !isEmpty(errors))
                 }}
               />
-              <AuthFormInputField
+              <FormInputField
                 fieldLabel="Email"
                 inputFieldProps={{
                   name: 'email',
                   placeholder: 'example@email.com',
                   type: 'email',
                   isDisabled: true,
-                  variant: 'auth_filled',
+                  variant: 'themed',
                   value: get(values, 'email')
                 }}
               />
@@ -195,14 +195,14 @@ const Account = () => {
         </Box>
         <br />
         <form>
-          <AuthFormInputField
+          <FormInputField
             fieldLabel="Current password"
             inputFieldProps={{
               name: 'password',
               placeholder: '******',
               type: 'password',
               isDisabled: true,
-              variant: 'auth_filled',
+              variant: 'themed',
               autoComplete: 'off'
             }}
           />
@@ -241,20 +241,20 @@ const Account = () => {
               <ModalCloseButton />
               <ModalBody pb={6}>
                 <form>
-                  <AuthFormInputField
+                  <FormInputField
                     inputFieldProps={{
                       name: 'email',
                       placeholder: 'example@email.com',
                       type: 'email',
                       isDisabled: true,
-                      variant: 'auth_filled',
+                      variant: 'themed',
                       value: get(values, 'email'),
                       display: 'none',
                       autoComplete: 'email'
                     }}
                   />
                   <VStack align="stretch" width="100%" spacing="22px">
-                    <AuthFormInputField
+                    <FormInputField
                       fieldLabel="Current password"
                       hasError={get(errors, 'current_password')}
                       errorText={get(errors, 'current_password')}
@@ -262,7 +262,7 @@ const Account = () => {
                         name: 'password',
                         placeholder: '******',
                         type: 'password',
-                        variant: 'auth_filled',
+                        variant: 'themed',
                         ref: initialRef,
                         value: get(values, 'current_password'),
                         onChange: (e) =>
@@ -270,14 +270,14 @@ const Account = () => {
                         autoComplete: 'current-password'
                       }}
                     />
-                    <AuthFormInputField
+                    <FormInputField
                       fieldLabel="New password"
                       hasError={get(errors, 'new_password')}
                       errorText={get(errors, 'new_password')}
                       inputFieldProps={{
                         name: 'new_password',
                         placeholder: '******',
-                        variant: 'auth_filled',
+                        variant: 'themed',
                         type: 'password',
                         value: get(values, 'new_password'),
                         onChange: (e) =>

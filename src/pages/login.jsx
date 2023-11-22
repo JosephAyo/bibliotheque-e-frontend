@@ -1,5 +1,5 @@
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
-import { AuthFormInputField } from 'components/Inputs';
+import { FormInputField } from 'components/Inputs';
 import { AuthPageLayout } from 'components/Layouts';
 import { AuthFormActionButton } from 'components/Buttons';
 import Link from 'next/link';
@@ -59,7 +59,7 @@ const Login = () => {
               layerStyle="auth_form_container">
               <Text textStyle="headline-5-medium">Log In</Text>
               <VStack align="stretch" width="100%" spacing="22px">
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="Email"
                   hasError={get(errors, 'email')}
                   errorText={get(errors, 'email')}
@@ -67,13 +67,13 @@ const Login = () => {
                     name: 'email',
                     placeholder: 'example@email.com',
                     type: 'email',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'email'),
                     onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors)),
                     autoComplete: 'email'
                   }}
                 />
-                <AuthFormInputField
+                <FormInputField
                   fieldLabel="Password"
                   hasError={get(errors, 'password')}
                   errorText={get(errors, 'password')}
@@ -81,7 +81,7 @@ const Login = () => {
                     name: 'password',
                     placeholder: '******',
                     type: 'password',
-                    variant: 'auth_plain',
+                    variant: 'plain',
                     value: get(values, 'password'),
                     onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors)),
                     autoComplete: 'current-password'
