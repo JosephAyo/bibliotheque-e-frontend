@@ -114,7 +114,6 @@ const queryClient = new QueryClient({
         queryCacheError: error
       });
       if (error && error instanceof AxiosError && query.queryKey.includes('viewProfile')) {
-        // clearCurrentUser();
         useAppStore.getState().userSlice.clearCurrentUser();
       }
       // if (query.state.data !== undefined) {

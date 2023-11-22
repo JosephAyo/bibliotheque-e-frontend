@@ -31,8 +31,11 @@ export const setStoredRoleId = (role_id) => {
 };
 
 export const getAuthToken = () => {
-  const AUTH_TOKEN = localStorage.getItem('token');
-  return AUTH_TOKEN;
+  if (typeof window !== 'undefined') {
+    const AUTH_TOKEN = localStorage.getItem('token');
+    return AUTH_TOKEN;
+  }
+  return null;
 };
 
 export const getUser = () => {

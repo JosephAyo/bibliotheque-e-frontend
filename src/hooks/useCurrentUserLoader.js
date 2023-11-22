@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getStoredRoleId } from 'config/axios';
+import { getAuthToken, getStoredRoleId } from 'config/axios';
 import useAppStore from 'lib/store';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { useCallback, useEffect } from 'react';
 import { viewProfile } from 'services/api/queries/users';
 import { getAxiosResponseBody, getOr } from 'utils/objects';
@@ -12,6 +12,7 @@ const useCurrentUserLoader = () => {
   } = useAppStore();
 
   const { data, isFetching } = useQuery({
+    enabled: !isEmpty(getAuthToken()),
     queryKey: ['viewProfile'],
     queryFn: viewProfile,
     refetchOnWindowFocus: true
