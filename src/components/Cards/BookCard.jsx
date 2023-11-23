@@ -44,7 +44,8 @@ const BookCard = ({
     description,
     public_shelf_quantity,
     private_shelf_quantity,
-    current_borrow_count
+    current_borrow_count,
+    img_url
   } = details;
 
   const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
@@ -95,8 +96,8 @@ const BookCard = ({
           cursor="pointer">
           <Box position="relative">
             <Image
-              src="https://picsum.photos/500"
-              alt="Picture of the author"
+              src={img_url}
+              alt="book img"
               fill
               style={{
                 objectFit: 'cover',
