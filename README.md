@@ -16,6 +16,12 @@ This is the frontend application for Bibilotheque-E
 git clone https://github.com/JosephAyo/bibliotheque-e-frontend && cd bibliotheque-e-frontend
 ```
 
+### Create gitignored files
+
+They are:
+
+* .env.local using the .env.local.example as a template
+
 ### Switch node version
 
 ```bash
