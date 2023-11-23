@@ -870,6 +870,33 @@
   resolved "https://registry.npmjs.org/@chakra-ui/visually-hidden/-/visually-hidden-2.2.0.tgz#9b0ecef8f01263ab808ba3bda7b36a0d91b4d5c1"
   integrity sha512-KmKDg01SrQ7VbTD3+cPWf/UfpF5MSwm3v7MWi0n5t8HnnadT13MF0MJCDSXbBWnzLv1ZKJ6zlyAOeARWX+DpjQ==
 
+"@cloudinary-util/url-loader@^3.15.0":
+  version "3.15.0"
+  resolved "https://registry.npmjs.org/@cloudinary-util/url-loader/-/url-loader-3.15.0.tgz#5d0be96079cf4ccae960d336adbdcc9595f85b60"
+  integrity sha512-1Xq/woN0cngKY9e1EBgClomkOSmEy+yriBYqy5FUelxc0bCCZXNTMpkhssdUVnMXJbm8TIOBmqgVfqH5u0/DtQ==
+  dependencies:
+    "@cloudinary-util/util" "2.3.0"
+    "@cloudinary/url-gen" "^1.10.2"
+
+"@cloudinary-util/util@2.3.0", "@cloudinary-util/util@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/@cloudinary-util/util/-/util-2.3.0.tgz#8a2a7ad3d3f089c2fff08f53eaddd50e946048f1"
+  integrity sha512-0Gojd+ZRQjJQmlBEAa8Ua94amvx7uWHoUzVUEGi1S8bgF1wPcMqG07cSUGQfRwHsFQ/9XOesx76Df622E+CevA==
+
+"@cloudinary/transformation-builder-sdk@^1.7.0":
+  version "1.8.0"
+  resolved "https://registry.npmjs.org/@cloudinary/transformation-builder-sdk/-/transformation-builder-sdk-1.8.0.tgz#c5146a9b00da92c1fb7e42fda684987bb39bc5cb"
+  integrity sha512-/QLSDDI+rfYH3bFH+DpgEk8NgSoeqwiea9GW5VXplcpebQOOcFqOzNFM6Hlik3PDqq4JMP4s3E7BoPZ1Rdk/IQ==
+  dependencies:
+    "@cloudinary/url-gen" "^1.7.0"
+
+"@cloudinary/url-gen@^1.10.2", "@cloudinary/url-gen@^1.7.0":
+  version "1.13.0"
+  resolved "https://registry.npmjs.org/@cloudinary/url-gen/-/url-gen-1.13.0.tgz#31674b737b5176e8286c07b413b723c8ecf5b2b5"
+  integrity sha512-p7ASCX2fZw1JWtMG2ADd/Y0TfvE5SX9v0TDJDlzXX3OlNxLSuqzLWGgj5oJD4ZTo62FdxH24N8HPZ7NXEXtj5g==
+  dependencies:
+    "@cloudinary/transformation-builder-sdk" "^1.7.0"
+
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
   resolved "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz#c2d872b6a7767a9d176d007f5b31f7d504bb5d6c"
@@ -3011,6 +3038,14 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
+
+next-cloudinary@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.npmjs.org/next-cloudinary/-/next-cloudinary-5.7.0.tgz#0d3cb1d33203a5b550f3462d67bbd9244039d38d"
+  integrity sha512-5Zk01Dur4tbTJOI2sd0R6KEE0w79ywSjdkOK1hdvQ/jm0Utj8JAovQo96S7/AWY9ZbqSz7MiEAkkzgtRtuxRqQ==
+  dependencies:
+    "@cloudinary-util/url-loader" "^3.15.0"
+    "@cloudinary-util/util" "^2.3.0"
 
 next@14.0.2:
   version "14.0.2"

@@ -37,7 +37,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from 'utils/objects';
 import { bookSearch, iff } from 'utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
-import { BookCard } from 'components/Cards';
+import { BookCard, ImageUpload } from 'components/Cards';
 import { AddBookButton, FilterBooksButton } from 'components/Buttons';
 import { useRef, useState } from 'react';
 import { Formik } from 'formik';
@@ -173,6 +173,8 @@ const Books = () => {
     }
   });
 
+  const isInCreatingMode = isEmpty(selectedEditBook);
+
   return (
     <LibraryPageLayout
       pageTitle="Books"
@@ -189,7 +191,7 @@ const Books = () => {
         </Flex>
       }
       showHeroSection>
-      {isBorrower || isProprietor ? (
+      {isBorrower ? (
         <Flex gap="12px" marginBottom="10px">
           <FilterBooksButton isActive={isAllBooksQuery} onClick={() => setIsAllBooksQuery(true)}>
             All
@@ -253,16 +255,17 @@ const Books = () => {
             formikRef.current = ref;
           }}
           validationSchema={iff(
-            isEmpty(selectedEditBook),
+            isInCreatingMode,
             createBookValidationSchema,
             editingQuantity ? editBookQuantityValidationSchema : editBookDetailsValidationSchema
           )}
           initialValues={
-            isEmpty(selectedEditBook)
+            isInCreatingMode
               ? {
                   title: '',
                   author_name: '',
                   description: '',
+                  img_url: '',
                   public_shelf_quantity: '',
                   private_shelf_quantity: ''
                 }
@@ -271,17 +274,19 @@ const Books = () => {
                   title: selectedEditBook.title,
                   author_name: selectedEditBook.author_name,
                   description: selectedEditBook.description,
+                  img_url: selectedEditBook.img_url,
                   public_shelf_quantity: selectedEditBook.public_shelf_quantity,
                   private_shelf_quantity: selectedEditBook.private_shelf_quantity
                 }
           }
           validateOnChange={false}
           onSubmit={(values) => {
-            if (isEmpty(selectedEditBook)) {
+            if (isInCreatingMode) {
               mutateCreateBook({
                 title: get(values, 'title'),
                 author_name: get(values, 'author_name'),
                 description: get(values, 'description'),
+                img_url: get(values, 'img_url'),
                 public_shelf_quantity: get(values, 'public_shelf_quantity'),
                 private_shelf_quantity: get(values, 'private_shelf_quantity')
               });
@@ -296,7 +301,8 @@ const Books = () => {
                 id: get(values, 'id'),
                 title: get(values, 'title'),
                 author_name: get(values, 'author_name'),
-                description: get(values, 'description')
+                description: get(values, 'description'),
+                img_url: get(values, 'img_url')
               });
             }
           }}
@@ -304,12 +310,18 @@ const Books = () => {
           {({ values, errors, handleSubmit, setFieldValue }) => (
             <ModalContent maxWidth="600px">
               <ModalHeader>
-                <Text>Add book</Text>
+                <Text>{isInCreatingMode ? 'Add' : 'Edit'} book</Text>
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody pb={6}>
                 <form>
                   <VStack align="stretch" width="100%" spacing="22px">
+                    <ImageUpload
+                      formImgUrl={get(values, 'img_url')}
+                      onUploadComplete={(value) =>
+                        setFieldValue('img_url', value, !isEmpty(errors))
+                      }
+                    />
                     <FormInputField
                       fieldLabel="Title"
                       hasError={get(errors, 'title')}
@@ -357,7 +369,7 @@ const Books = () => {
                         />
                       }
                     />
-                    {!isEmpty(selectedEditBook) ? (
+                    {!isInCreatingMode ? (
                       <Button
                         variant="primary_action"
                         width="fit-content"
@@ -383,7 +395,7 @@ const Books = () => {
                             min={0}
                             clampValueOnBlur={false}
                             variant="themed"
-                            isDisabled={!isEmpty(selectedEditBook) && !editingQuantity}>
+                            isDisabled={!isInCreatingMode && !editingQuantity}>
                             <NumberInputField />
                             <NumberInputStepper>
                               <NumberIncrementStepper />
@@ -405,7 +417,7 @@ const Books = () => {
                             max={30}
                             clampValueOnBlur={false}
                             variant="themed"
-                            isDisabled={!isEmpty(selectedEditBook) && !editingQuantity}>
+                            isDisabled={!isInCreatingMode && !editingQuantity}>
                             <NumberInputField />
                             <NumberInputStepper>
                               <NumberIncrementStepper />
@@ -415,7 +427,7 @@ const Books = () => {
                         }
                       />
                     </Flex>
-                    {!isEmpty(selectedEditBook) ? (
+                    {!isInCreatingMode ? (
                       <Button
                         variant="primary_action"
                         width="fit-content"
@@ -434,7 +446,7 @@ const Books = () => {
                 </form>
               </ModalBody>
               <ModalFooter>
-                {isEmpty(selectedEditBook) ? (
+                {isInCreatingMode ? (
                   <Button
                     variant="primary_action"
                     mr="10px"
@@ -449,7 +461,7 @@ const Books = () => {
                   onClick={() => {
                     handleModalClose();
                   }}>
-                  {isEmpty(selectedEditBook) ? 'Cancel' : 'Close'}
+                  {isInCreatingMode ? 'Cancel' : 'Close'}
                 </Button>
               </ModalFooter>
             </ModalContent>
