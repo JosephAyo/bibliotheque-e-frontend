@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import useAppStore from 'lib/store';
 import { modalAnatomy as parts } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system';
+import { clearAllUserData } from 'config/axios';
 
 const { definePartsStyle } = createMultiStyleConfigHelpers(parts.keys);
 
@@ -145,6 +146,7 @@ const queryClient = new QueryClient({
       });
       if (error && error instanceof AxiosError && query.queryKey.includes('viewProfile')) {
         useAppStore.getState().userSlice.clearCurrentUser();
+        clearAllUserData();
       }
       // if (query.state.data !== undefined) {
       //   errorToast(getAxiosErrorDetail(error));
