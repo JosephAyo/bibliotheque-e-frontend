@@ -15,6 +15,10 @@
     "import/resolver": {
       "node": {
         "moduleDirectory": ["node_modules", "src/"]
+      },
+      "alias": {
+        "map": [["@", "./src"]],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
       }
     }
   },
@@ -64,6 +68,9 @@
     "import/no-extraneous-dependencies": "off",
     "camelcase": "off",
     "jsx-a11y/media-has-caption": "off",
-    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["obj"] }]
+    "no-param-reassign": [
+      "error",
+      { "props": true, "ignorePropertyModificationsFor": ["obj", "config"] }
+    ]
   }
 }
