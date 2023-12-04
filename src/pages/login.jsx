@@ -1,18 +1,18 @@
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
-import { FormInputField } from 'components/Inputs';
-import { AuthPageLayout } from 'components/Layouts';
-import { AuthFormActionButton } from 'components/Buttons';
+import { FormInputField } from '@/components/Inputs';
+import { AuthPageLayout } from '@/components/Layouts';
+import { AuthFormActionButton } from '@/components/Buttons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
-import { login } from 'services/api/queries/users';
+import { login } from '@/services/api/queries/users';
 import { useMutation } from '@tanstack/react-query';
 import { useRef } from 'react';
-import { errorToast } from 'utils/toast';
-import { getAxiosErrorDetail, getAxiosResponseBody } from 'utils/objects';
+import { errorToast } from '@/utils/toast';
+import { getAxiosErrorDetail, getAxiosResponseBody } from '@/utils/objects';
 import * as yup from 'yup';
-import { setAuthToken, setUser } from 'config/axios';
+import { setAuthToken, setUser } from '@/config/axios';
 
 const Login = () => {
   const router = useRouter();

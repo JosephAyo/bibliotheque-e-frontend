@@ -2,17 +2,17 @@ import { Box, ChakraProvider, extendTheme, theme as chakraTheme } from '@chakra-
 import { mode } from '@chakra-ui/theme-tools';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { chakraLayerStyles, chakraThemeColors, chakraThemeTextStyles } from 'config/chakraTheme';
+import { chakraLayerStyles, chakraThemeColors, chakraThemeTextStyles } from '@/config/chakraTheme';
 import 'react-toastify/dist/ReactToastify.css';
-import 'styles/globals.css';
-import { ThemeToggleButton } from 'components/ThemeToggle';
-import { needAbsoluteThemeToggle } from 'config/layout';
+import '@/styles/globals.css';
+import { ThemeToggleButton } from '@/components/ThemeToggle';
+import { needAbsoluteThemeToggle } from '@/config/layout';
 import { ToastContainer } from 'react-toastify';
 import { AxiosError } from 'axios';
-import useAppStore from 'lib/store';
+import useAppStore from '@/lib/store';
 import { modalAnatomy as parts } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system';
-import { clearAllUserData } from 'config/axios';
+import { clearAllUserData } from '@/config/axios';
 
 const { definePartsStyle } = createMultiStyleConfigHelpers(parts.keys);
 

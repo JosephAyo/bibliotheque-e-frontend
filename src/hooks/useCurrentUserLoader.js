@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAuthToken, getStoredRoleId } from 'config/axios';
-import useAppStore from 'lib/store';
+import { getAuthToken, getStoredRoleId } from '@/config/axios';
+import useAppStore from '@/lib/store';
 import { get, isEmpty } from 'lodash';
 import { useCallback, useEffect } from 'react';
-import { viewProfile } from 'services/api/queries/users';
-import { getAxiosResponseBody, getOr } from 'utils/objects';
+import { viewProfile } from '@/services/api/queries/users';
+import { getAxiosResponseBody, getOr } from '@/utils/objects';
 
 const useCurrentUserLoader = () => {
   const {

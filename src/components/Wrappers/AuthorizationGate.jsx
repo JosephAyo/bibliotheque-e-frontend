@@ -1,8 +1,8 @@
 import { Center, Spinner } from '@chakra-ui/react';
-import useAppStore from 'lib/store';
+import useAppStore from '@/lib/store';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { getOr } from 'utils/objects';
+import { getOr } from '@/utils/objects';
 import UserAuthWrapper from './UserAuthWrapper';
 
 const AuthorizationGate = ({ children, permittedRoles }) => {

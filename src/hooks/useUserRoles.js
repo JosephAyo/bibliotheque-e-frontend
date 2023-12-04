@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import useAppStore from 'lib/store';
+import useAppStore from '@/lib/store';
 import { get } from 'lodash';
 import { useMemo } from 'react';
-import { viewRoles } from 'services/api/queries/users';
-import { USER_ROLES } from 'utils/constants';
-import { getAxiosResponseBody, getOr } from 'utils/objects';
+import { viewRoles } from '@/services/api/queries/users';
+import { USER_ROLES } from '@/utils/constants';
+import { getAxiosResponseBody, getOr } from '@/utils/objects';
 
 const useUserRoles = () => {
   const {

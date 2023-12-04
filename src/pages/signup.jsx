@@ -1,16 +1,16 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { AuthFormActionButton } from 'components/Buttons';
-import { FormInputField } from 'components/Inputs';
-import { AuthPageLayout } from 'components/Layouts';
+import { AuthFormActionButton } from '@/components/Buttons';
+import { FormInputField } from '@/components/Inputs';
+import { AuthPageLayout } from '@/components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
-import { signup } from 'services/api/queries/users';
-import { getAxiosErrorDetail } from 'utils/objects';
-import { errorToast } from 'utils/toast';
+import { signup } from '@/services/api/queries/users';
+import { getAxiosErrorDetail } from '@/utils/objects';
+import { errorToast } from '@/utils/toast';
 import * as yup from 'yup';
 
 const Signup = () => {

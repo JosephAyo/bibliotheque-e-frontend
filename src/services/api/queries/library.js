@@ -1,6 +1,6 @@
 import URI_MAP from '../uris';
-import { axios, getAuthToken } from '../../../config/axios';
-import { getAxiosResponseBody } from 'utils/objects';
+import { axios, getAuthToken } from '@/config/axios';
+import { getAxiosResponseBody } from '@/utils/objects';
 
 export const viewLibrary = async () => {
   const res = await axios.get(`${URI_MAP.library.view()}`, {

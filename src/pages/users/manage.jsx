@@ -22,21 +22,21 @@ import {
   Checkbox
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { UserAccountPageLayout } from 'components/Layouts';
+import { UserAccountPageLayout } from '@/components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import { useState } from 'react';
-import { regulateManager, viewAll as viewAllUsers } from 'services/api/queries/users';
-import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from 'utils/objects';
-import { errorToast, successToast } from 'utils/toast';
+import { regulateManager, viewAll as viewAllUsers } from '@/services/api/queries/users';
+import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from '@/utils/objects';
+import { errorToast, successToast } from '@/utils/toast';
 import * as yup from 'yup';
 import { FaUserEdit } from 'react-icons/fa';
-import { UserInfo } from 'components/Cards';
-import useUserRoles from 'hooks/useUserRoles';
-import { USER_ROLES } from 'utils/constants';
-import useAppStore from 'lib/store';
-import { iff } from 'utils/helpers';
-import { AuthorizationGate } from 'components/Wrappers';
+import { UserInfo } from '@/components/Cards';
+import useUserRoles from '@/hooks/useUserRoles';
+import { USER_ROLES } from '@/utils/constants';
+import useAppStore from '@/lib/store';
+import { iff } from '@/utils/helpers';
+import { AuthorizationGate } from '@/components/Wrappers';
 
 const ManageAccounts = () => {
   const { roles } = useUserRoles();

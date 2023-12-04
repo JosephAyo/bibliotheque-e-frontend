@@ -22,8 +22,8 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper
 } from '@chakra-ui/react';
-import { LibraryPageLayout } from 'components/Layouts';
-import { FormInputField, SearchInputField } from 'components/Inputs';
+import { LibraryPageLayout } from '@/components/Layouts';
+import { FormInputField, SearchInputField } from '@/components/Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
 import {
   createBook,
@@ -32,19 +32,19 @@ import {
   viewBorrowedBooks,
   viewLibrary,
   viewLibraryAsManager
-} from 'services/api/queries/library';
+} from '@/services/api/queries/library';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getAxiosErrorDetail, getOr } from 'utils/objects';
-import { bookSearch, iff } from 'utils/helpers';
+import { getAxiosErrorDetail, getOr } from '@/utils/objects';
+import { bookSearch, iff } from '@/utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
-import { BookCard, ImageUpload } from 'components/Cards';
-import { AddBookButton, FilterBooksButton } from 'components/Buttons';
+import { BookCard, ImageUpload } from '@/components/Cards';
+import { AddBookButton, FilterBooksButton } from '@/components/Buttons';
 import { useRef, useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { get, isEmpty } from 'lodash';
-import { errorToast, successToast } from 'utils/toast';
-import useUserRoles from 'hooks/useUserRoles';
+import { errorToast, successToast } from '@/utils/toast';
+import useUserRoles from '@/hooks/useUserRoles';
 
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();

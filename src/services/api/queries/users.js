@@ -1,5 +1,5 @@
 import URI_MAP from '../uris';
-import { axios, getAuthToken } from '../../../config/axios';
+import { axios, getAuthToken } from '@/config/axios';
 
 export const signup = async (data) => {
   const res = await axios.post(`${URI_MAP.users.signup()}`, JSON.stringify(data));

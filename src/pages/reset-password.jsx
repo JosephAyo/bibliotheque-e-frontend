@@ -1,15 +1,15 @@
 import { Text, VStack, Box, Button } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { AuthFormActionButton } from 'components/Buttons';
-import { FormInputField, OtpInputField } from 'components/Inputs';
-import { AuthPageLayout } from 'components/Layouts';
+import { AuthFormActionButton } from '@/components/Buttons';
+import { FormInputField, OtpInputField } from '@/components/Inputs';
+import { AuthPageLayout } from '@/components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import { useMemo, useRef } from 'react';
-import { forgotPassword, resetPassword } from 'services/api/queries/users';
-import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from 'utils/objects';
-import { errorToast, successToast } from 'utils/toast';
+import { forgotPassword, resetPassword } from '@/services/api/queries/users';
+import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from '@/utils/objects';
+import { errorToast, successToast } from '@/utils/toast';
 import * as yup from 'yup';
 
 const ResetPassword = () => {

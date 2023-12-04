@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { Box, ButtonGroup, Center, Flex, Text } from '@chakra-ui/react';
-import { ThemeToggleButton } from 'components/ThemeToggle';
-import { UserMenu } from 'components/UserMenu';
+import { ThemeToggleButton } from '@/components/ThemeToggle';
+import { UserMenu } from '@/components/UserMenu';
 import MainContentContainer from './MainContentContainer';
-import { UserAuthWrapper } from 'components/Wrappers';
-import { HeadTitle } from 'components/Head';
+import { UserAuthWrapper } from '@/components/Wrappers';
+import { HeadTitle } from '@/components/Head';
 import { BsBookHalf } from 'react-icons/bs';
 import Link from 'next/link';
 import bgImage from '../../../public/assets/hero-section-bg.jpg';

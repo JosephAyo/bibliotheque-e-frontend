@@ -18,13 +18,13 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { PiBooksDuotone } from 'react-icons/pi';
-import { borrowBook, deleteBook, returnBorrowedBook } from 'services/api/queries/library';
-import { errorToast, successToast } from 'utils/toast';
-import { getAxiosErrorDetail } from 'utils/objects';
+import { borrowBook, deleteBook, returnBorrowedBook } from '@/services/api/queries/library';
+import { errorToast, successToast } from '@/utils/toast';
+import { getAxiosErrorDetail } from '@/utils/objects';
 import { useMutation } from '@tanstack/react-query';
 import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
-import { IconBookQuantity } from 'components/DataDisplay';
+import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
 
 const BookCard = ({

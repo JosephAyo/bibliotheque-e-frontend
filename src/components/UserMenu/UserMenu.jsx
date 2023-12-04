@@ -10,13 +10,13 @@ import {
   VStack,
   MenuDivider
 } from '@chakra-ui/react';
-import { setStoredRoleId } from 'config/axios';
-import useUserRoles from 'hooks/useUserRoles';
-import useAppStore from 'lib/store';
+import { setStoredRoleId } from '@/config/axios';
+import useUserRoles from '@/hooks/useUserRoles';
+import useAppStore from '@/lib/store';
 import { get } from 'lodash';
 import Link from 'next/link';
 import { FaUserCircle } from 'react-icons/fa';
-import { getOr } from 'utils/objects';
+import { getOr } from '@/utils/objects';
 
 const UserMenu = () => {
   const {

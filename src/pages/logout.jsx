@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
-import { clearAllUserData } from 'config/axios';
-import useAppStore from 'lib/store';
+import { clearAllUserData } from '@/config/axios';
+import useAppStore from '@/lib/store';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 

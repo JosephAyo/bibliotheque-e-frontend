@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import MainContentContainer from './MainContentContainer';
-import { RouterReadyWrapper } from 'components/Wrappers';
-import { HeadTitle } from 'components/Head';
+import { RouterReadyWrapper } from '@/components/Wrappers';
+import { HeadTitle } from '@/components/Head';
 
 const UserAccountPageLayout = ({ children, pageTitle }) => (
   <>

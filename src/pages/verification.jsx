@@ -1,17 +1,17 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
-import { AuthPageLayout } from 'components/Layouts';
-import { AuthFormActionButton } from 'components/Buttons';
+import { AuthPageLayout } from '@/components/Layouts';
+import { AuthFormActionButton } from '@/components/Buttons';
 import { useRouter } from 'next/router';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { get, isEmpty } from 'lodash';
-import { OtpInputField } from 'components/Inputs';
+import { OtpInputField } from '@/components/Inputs';
 import { useMutation } from '@tanstack/react-query';
-import { resendVerificationEmail, verifyEmail } from 'services/api/queries/users';
-import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from 'utils/objects';
-import { errorToast, successToast } from 'utils/toast';
+import { resendVerificationEmail, verifyEmail } from '@/services/api/queries/users';
+import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from '@/utils/objects';
+import { errorToast, successToast } from '@/utils/toast';
 import { useEffect } from 'react';
-import useAppStore from 'lib/store';
+import useAppStore from '@/lib/store';
 
 const Verification = () => {
   const router = useRouter();

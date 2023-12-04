@@ -15,18 +15,18 @@ import {
   Tag
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { FormInputField } from 'components/Inputs';
-import { UserAccountPageLayout } from 'components/Layouts';
-import { AuthorizationGate } from 'components/Wrappers';
+import { FormInputField } from '@/components/Inputs';
+import { UserAccountPageLayout } from '@/components/Layouts';
+import { AuthorizationGate } from '@/components/Wrappers';
 import { Formik } from 'formik';
-import useAppStore from 'lib/store';
+import useAppStore from '@/lib/store';
 import { get, isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
-import { changePassword, editProfile, resendVerificationEmail } from 'services/api/queries/users';
-import { USER_ROLES } from 'utils/constants';
-import { getAxiosErrorDetail, getAxiosResponseBody } from 'utils/objects';
-import { errorToast, successToast } from 'utils/toast';
+import { changePassword, editProfile, resendVerificationEmail } from '@/services/api/queries/users';
+import { USER_ROLES } from '@/utils/constants';
+import { getAxiosErrorDetail, getAxiosResponseBody } from '@/utils/objects';
+import { errorToast, successToast } from '@/utils/toast';
 import * as yup from 'yup';
 
 const Account = () => {
