@@ -119,6 +119,7 @@ const Books = () => {
   const finalRef = useRef(null);
 
   const createBookValidationSchema = yup.object().shape({
+    img_url: yup.string().required(),
     title: yup.string().required(),
     author_name: yup.string().required().label('author name'),
     description: yup.string().required(),
@@ -128,6 +129,7 @@ const Books = () => {
   });
 
   const editBookDetailsValidationSchema = yup.object().shape({
+    img_url: yup.string().required(),
     id: yup.string().required(),
     title: yup.string().required(),
     author_name: yup.string().required().label('author name'),
@@ -483,7 +485,8 @@ const Books = () => {
                     variant="primary_action"
                     mr="10px"
                     onClick={handleSubmit}
-                    isLoading={mutateCreateBookIsPending}>
+                    isLoading={mutateCreateBookIsPending}
+                    isDisabled={!isEmpty(errors)}>
                     Create
                   </Button>
                 ) : (
