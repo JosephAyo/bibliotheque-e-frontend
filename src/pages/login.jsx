@@ -50,7 +50,7 @@ const Login = () => {
           mutateLogin(values);
         }}>
         {({ values, errors, handleSubmit, setFieldValue }) => (
-          <form>
+          <form onSubmit={handleSubmit}>
             <VStack
               rounded="10px"
               padding="44px"
@@ -88,7 +88,7 @@ const Login = () => {
                   }}
                 />
               </VStack>
-              <AuthFormActionButton onClick={handleSubmit} isLoading={isPending}>
+              <AuthFormActionButton onClick={handleSubmit} isLoading={isPending} type="submit">
                 Login
               </AuthFormActionButton>
               <Text textStyle="caption">

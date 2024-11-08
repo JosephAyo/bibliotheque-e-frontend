@@ -53,7 +53,7 @@ const Signup = () => {
           mutateSignUp(values);
         }}>
         {({ values, errors, handleSubmit, setFieldValue }) => (
-          <form>
+          <form onSubmit={handleSubmit}>
             <VStack
               rounded="10px"
               padding="44px"
@@ -117,7 +117,7 @@ const Signup = () => {
                   }}
                 />
               </VStack>
-              <AuthFormActionButton onClick={handleSubmit} isLoading={isPending}>
+              <AuthFormActionButton onClick={handleSubmit} isLoading={isPending} type="submit">
                 Sign Up
               </AuthFormActionButton>
               <Text textStyle="caption">

@@ -71,48 +71,51 @@ const Verification = () => {
           mutateVerifyEmail(values);
         }}>
         {({ values, errors, handleSubmit, setFieldValue }) => (
-          <VStack
-            rounded="10px"
-            padding="64px"
-            width="464px"
-            spacing="48px"
-            layerStyle="auth_form_container">
-            <Text textStyle="headline-5-medium">Verification</Text>
-            <VStack spacing="35px">
-              <VStack spacing="16px">
-                <Text textStyle="body-medium">We sent you a code!</Text>
-                <Text textStyle="caption" textAlign="center">
-                  Enter the 6 digit code we sent you <br /> to verify your email
-                </Text>
+          <form onSubmit={handleSubmit}>
+            <VStack
+              rounded="10px"
+              padding="64px"
+              width="464px"
+              spacing="48px"
+              layerStyle="auth_form_container">
+              <Text textStyle="headline-5-medium">Verification</Text>
+              <VStack spacing="35px">
+                <VStack spacing="16px">
+                  <Text textStyle="body-medium">We sent you a code!</Text>
+                  <Text textStyle="caption" textAlign="center">
+                    Enter the 6 digit code we sent you <br /> to verify your email
+                  </Text>
+                </VStack>
+                <OtpInputField
+                  value={get(values, 'verification_code')}
+                  hasError={get(errors, 'verification_code')}
+                  errorText={get(errors, 'verification_code')}
+                  onChange={(value) => setFieldValue('verification_code', value, !isEmpty(errors))}
+                />
               </VStack>
-              <OtpInputField
-                value={get(values, 'verification_code')}
-                hasError={get(errors, 'verification_code')}
-                errorText={get(errors, 'verification_code')}
-                onChange={(value) => setFieldValue('verification_code', value, !isEmpty(errors))}
-              />
+              <AuthFormActionButton
+                onClick={handleSubmit}
+                isLoading={mutateVerifyEmailIsPending}
+                isDisabled={mutateResendVerificationEmailIsPending}
+                type="submit">
+                Verify
+              </AuthFormActionButton>
+              <Text textStyle="caption">
+                Didn&rsquo;t receive code?&nbsp;
+                <Box
+                  as="button"
+                  textStyle="caption-medium"
+                  color="primary.default"
+                  onClick={() =>
+                    mutateResendVerificationEmail({
+                      email: values.email
+                    })
+                  }>
+                  Resend code
+                </Box>
+              </Text>
             </VStack>
-            <AuthFormActionButton
-              onClick={handleSubmit}
-              isLoading={mutateVerifyEmailIsPending}
-              isDisabled={mutateResendVerificationEmailIsPending}>
-              Verify
-            </AuthFormActionButton>
-            <Text textStyle="caption">
-              Didn&rsquo;t receive code?&nbsp;
-              <Box
-                as="button"
-                textStyle="caption-medium"
-                color="primary.default"
-                onClick={() =>
-                  mutateResendVerificationEmail({
-                    email: values.email
-                  })
-                }>
-                Resend code
-              </Box>
-            </Text>
-          </VStack>
+          </form>
         )}
       </Formik>
     </AuthPageLayout>

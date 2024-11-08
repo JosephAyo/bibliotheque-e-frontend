@@ -152,117 +152,120 @@ const ResetPassword = () => {
           }
         }}>
         {({ values, errors, handleSubmit, setFieldValue }) => (
-          <VStack
-            rounded="10px"
-            padding="44px"
-            width="464px"
-            spacing="28px"
-            layerStyle="auth_form_container">
-            <Text textStyle="headline-5-medium">
-              {phase === 2 ? 'Reset password' : 'Forgot password'}
-            </Text>
-            <VStack align="stretch" width="100%" spacing="22px">
-              {phase === 0 ? (
-                <FormInputField
-                  fieldLabel="Email"
-                  hasError={get(errors, 'email')}
-                  errorText={get(errors, 'email')}
-                  inputFieldProps={{
-                    name: 'email',
-                    placeholder: 'example@email.com',
-                    type: 'email',
-                    variant: 'plain',
-                    value: get(values, 'email'),
-                    onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors))
-                  }}
-                />
-              ) : (
-                ''
-              )}
-              {phase === 1 ? (
-                <VStack spacing="23px">
-                  <OtpInputField
-                    value={get(values, 'code')}
-                    hasError={get(errors, 'code')}
-                    errorText={get(errors, 'code')}
-                    onChange={(value) => setFieldValue('code', value, !isEmpty(errors))}
-                  />
-                  <Text textStyle="caption" textAlign="center">
-                    Enter the code that was send your email
-                    <br />
-                    <Box as="span" textStyle="caption-medium" color="primary.default">
-                      {get(values, 'email')}
-                    </Box>
-                  </Text>
-                  <Text textStyle="caption" marginTop="30px">
-                    This code will expire in&nbsp;
-                    <Box as="span" textStyle="caption-medium" color="primary.default">
-                      5 minutes
-                    </Box>
-                  </Text>
-                </VStack>
-              ) : (
-                ''
-              )}
-              {phase === 2 ? (
-                <>
+          <form onSubmit={handleSubmit}>
+            <VStack
+              rounded="10px"
+              padding="44px"
+              width="464px"
+              spacing="28px"
+              layerStyle="auth_form_container">
+              <Text textStyle="headline-5-medium">
+                {phase === 2 ? 'Reset password' : 'Forgot password'}
+              </Text>
+              <VStack align="stretch" width="100%" spacing="22px">
+                {phase === 0 ? (
                   <FormInputField
-                    fieldLabel="Password"
-                    hasError={get(errors, 'password')}
-                    errorText={get(errors, 'password')}
+                    fieldLabel="Email"
+                    hasError={get(errors, 'email')}
+                    errorText={get(errors, 'email')}
                     inputFieldProps={{
-                      name: 'password',
-                      placeholder: '******',
-                      type: 'password',
+                      name: 'email',
+                      placeholder: 'example@email.com',
+                      type: 'email',
                       variant: 'plain',
-                      value: get(values, 'password'),
-                      onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors))
+                      value: get(values, 'email'),
+                      onChange: (e) => setFieldValue('email', e.target.value, !isEmpty(errors))
                     }}
                   />
-                  <FormInputField
-                    fieldLabel="Confirm password"
-                    hasError={get(errors, 'confirm_password')}
-                    errorText={get(errors, 'confirm_password')}
-                    inputFieldProps={{
-                      name: 'confirm_password',
-                      placeholder: '******',
-                      type: 'password',
-                      variant: 'plain',
-                      value: get(values, 'confirm_password'),
-                      onChange: (e) =>
-                        setFieldValue('confirm_password', e.target.value, !isEmpty(errors))
-                    }}
-                  />
-                </>
-              ) : (
-                ''
-              )}
+                ) : (
+                  ''
+                )}
+                {phase === 1 ? (
+                  <VStack spacing="23px">
+                    <OtpInputField
+                      value={get(values, 'code')}
+                      hasError={get(errors, 'code')}
+                      errorText={get(errors, 'code')}
+                      onChange={(value) => setFieldValue('code', value, !isEmpty(errors))}
+                    />
+                    <Text textStyle="caption" textAlign="center">
+                      Enter the code that was send your email
+                      <br />
+                      <Box as="span" textStyle="caption-medium" color="primary.default">
+                        {get(values, 'email')}
+                      </Box>
+                    </Text>
+                    <Text textStyle="caption" marginTop="30px">
+                      This code will expire in&nbsp;
+                      <Box as="span" textStyle="caption-medium" color="primary.default">
+                        5 minutes
+                      </Box>
+                    </Text>
+                  </VStack>
+                ) : (
+                  ''
+                )}
+                {phase === 2 ? (
+                  <>
+                    <FormInputField
+                      fieldLabel="Password"
+                      hasError={get(errors, 'password')}
+                      errorText={get(errors, 'password')}
+                      inputFieldProps={{
+                        name: 'password',
+                        placeholder: '******',
+                        type: 'password',
+                        variant: 'plain',
+                        value: get(values, 'password'),
+                        onChange: (e) => setFieldValue('password', e.target.value, !isEmpty(errors))
+                      }}
+                    />
+                    <FormInputField
+                      fieldLabel="Confirm password"
+                      hasError={get(errors, 'confirm_password')}
+                      errorText={get(errors, 'confirm_password')}
+                      inputFieldProps={{
+                        name: 'confirm_password',
+                        placeholder: '******',
+                        type: 'password',
+                        variant: 'plain',
+                        value: get(values, 'confirm_password'),
+                        onChange: (e) =>
+                          setFieldValue('confirm_password', e.target.value, !isEmpty(errors))
+                      }}
+                    />
+                  </>
+                ) : (
+                  ''
+                )}
+              </VStack>
+              <Box width="100%">
+                <AuthFormActionButton
+                  onClick={handleSubmit}
+                  isLoading={mutateSendCodeIsPending || mutateResetPasswordIsPending}
+                  isDisabled={mutateResendCodeIsPending}
+                  type="submit">
+                  {getSubmitBtnText()}
+                </AuthFormActionButton>
+                {phase === 1 ? (
+                  <Button
+                    width="100%"
+                    variant="secondary_action"
+                    marginTop="18px"
+                    isLoading={mutateResendCodeIsPending}
+                    onClick={() =>
+                      mutateResendCode({
+                        email: values.email
+                      })
+                    }>
+                    Resend code
+                  </Button>
+                ) : (
+                  ''
+                )}
+              </Box>
             </VStack>
-            <Box width="100%">
-              <AuthFormActionButton
-                onClick={handleSubmit}
-                isLoading={mutateSendCodeIsPending || mutateResetPasswordIsPending}
-                isDisabled={mutateResendCodeIsPending}>
-                {getSubmitBtnText()}
-              </AuthFormActionButton>
-              {phase === 1 ? (
-                <Button
-                  width="100%"
-                  variant="secondary_action"
-                  marginTop="18px"
-                  isLoading={mutateResendCodeIsPending}
-                  onClick={() =>
-                    mutateResendCode({
-                      email: values.email
-                    })
-                  }>
-                  Resend code
-                </Button>
-              ) : (
-                ''
-              )}
-            </Box>
-          </VStack>
+          </form>
         )}
       </Formik>
     </AuthPageLayout>
