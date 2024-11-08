@@ -137,7 +137,7 @@ const ManageGenres = () => {
 
   return (
     <UserAccountPageLayout pageTitle="Manage Genres">
-      <Text textStyle="headline-4-medium" textTransform="uppercase">
+      <Text textStyle="headline-5-medium" textTransform="uppercase">
         Genres
       </Text>
       <Flex width="100%" justifyContent="flex-end">

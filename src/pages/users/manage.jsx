@@ -167,8 +167,8 @@ const ManageAccounts = () => {
 
   return (
     <UserAccountPageLayout pageTitle="Manage">
-      <Text textStyle="headline-4-medium" textTransform="uppercase">
-        Users
+      <Text textStyle="headline-5-medium" textTransform="uppercase">
+      Users
       </Text>
       <TableContainer width="100%">
         <Table variant="striped" colorScheme="gray" layout="fixed">
@@ -231,48 +231,54 @@ const ManageAccounts = () => {
             });
           }}>
           {({ values: formValues, errors, handleSubmit, setFieldValue }) => (
-            <ModalContent maxWidth="600px">
-              <ModalHeader>
-                <Text>User</Text>
-              </ModalHeader>
-              <ModalCloseButton />
-              <ModalBody pb={6}>
-                <Wrap width="100%" spacingX="50px" spacingY="70px">
-                  {cols
-                    .filter((col) => col.key !== 'action')
-                    .map((col) => {
-                      const onChangeHandler = (selectedRole) => {
-                        let formSelectedRoles = getOr(formValues, 'roles', []);
-                        const alreadySelected =
-                          formSelectedRoles.findIndex((role) => role.id === selectedRole.id) > -1;
-                        formSelectedRoles = alreadySelected
-                          ? formSelectedRoles.filter(
-                              (formSelectedRole) => formSelectedRole.id !== selectedRole.id
-                            )
-                          : [...formSelectedRoles, selectedRole];
-                        setFieldValue('roles', formSelectedRoles, !isEmpty(errors));
-                      };
-                      let detail = get(selectedUser, col.path);
-                      if (col.renderEditor)
-                        detail = col.renderEditor(get(formValues, col.editorPath), onChangeHandler);
-                      else if (col.render) detail = col.render(get(selectedUser, col.path));
+            <form onSubmit={handleSubmit}>
+              <ModalContent maxWidth="600px">
+                <ModalHeader>
+                  <Text>User</Text>
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody pb={6}>
+                  <Wrap width="100%" spacingX="50px" spacingY="70px">
+                    {cols
+                      .filter((col) => col.key !== 'action')
+                      .map((col) => {
+                        const onChangeHandler = (selectedRole) => {
+                          let formSelectedRoles = getOr(formValues, 'roles', []);
+                          const alreadySelected =
+                            formSelectedRoles.findIndex((role) => role.id === selectedRole.id) > -1;
+                          formSelectedRoles = alreadySelected
+                            ? formSelectedRoles.filter(
+                                (formSelectedRole) => formSelectedRole.id !== selectedRole.id
+                              )
+                            : [...formSelectedRoles, selectedRole];
+                          setFieldValue('roles', formSelectedRoles, !isEmpty(errors));
+                        };
+                        let detail = get(selectedUser, col.path);
+                        if (col.renderEditor)
+                          detail = col.renderEditor(
+                            get(formValues, col.editorPath),
+                            onChangeHandler
+                          );
+                        else if (col.render) detail = col.render(get(selectedUser, col.path));
 
-                      return <UserInfo key={col.key} label={col.label} detail={detail} />;
-                    })}
-                </Wrap>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  variant="primary_action"
-                  mr="10px"
-                  onClick={handleSubmit}
-                  isLoading={mutateRegulateManagerIsPending}
-                  isDisabled={currentUser.email === selectedUser.email}>
-                  Save
-                </Button>
-                <Button onClick={() => setSelectedUser(null)}>Cancel</Button>
-              </ModalFooter>
-            </ModalContent>
+                        return <UserInfo key={col.key} label={col.label} detail={detail} />;
+                      })}
+                  </Wrap>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    variant="primary_action"
+                    mr="10px"
+                    onClick={handleSubmit}
+                    isLoading={mutateRegulateManagerIsPending}
+                    isDisabled={currentUser.email === selectedUser.email}
+                    type="submit">
+                    Save
+                  </Button>
+                  <Button onClick={() => setSelectedUser(null)}>Cancel</Button>
+                </ModalFooter>
+              </ModalContent>
+            </form>
           )}
         </Formik>
       </Modal>
