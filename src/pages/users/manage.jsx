@@ -167,6 +167,9 @@ const ManageAccounts = () => {
 
   return (
     <UserAccountPageLayout pageTitle="Manage">
+      <Text textStyle="headline-4-medium" textTransform="uppercase">
+        Users
+      </Text>
       <TableContainer width="100%">
         <Table variant="striped" colorScheme="gray" layout="fixed">
           <Thead>
