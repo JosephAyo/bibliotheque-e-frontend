@@ -9,7 +9,8 @@ const MainContentContainer = ({ children }) => (
     marginLeft="auto"
     marginRight="auto"
     paddingY="20px"
-    paddingX="23px">
+    paddingX="23px"
+    rowGap='10px'>
     {children}
   </Flex>
 );

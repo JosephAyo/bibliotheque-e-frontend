@@ -16,14 +16,15 @@ import {
   Td,
   TableContainer,
   Wrap,
-  IconButton
+  IconButton,
+  Flex
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { UserAccountPageLayout } from '@/components/Layouts';
 import { Formik } from 'formik';
 import { get, isEmpty } from 'lodash';
 import { useState } from 'react';
-import { viewGenres, editGenre } from '@/services/api/queries/genre';
+import { viewGenres, editGenre, createGenre } from '@/services/api/queries/genre';
 import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from '@/utils/objects';
 import { errorToast, successToast } from '@/utils/toast';
 import * as yup from 'yup';
@@ -32,6 +33,7 @@ import { USER_ROLES } from '@/utils/constants';
 import useAppStore from '@/lib/store';
 import { AuthorizationGate } from '@/components/Wrappers';
 import { FormInputField } from '@/components/Inputs';
+import { IoMdAddCircle } from 'react-icons/io';
 
 const ManageGenres = () => {
   const {
@@ -54,6 +56,19 @@ const ManageGenres = () => {
   const { mutate: mutateEditGenre, isPending: mutateEditGenreIsPending } = useMutation({
     mutationFn: editGenre,
     mutationKey: 'editGenre',
+    onSuccess: (response) => {
+      successToast({ message: get(getAxiosResponseBody(response), 'detail', '') });
+      refetch();
+      setSelectedGenre(null);
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateCreateGenre, isPending: mutateCreateGenreIsPending } = useMutation({
+    mutationFn: createGenre,
+    mutationKey: 'createGenre',
     onSuccess: (response) => {
       successToast({ message: get(getAxiosResponseBody(response), 'detail', '') });
       refetch();
@@ -122,6 +137,22 @@ const ManageGenres = () => {
 
   return (
     <UserAccountPageLayout pageTitle="Manage Genres">
+      <Text textStyle="headline-4-medium" textTransform="uppercase">
+        Genres
+      </Text>
+      <Flex width="100%" justifyContent="flex-end">
+        <Button
+          variant="primary_action"
+          rightIcon={<IoMdAddCircle />}
+          onClick={() =>
+            setSelectedGenre({
+              name: '',
+              description: ''
+            })
+          }>
+          Add
+        </Button>
+      </Flex>
       <TableContainer width="100%">
         <Table variant="striped" colorScheme="gray" layout="fixed">
           <Thead>
@@ -179,54 +210,61 @@ const ManageGenres = () => {
           }}
           validateOnChange={false}
           onSubmit={(values) => {
-            mutateEditGenre({
-              id: get(selectedGenre, 'id'),
-              name: get(values, 'name'),
-              description: get(values, 'description')
-            });
+            if (values.id)
+              mutateEditGenre({
+                id: get(selectedGenre, 'id'),
+                name: get(values, 'name'),
+                description: get(values, 'description')
+              });
+            else
+              mutateCreateGenre({
+                name: get(values, 'name'),
+                description: get(values, 'description')
+              });
           }}>
           {({ values: formValues, errors, handleSubmit, setFieldValue, dirty }) => (
-          <form onSubmit={handleSubmit}>
-            <ModalContent maxWidth="600px">
-              <ModalHeader>
-                <Text>Genre</Text>
-              </ModalHeader>
-              <ModalCloseButton />
-              <ModalBody pb={6}>
-                <Wrap width="100%" spacing="20px">
-                  {cols
-                    .filter((col) => col.key !== 'action' && col.editable)
-                    .map((col) => (
-                      <FormInputField
-                        key={col.key}
-                        fieldLabel={col.label}
-                        hasError={get(errors, col.key)}
-                        errorText={get(errors, col.key)}
-                        inputFieldProps={{
-                          name: `genre-${col.key}`,
-                          placeholder: col.key,
-                          type: col.key,
-                          variant: 'plain',
-                          value: get(formValues, col.key),
-                          onChange: (e) => setFieldValue(col.key, e.target.value, !isEmpty(errors))
-                        }}
-                      />
-                    ))}
-                </Wrap>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  variant="primary_action"
-                  mr="10px"
-                  onClick={handleSubmit}
-                  isLoading={mutateEditGenreIsPending}
-                  isDisabled={!dirty || !formValues.name|| !formValues.description}
-                  type='submit'>
-                  Save
-                </Button>
-                <Button onClick={() => setSelectedGenre(null)}>Cancel</Button>
-              </ModalFooter>
-            </ModalContent>
+            <form onSubmit={handleSubmit}>
+              <ModalContent maxWidth="600px">
+                <ModalHeader>
+                  <Text>Genre</Text>
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody pb={6}>
+                  <Wrap width="100%" spacing="20px">
+                    {cols
+                      .filter((col) => col.key !== 'action' && col.editable)
+                      .map((col) => (
+                        <FormInputField
+                          key={col.key}
+                          fieldLabel={col.label}
+                          hasError={get(errors, col.key)}
+                          errorText={get(errors, col.key)}
+                          inputFieldProps={{
+                            name: `genre-${col.key}`,
+                            placeholder: col.key,
+                            type: col.key,
+                            variant: 'plain',
+                            value: get(formValues, col.key),
+                            onChange: (e) =>
+                              setFieldValue(col.key, e.target.value, !isEmpty(errors))
+                          }}
+                        />
+                      ))}
+                  </Wrap>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    variant="primary_action"
+                    mr="10px"
+                    onClick={handleSubmit}
+                    isLoading={mutateEditGenreIsPending || mutateCreateGenreIsPending}
+                    isDisabled={!dirty || !formValues.name || !formValues.description}
+                    type="submit">
+                    Save
+                  </Button>
+                  <Button onClick={() => setSelectedGenre(null)}>Cancel</Button>
+                </ModalFooter>
+              </ModalContent>
             </form>
           )}
         </Formik>
