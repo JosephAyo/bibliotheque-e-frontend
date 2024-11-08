@@ -72,7 +72,8 @@ const URI_MAP = {
     },
     returnBook() {
       return `${this.library_base_url}/borrower`;
-    }
+    },
+    genres: () => `${this.library_base_url}/genres`
   }
 };
 
