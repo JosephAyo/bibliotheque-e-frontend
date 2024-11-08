@@ -20,7 +20,8 @@ import {
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
-  NumberDecrementStepper
+  NumberDecrementStepper,
+  Select
 } from '@chakra-ui/react';
 import { LibraryPageLayout } from '@/components/Layouts';
 import { FormInputField, SearchInputField } from '@/components/Inputs';
@@ -45,9 +46,13 @@ import * as yup from 'yup';
 import { get, isEmpty } from 'lodash';
 import { errorToast, successToast } from '@/utils/toast';
 import useUserRoles from '@/hooks/useUserRoles';
+import GenreContextProvider from '@/contexts/GenreContextProvider';
+import useGenreContext from '@/hooks/useGenreContext';
 
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
+  const genres = useGenreContext();
+
   const [searchText, setSearchText] = useState('');
   const [isAllBooksQuery, setIsAllBooksQuery] = useState(true);
 
@@ -118,14 +123,16 @@ const Books = () => {
     author_name: yup.string().required().label('author name'),
     description: yup.string().required(),
     public_shelf_quantity: yup.number().min(0).required().label('public shelf quantity'),
-    private_shelf_quantity: yup.number().min(0).required().label('private shelf quantity')
+    private_shelf_quantity: yup.number().min(0).required().label('private shelf quantity'),
+    genre_ids: yup.array().of(yup.string().required()).min(1).label('genre')
   });
 
   const editBookDetailsValidationSchema = yup.object().shape({
     id: yup.string().required(),
     title: yup.string().required(),
     author_name: yup.string().required().label('author name'),
-    description: yup.string().required()
+    description: yup.string().required(),
+    genre_ids: yup.array().of(yup.string().required()).min(1).label('genre')
   });
 
   const editBookQuantityValidationSchema = yup.object().shape({
@@ -267,7 +274,8 @@ const Books = () => {
                   description: '',
                   img_url: '',
                   public_shelf_quantity: '',
-                  private_shelf_quantity: ''
+                  private_shelf_quantity: '',
+                  genre_ids: []
                 }
               : {
                   id: selectedEditBook.id,
@@ -276,7 +284,10 @@ const Books = () => {
                   description: selectedEditBook.description,
                   img_url: selectedEditBook.img_url,
                   public_shelf_quantity: selectedEditBook.public_shelf_quantity,
-                  private_shelf_quantity: selectedEditBook.private_shelf_quantity
+                  private_shelf_quantity: selectedEditBook.private_shelf_quantity,
+                  genre_ids: getOr(selectedEditBook, 'genre_associations', []).map(
+                    (item) => item.genre_id
+                  )
                 }
           }
           validateOnChange={false}
@@ -288,7 +299,8 @@ const Books = () => {
                 description: get(values, 'description'),
                 img_url: get(values, 'img_url'),
                 public_shelf_quantity: get(values, 'public_shelf_quantity'),
-                private_shelf_quantity: get(values, 'private_shelf_quantity')
+                private_shelf_quantity: get(values, 'private_shelf_quantity'),
+                genre_ids: get(values, 'genre_ids')
               });
             } else if (editingQuantity) {
               mutateEditQuantity({
@@ -302,7 +314,8 @@ const Books = () => {
                 title: get(values, 'title'),
                 author_name: get(values, 'author_name'),
                 description: get(values, 'description'),
-                img_url: get(values, 'img_url')
+                img_url: get(values, 'img_url'),
+                genre_ids: get(values, 'genre_ids')
               });
             }
           }}
@@ -367,6 +380,25 @@ const Books = () => {
                           rows={5}
                           borderColor={get(errors, 'description') ? 'red.300' : ''}
                         />
+                      }
+                    />
+                    <FormInputField
+                      fieldLabel="Genres"
+                      hasError={get(errors, 'genre_ids')}
+                      errorText={get(errors, 'genre_ids')}
+                      InputComponent={
+                        <Select
+                          placeholder="Select genres"
+                          value={get(values, 'genre_ids[0]')}
+                          onChange={(e) => {
+                            setFieldValue('genre_ids', [e.target.value], !isEmpty(errors));
+                          }}>
+                          {genres.map((genre) => (
+                            <option key={genre.id} value={genre.id}>
+                              {genre.name}
+                            </option>
+                          ))}
+                        </Select>
                       }
                     />
                     {!isInCreatingMode ? (
@@ -472,4 +504,10 @@ const Books = () => {
   );
 };
 
-export default Books;
+const BookPage = ({ children }) => (
+  <GenreContextProvider>
+    <Books>{children}</Books>
+  </GenreContextProvider>
+);
+
+export default BookPage;
