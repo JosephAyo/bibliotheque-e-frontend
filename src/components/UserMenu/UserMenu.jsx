@@ -11,7 +11,6 @@ import {
   MenuDivider
 } from '@chakra-ui/react';
 import { setStoredRoleId } from '@/config/axios';
-import useUserRoles from '@/hooks/useUserRoles';
 import useAppStore from '@/lib/store';
 import { get } from 'lodash';
 import Link from 'next/link';
@@ -22,8 +21,6 @@ const UserMenu = () => {
   const {
     userSlice: { currentUser, setCurrentUser }
   } = useAppStore();
-
-  const { isLibrarian } = useUserRoles();
 
   const current_role_id = getOr(
     currentUser,
@@ -68,16 +65,6 @@ const UserMenu = () => {
                 </VStack>
               </RadioGroup>
             </MenuOptionGroup>
-            {isLibrarian ? (
-              <>
-                <MenuDivider />
-                <MenuItem as={Link} href="/users/manage" textStyle="caption-medium">
-                  Manage users
-                </MenuItem>
-              </>
-            ) : (
-              ''
-            )}
             <MenuDivider />
             <MenuItem as={Link} href="/logout" textStyle="caption-medium">
               Logout
