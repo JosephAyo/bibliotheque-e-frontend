@@ -19,8 +19,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
-  NumberDecrementStepper,
-  Select
+  NumberDecrementStepper
 } from '@chakra-ui/react';
 import { LibraryPageLayout } from '@/components/Layouts';
 import { FormInputField } from '@/components/Inputs';
@@ -46,6 +45,7 @@ import { errorToast, successToast } from '@/utils/toast';
 import useUserRoles from '@/hooks/useUserRoles';
 import GenreContextProvider from '@/contexts/GenreContextProvider';
 import useGenreContext from '@/hooks/useGenreContext';
+import { Select } from 'chakra-react-select';
 
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
@@ -132,7 +132,16 @@ const Books = () => {
     description: yup.string().required(),
     public_shelf_quantity: yup.number().min(0).required().label('public shelf quantity'),
     private_shelf_quantity: yup.number().min(0).required().label('private shelf quantity'),
-    genre_ids: yup.array().of(yup.string().required()).min(1).label('genre')
+    genres: yup
+      .array()
+      .of(
+        yup.object().shape({
+          value: yup.string().required(),
+          label: yup.string().required()
+        })
+      )
+      .min(1)
+      .label('genre')
   });
 
   const editBookDetailsValidationSchema = yup.object().shape({
@@ -141,7 +150,7 @@ const Books = () => {
     title: yup.string().required(),
     author_name: yup.string().required().label('author name'),
     description: yup.string().required(),
-    genre_ids: yup.array().of(yup.string().required()).min(1).label('genre')
+    genres: yup.array().of(yup.string().required()).min(1).label('genre')
   });
 
   const editBookQuantityValidationSchema = yup.object().shape({
@@ -192,11 +201,7 @@ const Books = () => {
   const isInCreatingMode = isEmpty(selectedEditBook);
 
   return (
-    <LibraryPageLayout
-      pageTitle="Books"
-      filters={filters}
-      setFilters={setFilters}
-      showHeroSection>
+    <LibraryPageLayout pageTitle="Books" filters={filters} setFilters={setFilters} showHeroSection>
       {isBorrower ? (
         <Flex gap="12px" marginBottom="10px">
           <FilterBooksButton isActive={isAllBooksQuery} onClick={() => setIsAllBooksQuery(true)}>
@@ -274,7 +279,7 @@ const Books = () => {
                   img_url: '',
                   public_shelf_quantity: '',
                   private_shelf_quantity: '',
-                  genre_ids: []
+                  genres: []
                 }
               : {
                   id: selectedEditBook.id,
@@ -284,9 +289,10 @@ const Books = () => {
                   img_url: selectedEditBook.img_url,
                   public_shelf_quantity: selectedEditBook.public_shelf_quantity,
                   private_shelf_quantity: selectedEditBook.private_shelf_quantity,
-                  genre_ids: getOr(selectedEditBook, 'genre_associations', []).map(
-                    (item) => item.genre_id
-                  )
+                  genres: getOr(selectedEditBook, 'genre_associations', []).map((item) => ({
+                    value: item.id,
+                    label: item.name
+                  }))
                 }
           }
           validateOnChange={false}
@@ -299,7 +305,7 @@ const Books = () => {
                 img_url: get(values, 'img_url'),
                 public_shelf_quantity: get(values, 'public_shelf_quantity'),
                 private_shelf_quantity: get(values, 'private_shelf_quantity'),
-                genre_ids: get(values, 'genre_ids')
+                genre_ids: get(values, 'genres', []).map((item) => item.value)
               });
             } else if (editingQuantity) {
               mutateEditQuantity({
@@ -314,7 +320,7 @@ const Books = () => {
                 author_name: get(values, 'author_name'),
                 description: get(values, 'description'),
                 img_url: get(values, 'img_url'),
-                genre_ids: get(values, 'genre_ids')
+                genre_ids: get(values, 'genres', []).map((item) => item.value)
               });
             }
           }}
@@ -383,21 +389,16 @@ const Books = () => {
                     />
                     <FormInputField
                       fieldLabel="Genres"
-                      hasError={get(errors, 'genre_ids')}
-                      errorText={get(errors, 'genre_ids')}
+                      hasError={get(errors, 'genres')}
+                      errorText={get(errors, 'genres')}
                       InputComponent={
                         <Select
+                          isMulti
                           placeholder="Select genres"
-                          value={get(values, 'genre_ids[0]')}
-                          onChange={(e) => {
-                            setFieldValue('genre_ids', [e.target.value], !isEmpty(errors));
-                          }}>
-                          {genres.map((genre) => (
-                            <option key={genre.id} value={genre.id}>
-                              {genre.name}
-                            </option>
-                          ))}
-                        </Select>
+                          value={get(values, 'genres')}
+                          onChange={(value) => setFieldValue('genres', value, !isEmpty(errors))}
+                          options={genres}
+                        />
                       }
                     />
                     {!isInCreatingMode ? (
