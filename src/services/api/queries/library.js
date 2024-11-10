@@ -2,8 +2,14 @@ import URI_MAP from '../uris';
 import { axios, getAuthToken } from '@/config/axios';
 import { getAxiosResponseBody } from '@/utils/objects';
 
-export const viewLibrary = async () => {
-  const res = await axios.get(`${URI_MAP.library.view()}`, {
+export const viewLibrary = async ({ queryKey }) => {
+  const [_, filters] = queryKey;
+  const queryParams = new URLSearchParams({
+    ...filters,
+    genres: filters.genres.map((item) => item.value).join(',')
+  });
+
+  const res = await axios.get(`${URI_MAP.library.view()}?${queryParams.toString()}`, {
     headers: {
       Authorization: getAuthToken()
     }
@@ -29,8 +35,14 @@ export const editBookDetails = async (data) => {
   return res;
 };
 
-export const viewLibraryAsManager = async () => {
-  const res = await axios.get(`${URI_MAP.library.viewAsManager()}`, {
+export const viewLibraryAsManager = async ({ queryKey }) => {
+  const [_, filters] = queryKey;
+  const queryParams = new URLSearchParams({
+    ...filters,
+    genres: filters.genres.map((item) => item.value).join(',')
+  });
+
+  const res = await axios.get(`${URI_MAP.library.viewAsManager()}?${queryParams.toString()}`, {
     headers: {
       Authorization: getAuthToken()
     }

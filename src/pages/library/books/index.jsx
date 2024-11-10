@@ -63,7 +63,10 @@ const Books = () => {
     refetch
   } = useQuery({
     enabled: isAllBooksQuery,
-    queryKey: ['viewLibrary', isProprietor, isLibrarian, isAllBooksQuery],
+    queryKey: [
+      `viewLibrary|${isProprietor}|${isLibrarian}|${isAllBooksQuery}|${JSON.stringify(filters)}`,
+      filters
+    ],
     queryFn: isProprietor || isLibrarian ? viewLibraryAsManager : viewLibrary,
     refetchOnWindowFocus: true,
     select: (queryResponse) => {
