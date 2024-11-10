@@ -5,7 +5,6 @@ import { getAxiosResponseBody } from '@/utils/objects';
 export const viewLibrary = async ({ queryKey }) => {
   const [_, filters] = queryKey;
   const queryParams = new URLSearchParams({
-    ...filters,
     genres: filters.genres.map((item) => item.value).join(',')
   });
 
@@ -38,7 +37,6 @@ export const editBookDetails = async (data) => {
 export const viewLibraryAsManager = async ({ queryKey }) => {
   const [_, filters] = queryKey;
   const queryParams = new URLSearchParams({
-    ...filters,
     genres: filters.genres.map((item) => item.value).join(',')
   });
 
@@ -59,22 +57,34 @@ export const deleteBook = async (id) => {
   return res;
 };
 
-export const searchBooks = async () => {
-  const res = await axios.get(`${URI_MAP.library.search()}`, {
+export const searchBooks = async ({ queryKey }) => {
+  const [_, filters] = queryKey;
+  const queryParams = new URLSearchParams({
+    query: filters.searchText,
+    genres: filters.genres.map((item) => item.value).join(',')
+  });
+
+  const res = await axios.get(`${URI_MAP.library.search()}?${queryParams.toString()}`, {
     headers: {
       Authorization: getAuthToken()
     }
   });
-  return res;
+  return getAxiosResponseBody(res);
 };
 
-export const searchBooksAsManager = async () => {
-  const res = await axios.get(`${URI_MAP.library.searchAsManager()}`, {
+export const searchBooksAsManager = async ({ queryKey }) => {
+  const [_, filters] = queryKey;
+  const queryParams = new URLSearchParams({
+    query: filters.searchText,
+    genres: filters.genres.map((item) => item.value).join(',')
+  });
+
+  const res = await axios.get(`${URI_MAP.library.searchAsManager()}?${queryParams.toString()}`, {
     headers: {
       Authorization: getAuthToken()
     }
   });
-  return res;
+  return getAxiosResponseBody(res);
 };
 
 export const editQuantity = async (data) => {

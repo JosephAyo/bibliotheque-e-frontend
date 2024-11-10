@@ -27,6 +27,8 @@ import {
   createBook,
   editBookDetails,
   editQuantity,
+  searchBooks,
+  searchBooksAsManager,
   viewBorrowedBooks,
   viewLibrary,
   viewLibraryAsManager
@@ -67,13 +69,17 @@ const Books = () => {
       `viewLibrary|${isProprietor}|${isLibrarian}|${isAllBooksQuery}|${JSON.stringify(filters)}`,
       filters
     ],
-    queryFn: isProprietor || isLibrarian ? viewLibraryAsManager : viewLibrary,
+    queryFn: iff(
+      isProprietor || isLibrarian,
+      filters.searchText ? viewLibraryAsManager : searchBooksAsManager,
+      filters.searchText ? searchBooks : viewLibrary
+    ),
     refetchOnWindowFocus: true,
     select: (queryResponse) => {
       const books = getOr(queryResponse, 'data', []);
       return {
         ...queryResponse,
-        data: filters.searchText ? bookSearch(books, filters.searchText) : books
+        data: books
       };
     }
   });
