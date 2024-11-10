@@ -150,7 +150,16 @@ const Books = () => {
     title: yup.string().required(),
     author_name: yup.string().required().label('author name'),
     description: yup.string().required(),
-    genres: yup.array().of(yup.string().required()).min(1).label('genre')
+    genres: yup
+      .array()
+      .of(
+        yup.object().shape({
+          value: yup.string().required(),
+          label: yup.string().required()
+        })
+      )
+      .min(1)
+      .label('genre')
   });
 
   const editBookQuantityValidationSchema = yup.object().shape({
@@ -290,8 +299,8 @@ const Books = () => {
                   public_shelf_quantity: selectedEditBook.public_shelf_quantity,
                   private_shelf_quantity: selectedEditBook.private_shelf_quantity,
                   genres: getOr(selectedEditBook, 'genre_associations', []).map((item) => ({
-                    value: item.id,
-                    label: item.name
+                    value: item.genre.id,
+                    label: item.genre.name
                   }))
                 }
           }
