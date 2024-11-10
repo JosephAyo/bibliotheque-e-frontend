@@ -14,7 +14,11 @@ const GenreContextProvider = ({ children }) => {
 
   return (
     <GenreContext.Provider
-      value={getOr(data, 'data', [])}>
+      value={getOr(data, 'data', []).map((item) => ({
+        ...item,
+        value: item.id,
+        label: item.name
+      }))}>
       {children}
     </GenreContext.Provider>
   );

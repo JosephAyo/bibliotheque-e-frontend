@@ -1,7 +1,6 @@
 import {
   Center,
   Flex,
-  IconButton,
   Spinner,
   Text,
   Wrap,
@@ -24,8 +23,7 @@ import {
   Select
 } from '@chakra-ui/react';
 import { LibraryPageLayout } from '@/components/Layouts';
-import { FormInputField, SearchInputField } from '@/components/Inputs';
-import { BiSolidSearchAlt2 } from 'react-icons/bi';
+import { FormInputField } from '@/components/Inputs';
 import {
   createBook,
   editBookDetails,
@@ -53,7 +51,10 @@ const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
   const genres = useGenreContext();
 
-  const [searchText, setSearchText] = useState('');
+  const [filters, setFilters] = useState({
+    searchText: '',
+    genres: []
+  });
   const [isAllBooksQuery, setIsAllBooksQuery] = useState(true);
 
   const {
@@ -67,7 +68,10 @@ const Books = () => {
     refetchOnWindowFocus: true,
     select: (queryResponse) => {
       const books = getOr(queryResponse, 'data', []);
-      return { ...queryResponse, data: searchText ? bookSearch(books, searchText) : books };
+      return {
+        ...queryResponse,
+        data: filters.searchText ? bookSearch(books, filters.searchText) : books
+      };
     }
   });
 
@@ -88,7 +92,10 @@ const Books = () => {
           borrow_id: borrowData.id,
           ...borrowData.book
         }));
-      return { ...queryResponse, data: searchText ? bookSearch(books, searchText) : books };
+      return {
+        ...queryResponse,
+        data: filters.searchText ? bookSearch(books, filters.searchText) : books
+      };
     }
   });
 
@@ -187,18 +194,8 @@ const Books = () => {
   return (
     <LibraryPageLayout
       pageTitle="Books"
-      searchBar={
-        <Flex width="420px" gap="10px">
-          <SearchInputField
-            containerProps={{ flex: 1 }}
-            inputFieldProps={{
-              placeholder: 'Search',
-              onChange: (e) => setSearchText(e.target.value)
-            }}
-          />
-          <IconButton variant="primary_action" icon={<BiSolidSearchAlt2 />} />
-        </Flex>
-      }
+      filters={filters}
+      setFilters={setFilters}
       showHeroSection>
       {isBorrower ? (
         <Flex gap="12px" marginBottom="10px">
