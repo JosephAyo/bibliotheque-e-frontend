@@ -7,3 +7,6 @@ export const USER_ROLES = {
 export const ROLE_PERMISSIONS = {
   ALL: 'all'
 };
+
+
+export const DUE_DAYS_REMINDER_AT = 30

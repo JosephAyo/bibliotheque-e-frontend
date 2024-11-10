@@ -20,12 +20,13 @@ import {
 import { PiBooksDuotone } from 'react-icons/pi';
 import { borrowBook, deleteBook, returnBorrowedBook } from '@/services/api/queries/library';
 import { errorToast, successToast } from '@/utils/toast';
-import { getAxiosErrorDetail } from '@/utils/objects';
+import { getAxiosErrorDetail, getOr } from '@/utils/objects';
 import { useMutation } from '@tanstack/react-query';
 import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
+import { getDueIndicatorColor, formatDate } from '@/utils/helpers';
 
 const BookCard = ({
   details,
@@ -45,7 +46,8 @@ const BookCard = ({
     public_shelf_quantity,
     private_shelf_quantity,
     current_borrow_count,
-    img_url
+    img_url,
+    borrowData
   } = details;
 
   const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
@@ -84,6 +86,9 @@ const BookCard = ({
       errorToast({ message: getAxiosErrorDetail(error) });
     }
   });
+
+  const checked_out_at = getOr(borrowData, 'checked_out_at', null);
+  const due_at = getOr(borrowData, 'due_at', null);
 
   return (
     <Popover placement="right-start">
@@ -203,6 +208,28 @@ const BookCard = ({
                   notation: 'compact'
                 }).format(private_shelf_quantity)}
               </Text>
+            )}
+            {isBorrowView ? (
+              <>
+                {checked_out_at ? (
+                  <Text textStyle="subtitle-1">
+                    Borrowed at:&nbsp;
+                    {formatDate(checked_out_at)}
+                  </Text>
+                ) : (
+                  ''
+                )}
+                {due_at ? (
+                  <Text textStyle="subtitle-1" color={getDueIndicatorColor(due_at)}>
+                    Due at:&nbsp;
+                    {formatDate(due_at)}
+                  </Text>
+                ) : (
+                  ''
+                )}
+              </>
+            ) : (
+              ''
             )}
           </VStack>
           <ButtonGroup size="sm" fontSize="16px" justifyContent="end" marginTop="auto">
