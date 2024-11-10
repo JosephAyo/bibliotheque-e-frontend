@@ -219,7 +219,7 @@ const Books = () => {
   const isInCreatingMode = isEmpty(selectedEditBook);
 
   return (
-    <LibraryPageLayout pageTitle="Books" filters={filters} setFilters={setFilters} showHeroSection>
+    <LibraryPageLayout pageTitle="Books" filters={filters} setFilters={setFilters} showHeroSection isAllBooksQuery={isAllBooksQuery}>
       {isBorrower ? (
         <Flex gap="12px" marginBottom="10px">
           <FilterBooksButton isActive={isAllBooksQuery} onClick={() => setIsAllBooksQuery(true)}>

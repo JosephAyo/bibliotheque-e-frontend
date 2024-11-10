@@ -15,7 +15,7 @@ import { Select } from 'chakra-react-select';
 import { SearchInputField } from '../Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
 
-const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setFilters }) => {
+const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setFilters, isAllBooksQuery }) => {
   const { isLibrarian } = useUserRoles();
   const genres = useGenreContext();
 
@@ -105,6 +105,7 @@ const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setF
                 value={filters.genres}
                 onChange={(value) => setFilters((prevValue) => ({ ...prevValue, genres: value }))}
                 options={genres}
+                isDisabled={!isAllBooksQuery}
               />
             </Box>
             <Box minHeight="80vh" width="100%" sx={{ '&>div': { width: '100%' } }} marginTop="10px">
