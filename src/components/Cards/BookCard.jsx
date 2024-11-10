@@ -98,7 +98,11 @@ const BookCard = ({
           height="220px"
           backgroundColor={cardBackgroundColor}
           borderRadius="18px"
-          cursor="pointer">
+          cursor="pointer"
+          {...(isBorrowView && {
+            borderWidth: getDueIndicatorColor(due_at) ? '3px' : 0,
+            borderColor: getDueIndicatorColor(due_at)
+          })}>
           <Box position="relative">
             <Image
               src={img_url}
