@@ -13,8 +13,10 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Tag,
   Text,
   VStack,
+  Wrap,
   useColorModeValue
 } from '@chakra-ui/react';
 import { PiBooksDuotone } from 'react-icons/pi';
@@ -26,7 +28,7 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
-import { getDueIndicatorColor, formatDate } from '@/utils/helpers';
+import { getDueIndicatorColor, formatDate, getGenreNameTagColorScheme } from '@/utils/helpers';
 
 const BookCard = ({
   details,
@@ -47,7 +49,8 @@ const BookCard = ({
     private_shelf_quantity,
     current_borrow_count,
     img_url,
-    borrowData
+    borrowData,
+    genre_associations
   } = details;
 
   const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
@@ -89,6 +92,8 @@ const BookCard = ({
 
   const checked_out_at = getOr(borrowData, 'checked_out_at', null);
   const due_at = getOr(borrowData, 'due_at', null);
+
+  const genreNames = genre_associations.map((genreAssoc) => getOr(genreAssoc, 'genre.name'));
 
   return (
     <Popover placement="right-start">
@@ -162,6 +167,9 @@ const BookCard = ({
           minH="200px"
           maxHeight="400px"
           overflowY="scroll"
+          display="flex"
+          flexDir="column"
+          gap={5}
           sx={{
             '&::-webkit-scrollbar': {
               width: '6px'
@@ -179,6 +187,13 @@ const BookCard = ({
             }
           }}>
           <Text>{description}</Text>
+          <Wrap marginTop="auto" spacing={1}>
+            {genreNames.map((genreName) => (
+              <Tag key={genreName} size="sm" textTransform="capitalize" colorScheme={getGenreNameTagColorScheme(genreName)}>
+                {genreName}
+              </Tag>
+            ))}
+          </Wrap>
         </PopoverBody>
         <PopoverFooter display="flex" alignItems="center" justifyContent="space-between">
           <VStack spacing="2px" alignItems="flex-start">

@@ -27,3 +27,26 @@ export const getDueIndicatorColor = (date) => {
   if (daysToDue <= DUE_DAYS_REMINDER_AT) return 'yellow';
   return '';
 };
+
+const colorPalette = [
+  'whiteAlpha',
+  'blackAlpha',
+  'gray',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'blue',
+  'cyan',
+  'purple',
+  'pink'
+];
+
+export const getGenreNameTagColorScheme = (genreName) => {
+  let hash = 0;
+  for (let i = 0; i < genreName.length; i += 1) {
+    hash += genreName.charCodeAt(i);
+  }
+  return colorPalette[hash % colorPalette.length];
+};
