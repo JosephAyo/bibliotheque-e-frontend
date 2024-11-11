@@ -529,10 +529,10 @@ const Books = () => {
   );
 };
 
-const BookPage = ({ children }) => (
+const BooksPage = ({ children }) => (
   <GenreContextProvider>
     <Books>{children}</Books>
   </GenreContextProvider>
 );
 
-export default BookPage;
+export default BooksPage;

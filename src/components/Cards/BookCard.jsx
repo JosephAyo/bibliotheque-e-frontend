@@ -29,6 +29,7 @@ import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
 import { getDueIndicatorColor, formatDate, getGenreNameTagColorScheme } from '@/utils/helpers';
+import Link from 'next/link';
 
 const BookCard = ({
   details,
@@ -42,6 +43,7 @@ const BookCard = ({
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
   const {
+    id,
     title,
     author_name,
     description,
@@ -159,9 +161,14 @@ const BookCard = ({
       <PopoverContent backgroundColor={cardBackgroundColor} width="400px">
         <PopoverArrow backgroundColor={cardBackgroundColor} />
         <PopoverCloseButton />
-        <PopoverHeader>
-          <strong>{title}</strong> <br />
-          <Text textStyle="subtitle-1-medium">{author_name}</Text>
+        <PopoverHeader
+          _hover={{
+            textDecorationLine: 'underline'
+          }}>
+          <Link href={`/library/books/${id}`}>
+            <strong>{title}</strong> <br />
+            <Text textStyle="subtitle-1-medium">{author_name}</Text>
+          </Link>
         </PopoverHeader>
         <PopoverBody
           minH="200px"
@@ -189,7 +196,11 @@ const BookCard = ({
           <Text>{description}</Text>
           <Wrap marginTop="auto" spacing={1}>
             {genreNames.map((genreName) => (
-              <Tag key={genreName} size="sm" textTransform="capitalize" colorScheme={getGenreNameTagColorScheme(genreName)}>
+              <Tag
+                key={genreName}
+                size="sm"
+                textTransform="capitalize"
+                colorScheme={getGenreNameTagColorScheme(genreName)}>
                 {genreName}
               </Tag>
             ))}

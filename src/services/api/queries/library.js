@@ -16,6 +16,17 @@ export const viewLibrary = async ({ queryKey }) => {
   return getAxiosResponseBody(res);
 };
 
+export const viewOneBook = async ({ queryKey }) => {
+  const [_, id] = queryKey;
+
+  const res = await axios.get(`${URI_MAP.library.view()}/id/${id}`, {
+    headers: {
+      Authorization: getAuthToken()
+    }
+  });
+  return getAxiosResponseBody(res);
+};
+
 export const createBook = async (data) => {
   const res = await axios.post(`${URI_MAP.library.create()}`, JSON.stringify(data), {
     headers: {

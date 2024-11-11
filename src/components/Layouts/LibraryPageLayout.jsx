@@ -15,7 +15,14 @@ import { Select } from 'chakra-react-select';
 import { SearchInputField } from '../Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
 
-const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setFilters, isAllBooksQuery }) => {
+const LibraryPageLayout = ({
+  children,
+  pageTitle,
+  showHeroSection,
+  filters,
+  setFilters,
+  isAllBooksQuery
+}) => {
   const { isLibrarian } = useUserRoles();
   const genres = useGenreContext();
 
@@ -30,27 +37,27 @@ const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setF
       <main>
         <UserAuthWrapper>
           <MainContentContainer>
-            {showHeroSection ? (
-              <Box width="100%">
-                <Flex alignItems="center">
-                  <Link href="/library/books">
-                    <Flex alignItems="center">
-                      <BsBookHalf size={26} />
-                      <Text textStyle="headline-5-medium" marginLeft="4px">
-                        Bibliotheque-E
-                      </Text>
-                    </Flex>
-                  </Link>
-                  <ButtonGroup
-                    marginLeft="auto"
-                    spacing="15px"
-                    width="155px"
-                    justifyContent="flex-end">
-                    <UserMenu />
-                    {isLibrarian ? <LibrarianMenu /> : ''}
-                    <ThemeToggleButton />
-                  </ButtonGroup>
-                </Flex>
+            <Box width="100%">
+              <Flex alignItems="center">
+                <Link href="/library/books">
+                  <Flex alignItems="center">
+                    <BsBookHalf size={26} />
+                    <Text textStyle="headline-5-medium" marginLeft="4px">
+                      Bibliotheque-E
+                    </Text>
+                  </Flex>
+                </Link>
+                <ButtonGroup
+                  marginLeft="auto"
+                  spacing="15px"
+                  width="155px"
+                  justifyContent="flex-end">
+                  <UserMenu />
+                  {isLibrarian ? <LibrarianMenu /> : ''}
+                  <ThemeToggleButton />
+                </ButtonGroup>
+              </Flex>
+              {showHeroSection ? (
                 <Box
                   width="100%"
                   height="204px"
@@ -94,21 +101,25 @@ const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setF
                     </Flex>
                   </Center>
                 </Box>
+              ) : (
+                ''
+              )}
+            </Box>
+            {filters ? (
+              <Box alignSelf="flex-start">
+                <Select
+                  isMulti
+                  placeholder="Filter by genres"
+                  value={filters.genres}
+                  onChange={(value) => setFilters((prevValue) => ({ ...prevValue, genres: value }))}
+                  options={genres}
+                  isDisabled={!isAllBooksQuery}
+                  closeMenuOnSelect={false}
+                />
               </Box>
             ) : (
               ''
             )}
-            <Box alignSelf="flex-start">
-              <Select
-                isMulti
-                placeholder="Filter by genres"
-                value={filters.genres}
-                onChange={(value) => setFilters((prevValue) => ({ ...prevValue, genres: value }))}
-                options={genres}
-                isDisabled={!isAllBooksQuery}
-                closeMenuOnSelect={false}
-              />
-            </Box>
             <Box minHeight="80vh" width="100%" sx={{ '&>div': { width: '100%' } }} marginTop="10px">
               {children}
             </Box>
