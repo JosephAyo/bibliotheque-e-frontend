@@ -106,6 +106,7 @@ const LibraryPageLayout = ({ children, pageTitle, showHeroSection, filters, setF
                 onChange={(value) => setFilters((prevValue) => ({ ...prevValue, genres: value }))}
                 options={genres}
                 isDisabled={!isAllBooksQuery}
+                closeMenuOnSelect={false}
               />
             </Box>
             <Box minHeight="80vh" width="100%" sx={{ '&>div': { width: '100%' } }} marginTop="10px">
