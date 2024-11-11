@@ -14,15 +14,17 @@ import {
   ButtonGroup
 } from '@chakra-ui/react';
 import { LibraryPageLayout } from '@/components/Layouts';
-import { viewOneBook } from '@/services/api/queries/library';
+import { borrowBook, deleteBook, viewOneBook } from '@/services/api/queries/library';
 import useUserRoles from '@/hooks/useUserRoles';
 import GenreContextProvider from '@/contexts/GenreContextProvider';
 import { useRouter } from 'next/router';
 import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getOr } from '@/utils/objects';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getAxiosErrorDetail, getOr } from '@/utils/objects';
 import { getGenreNameTagColorScheme } from '@/utils/helpers';
+import { errorToast, successToast } from '@/utils/toast';
+import CreateEditBookModal from '@/components/Modals/CreateEditBookModal';
 
 const Book = () => {
   const router = useRouter();
@@ -31,7 +33,11 @@ const Book = () => {
 
   const [imageReady, setImageReady] = useState(false);
 
-  const { data, isLoading: viewBookIsLoading } = useQuery({
+  const {
+    data,
+    isLoading: viewBookIsLoading,
+    refetch
+  } = useQuery({
     placeholderData: {},
     enabled: !!router.query.id,
     queryKey: [`viewOneBook`, router.query.id],
@@ -40,7 +46,10 @@ const Book = () => {
     select: (queryResponse) => getOr(queryResponse, 'data', {})
   });
 
+  const [selectedEditBook, setSelectedEditBook] = useState(null);
+
   const {
+    id,
     title,
     author_name,
     description,
@@ -53,6 +62,30 @@ const Book = () => {
   const genreNames = getOr(data, 'genre_associations', []).map((genreAssoc) =>
     getOr(genreAssoc, 'genre.name')
   );
+
+  const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
+    mutationFn: borrowBook,
+    mutationKey: 'borrowBook',
+    onSuccess: () => {
+      refetch();
+      successToast({ message: 'book borrowed' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateDeleteBook, isPending: mutateDeleteBookIsPending } = useMutation({
+    mutationFn: deleteBook,
+    mutationKey: 'deleteBook',
+    onSuccess: () => {
+      successToast({ message: 'book deleted' });
+      router.replace('/library/books');
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
 
   return (
     <LibraryPageLayout pageTitle="Books" filters={null} showHeroSection={false}>
@@ -114,12 +147,12 @@ const Book = () => {
               {isBorrower ? (
                 <Button
                   variant="primary_action"
-                  // onClick={() => {
-                  //   mutateBorrowBook({
-                  //     book_id: details.id
-                  //   });
-                  // }}
-                  // isLoading={mutateBorrowBookIsPending || mutateReturnBorrowedBookIsPending}
+                  onClick={() => {
+                    mutateBorrowBook({
+                      book_id: id
+                    });
+                  }}
+                  isLoading={mutateBorrowBookIsPending}
                   fontSize="inherit">
                   Borrow
                 </Button>
@@ -130,14 +163,16 @@ const Book = () => {
                 <>
                   <Button
                     variant="primary_action"
-                    // onClick={onClickEditBook}
+                    onClick={() => {
+                      setSelectedEditBook(data);
+                    }}
                     rightIcon={<MdModeEdit />}>
                     Edit
                   </Button>
                   <Button
                     variant="delete_action"
-                    // onClick={() => mutateDeleteBook(details.id)}
-                    // isLoading={mutateDeleteBookIsPending}
+                    onClick={() => mutateDeleteBook(id)}
+                    isLoading={mutateDeleteBookIsPending}
                     rightIcon={<MdDelete />}>
                     Delete
                   </Button>
@@ -166,6 +201,12 @@ const Book = () => {
           </Stack>
         </Flex>
       )}
+      <CreateEditBookModal
+        selectedBook={selectedEditBook}
+        isOpen={!!selectedEditBook}
+        onClose={() => setSelectedEditBook(null)}
+        refetch={refetch}
+      />
     </LibraryPageLayout>
   );
 };
