@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   Flex,
+  HStack,
   IconButton,
   Image,
   Popover,
@@ -30,6 +31,7 @@ import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
 import { getDueIndicatorColor, formatDate, getGenreNameTagColorScheme } from '@/utils/helpers';
 import Link from 'next/link';
+import CopyLinkButton from '../Buttons/CopyLinkButton';
 
 const BookCard = ({
   details,
@@ -165,10 +167,17 @@ const BookCard = ({
           _hover={{
             textDecorationLine: 'underline'
           }}>
-          <Link href={`/library/books/${id}`}>
-            <strong>{title}</strong> <br />
-            <Text textStyle="subtitle-1-medium">{author_name}</Text>
-          </Link>
+          <HStack marginRight="20px">
+            <Link href={`/library/books/${id}`}>
+              <strong>
+                {title}
+                {title}
+              </strong>{' '}
+              <br />
+              <Text textStyle="subtitle-1-medium">{author_name}</Text>
+            </Link>
+            <CopyLinkButton link={`${window.location.origin}/library/books/${id}`} />
+          </HStack>
         </PopoverHeader>
         <PopoverBody
           minH="200px"
