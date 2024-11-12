@@ -140,10 +140,10 @@ const queryClient = new QueryClient({
     onError: (error, query) => {
       // 🎉 only show error toasts if we already have data in the cache
       // which indicates a failed background update
-      console.log({
-        query,
-        queryCacheError: error
-      });
+      // console.log({
+      //   query,
+      //   queryCacheError: error
+      // });
       if (error && error instanceof AxiosError && query.queryKey.includes('viewProfile')) {
         useAppStore.getState().userSlice.clearCurrentUser();
         clearAllUserData();
@@ -155,36 +155,32 @@ const queryClient = new QueryClient({
   })
 });
 
-const MyApp = ({ Component, pageProps, router }) => {
-  const isAbsoluteNeeded = needAbsoluteThemeToggle.includes(router.pathname);
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        {isAbsoluteNeeded ? (
-          <Box position="absolute" top="20px" right="20px">
-            <ThemeToggleButton />
-          </Box>
-        ) : (
-          ''
-        )}
-        <ToastContainer
-          position="top-right"
-          autoClose={1000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        <Component {...pageProps} />
-      </ChakraProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  );
-};
+const MyApp = ({ Component, pageProps, router }) => (
+  <QueryClientProvider client={queryClient}>
+    <ChakraProvider theme={theme}>
+      {needAbsoluteThemeToggle.includes(router.pathname) ? (
+        <Box position="absolute" top="20px" right="20px">
+          <ThemeToggleButton />
+        </Box>
+      ) : (
+        ''
+      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      <Component {...pageProps} />
+    </ChakraProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
+);
 
 export default MyApp;
