@@ -29,7 +29,12 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
-import { getDueIndicatorColor, formatDate, getGenreNameTagColorScheme } from '@/utils/helpers';
+import {
+  getDueStatus,
+  formatDate,
+  getGenreNameTagColorScheme,
+  getDueStatusAndColor
+} from '@/utils/helpers';
 import Link from 'next/link';
 import CopyLinkButton from '../Buttons/CopyLinkButton';
 
@@ -99,6 +104,7 @@ const BookCard = ({
 
   const genreNames = genre_associations.map((genreAssoc) => getOr(genreAssoc, 'genre.name'));
 
+  const { status: dueStatus, color: dueColor } = getDueStatusAndColor(due_at);
   return (
     <Popover placement="right-start">
       <PopoverTrigger>
@@ -109,8 +115,8 @@ const BookCard = ({
           borderRadius="18px"
           cursor="pointer"
           {...(isBorrowView && {
-            borderWidth: getDueIndicatorColor(due_at) ? '3px' : 0,
-            borderColor: getDueIndicatorColor(due_at)
+            borderWidth: dueStatus ? '3px' : 0,
+            borderColor: dueColor
           })}>
           <Box position="relative">
             <Image
@@ -259,7 +265,7 @@ const BookCard = ({
                   ''
                 )}
                 {due_at ? (
-                  <Text textStyle="subtitle-1" color={getDueIndicatorColor(due_at)}>
+                  <Text textStyle="subtitle-1" color={getDueStatus(due_at)}>
                     Due at:&nbsp;
                     {formatDate(due_at)}
                   </Text>

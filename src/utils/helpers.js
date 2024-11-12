@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { DUE_DAYS_REMINDER_AT } from './constants';
+import { DUE_DAYS_REMINDER_AT, DUE_STATUSES } from './constants';
 
 dayjs.extend(utc);
 
@@ -20,12 +20,36 @@ export const bookSearch = (books = [], searchText = '') =>
 
 export const formatDate = (date) => dayjs.utc(date).local().format('DD/MM/YYYY, HH:mm');
 
-export const getDueIndicatorColor = (date) => {
+export const getDueStatus = (date) => {
   const daysToDue = dayjs.utc(date).local().diff(dayjs(), 'day', true);
 
-  if (daysToDue <= 0) return 'red';
-  if (daysToDue <= DUE_DAYS_REMINDER_AT) return 'yellow';
-  return '';
+  if (daysToDue <= 0) return DUE_STATUSES.LATE;
+  if (daysToDue <= DUE_DAYS_REMINDER_AT) return DUE_STATUSES.DUE_SOON;
+  return DUE_STATUSES.OKAY;
+};
+
+export const getDueIndicatorColor = (status) => {
+  switch (status) {
+    case DUE_STATUSES.LATE:
+      return 'red';
+
+    case DUE_STATUSES.DUE_SOON:
+      return 'yellow';
+
+    case DUE_STATUSES.OKAY:
+    default:
+      return '';
+  }
+};
+
+export const getDueStatusAndColor = (date) => {
+  const status = getDueStatus(date);
+  const color = getDueIndicatorColor(status);
+
+  return {
+    status,
+    color
+  };
 };
 
 const colorPalette = [

@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+import DueSoonReminderBanners from '../Banners/DueSoonReminderBanners';
 
 const MainContentContainer = ({ children }) => (
   <Flex
@@ -10,8 +11,10 @@ const MainContentContainer = ({ children }) => (
     marginRight="auto"
     paddingY="20px"
     paddingX="23px"
-    rowGap='10px'>
+    rowGap="10px">
     {children}
+
+    <DueSoonReminderBanners />
   </Flex>
 );
 

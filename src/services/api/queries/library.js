@@ -133,3 +133,12 @@ export const returnBorrowedBook = async (data) => {
   });
   return res;
 };
+
+export const viewBorrowedBooksReminder = async () => {
+  const res = await axios.get(`${URI_MAP.library.viewBorrowed()}/reminders`, {
+    headers: {
+      Authorization: getAuthToken()
+    }
+  });
+  return getAxiosResponseBody(res);
+};
