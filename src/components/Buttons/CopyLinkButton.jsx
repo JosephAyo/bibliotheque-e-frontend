@@ -29,6 +29,7 @@ const CopyLinkButton = ({ link }) => {
         aria-label="Done"
         fontSize="12px"
         size="sm"
+        colorScheme={clicked ? 'teal' : 'gray'}
         icon={clicked ? <FaCheckCircle /> : <FaLink />}
         minWidth="fit-content"
         height="fit-content"
