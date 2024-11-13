@@ -27,7 +27,13 @@ import {
 } from '@/services/api/queries/library';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from '@/utils/objects';
-import { bookSearch, getGenreNameTagColorScheme, iff } from '@/utils/helpers';
+import {
+  bookSearch,
+  formatDate,
+  getDueStatusAndColor,
+  getGenreNameTagColorScheme,
+  iff
+} from '@/utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
 import { BookCard } from '@/components/Cards';
 import { AddBookButton, FilterBooksButton } from '@/components/Buttons';
@@ -198,7 +204,8 @@ const Books = () => {
     {
       key: 'private_shelf_quantity',
       label: 'private shelf quantity',
-      path: 'private_shelf_quantity'
+      path: 'private_shelf_quantity',
+      hide: isBorrower
     },
     {
       key: 'genres',
@@ -219,6 +226,20 @@ const Books = () => {
             ))}
         </Wrap>
       )
+    },
+    {
+      key: 'checked_out_at',
+      label: 'borrowed at',
+      path: 'borrowData.checked_out_at',
+      render: (book, checked_out_at) => formatDate(checked_out_at),
+      hide: isAllBooksQuery
+    },
+    {
+      key: 'due_at',
+      label: 'due at',
+      path: 'borrowData.due_at',
+      render: (book, due_at) => formatDate(due_at),
+      hide: isAllBooksQuery
     },
     {
       key: 'actions',
@@ -342,29 +363,36 @@ const Books = () => {
               {isProprietor ? <AddBookButton onClick={onOpen} /> : ''}
             </Wrap>
           ) : (
-            <TableListContainer cols={cols} width="100%">
-              {bookList.map((data) => (
-                <Tr key={data.id}>
-                  {cols.map((col) => {
-                    let element = get(data, col.path);
-                    if (col.render) {
-                      element = col.render(data, element);
-                    }
-                    return (
-                      <Td
-                        key={col.key}
-                        textStyle="caption"
-                        padding="20px 10px"
-                        style={{
-                          whiteSpace: 'normal',
-                          wordWrap: 'break-word'
-                        }}>
-                        {element}
-                      </Td>
-                    );
-                  })}
-                </Tr>
-              ))}
+            <TableListContainer cols={cols.filter((col) => !col.hide)} width="100%">
+              {bookList.map((data) => {
+                const { color, status } = getDueStatusAndColor(
+                  getOr(data, 'borrowData.due_at', null)
+                );
+                return (
+                  <Tr key={data.id} borderLeftWidth={status ? '3px' : 0} borderColor={color}>
+                    {cols
+                      .filter((col) => !col.hide)
+                      .map((col) => {
+                        let element = get(data, col.path);
+                        if (col.render) {
+                          element = col.render(data, element);
+                        }
+                        return (
+                          <Td
+                            key={col.key}
+                            textStyle="caption"
+                            padding="20px 10px"
+                            style={{
+                              whiteSpace: 'normal',
+                              wordWrap: 'break-word'
+                            }}>
+                            {element}
+                          </Td>
+                        );
+                      })}
+                  </Tr>
+                );
+              })}
             </TableListContainer>
           )
         )

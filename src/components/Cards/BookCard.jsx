@@ -26,12 +26,7 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
-import {
-  getDueStatus,
-  formatDate,
-  getGenreNameTagColorScheme,
-  getDueStatusAndColor
-} from '@/utils/helpers';
+import { formatDate, getGenreNameTagColorScheme, getDueStatusAndColor } from '@/utils/helpers';
 import Link from 'next/link';
 import CopyLinkButton from '../Buttons/CopyLinkButton';
 
@@ -224,7 +219,7 @@ const BookCard = ({
                   ''
                 )}
                 {due_at ? (
-                  <Text textStyle="subtitle-1" color={getDueStatus(due_at)}>
+                  <Text textStyle="subtitle-1" color={dueColor}>
                     Due at:&nbsp;
                     {formatDate(due_at)}
                   </Text>

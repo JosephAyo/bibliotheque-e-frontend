@@ -34,7 +34,7 @@ export const getDueIndicatorColor = (status) => {
       return 'red';
 
     case DUE_STATUSES.DUE_SOON:
-      return 'yellow';
+      return 'orange';
 
     case DUE_STATUSES.OKAY:
     default:
