@@ -21,10 +21,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 import { PiBooksDuotone } from 'react-icons/pi';
-import { borrowBook, deleteBook, returnBorrowedBook } from '@/services/api/queries/library';
-import { errorToast, successToast } from '@/utils/toast';
-import { getAxiosErrorDetail, getOr } from '@/utils/objects';
-import { useMutation } from '@tanstack/react-query';
+import { getOr } from '@/utils/objects';
 import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
@@ -43,9 +40,12 @@ const BookCard = ({
   isLibrarian,
   isBorrower,
   isProprietor,
-  refetch,
   onClickEditBook,
-  isBorrowView
+  isBorrowView,
+  isMutationRequestPending,
+  mutateReturnBorrowedBook,
+  mutateBorrowBook,
+  mutateDeleteBook
 }) => {
   const cardBackgroundColor = useColorModeValue('#f6f6f6', 'gray.600');
   const authorColor = useColorModeValue('#999', '#BBB');
@@ -61,43 +61,6 @@ const BookCard = ({
     borrowData,
     genre_associations
   } = details;
-
-  const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
-    mutationFn: borrowBook,
-    mutationKey: 'borrowBook',
-    onSuccess: () => {
-      refetch();
-      successToast({ message: 'book borrowed' });
-    },
-    onError: (error) => {
-      errorToast({ message: getAxiosErrorDetail(error) });
-    }
-  });
-
-  const { mutate: mutateReturnBorrowedBook, isPending: mutateReturnBorrowedBookIsPending } =
-    useMutation({
-      mutationFn: returnBorrowedBook,
-      mutationKey: 'returnBorrowedBook',
-      onSuccess: () => {
-        refetch();
-        successToast({ message: 'book returned' });
-      },
-      onError: (error) => {
-        errorToast({ message: getAxiosErrorDetail(error) });
-      }
-    });
-
-  const { mutate: mutateDeleteBook, isPending: mutateDeleteBookIsPending } = useMutation({
-    mutationFn: deleteBook,
-    mutationKey: 'deleteBook',
-    onSuccess: () => {
-      refetch();
-      successToast({ message: 'book deleted' });
-    },
-    onError: (error) => {
-      errorToast({ message: getAxiosErrorDetail(error) });
-    }
-  });
 
   const checked_out_at = getOr(borrowData, 'checked_out_at', null);
   const due_at = getOr(borrowData, 'due_at', null);
@@ -287,7 +250,7 @@ const BookCard = ({
                       book_id: details.id
                     });
                 }}
-                isLoading={mutateBorrowBookIsPending || mutateReturnBorrowedBookIsPending}
+                isLoading={isMutationRequestPending}
                 fontSize="inherit">
                 {isBorrowView ? 'Return' : 'Borrow'}
               </Button>
@@ -304,7 +267,7 @@ const BookCard = ({
                 <IconButton
                   variant="delete_action"
                   onClick={() => mutateDeleteBook(details.id)}
-                  isLoading={mutateDeleteBookIsPending}
+                  isLoading={isMutationRequestPending}
                   icon={<MdDelete />}
                 />
               </>

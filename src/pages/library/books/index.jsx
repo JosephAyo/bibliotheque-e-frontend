@@ -16,14 +16,17 @@ import {
 } from '@chakra-ui/react';
 import { LibraryPageLayout } from '@/components/Layouts';
 import {
+  borrowBook,
+  deleteBook,
+  returnBorrowedBook,
   searchBooks,
   searchBooksAsManager,
   viewBorrowedBooks,
   viewLibrary,
   viewLibraryAsManager
 } from '@/services/api/queries/library';
-import { useQuery } from '@tanstack/react-query';
-import { getOr } from '@/utils/objects';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getAxiosErrorDetail, getOr } from '@/utils/objects';
 import { bookSearch, getGenreNameTagColorScheme, iff } from '@/utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
 import { BookCard } from '@/components/Cards';
@@ -38,6 +41,7 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import Link from 'next/link';
 import { FaThList } from 'react-icons/fa';
 import { BsFillGrid3X3GapFill } from 'react-icons/bs';
+import { errorToast, successToast } from '@/utils/toast';
 
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
@@ -95,6 +99,43 @@ const Books = () => {
         ...queryResponse,
         data: filters.searchText ? bookSearch(books, filters.searchText) : books
       };
+    }
+  });
+
+  const { mutate: mutateBorrowBook, isPending: mutateBorrowBookIsPending } = useMutation({
+    mutationFn: borrowBook,
+    mutationKey: 'borrowBook',
+    onSuccess: () => {
+      refetch();
+      successToast({ message: 'book borrowed' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
+    }
+  });
+
+  const { mutate: mutateReturnBorrowedBook, isPending: mutateReturnBorrowedBookIsPending } =
+    useMutation({
+      mutationFn: returnBorrowedBook,
+      mutationKey: 'returnBorrowedBook',
+      onSuccess: () => {
+        refetch();
+        successToast({ message: 'book returned' });
+      },
+      onError: (error) => {
+        errorToast({ message: getAxiosErrorDetail(error) });
+      }
+    });
+
+  const { mutate: mutateDeleteBook, isPending: mutateDeleteBookIsPending } = useMutation({
+    mutationFn: deleteBook,
+    mutationKey: 'deleteBook',
+    onSuccess: () => {
+      refetch();
+      successToast({ message: 'book deleted' });
+    },
+    onError: (error) => {
+      errorToast({ message: getAxiosErrorDetail(error) });
     }
   });
 
@@ -189,16 +230,16 @@ const Books = () => {
             <Button
               variant="primary_action"
               onClick={() => {
-                // if (!isAllBooksQuery)
-                //   mutateReturnBorrowedBook({
-                //     id: details.borrow_id
-                //   });
-                // else
-                //   mutateBorrowBook({
-                //     book_id: details.id
-                //   });
+                if (!isAllBooksQuery)
+                  mutateReturnBorrowedBook({
+                    id: book.borrow_id
+                  });
+                else
+                  mutateBorrowBook({
+                    book_id: book.id
+                  });
               }}
-              // isLoading={mutateBorrowBookIsPending || mutateReturnBorrowedBookIsPending}
+              isLoading={mutateBorrowBookIsPending || mutateReturnBorrowedBookIsPending}
               fontSize="inherit">
               {!isAllBooksQuery ? 'Return' : 'Borrow'}
             </Button>
@@ -214,8 +255,8 @@ const Books = () => {
               />
               <IconButton
                 variant="delete_action"
-                // onClick={() => mutateDeleteBook(details.id)}
-                // isLoading={mutateDeleteBookIsPending}
+                onClick={() => mutateDeleteBook(book.id)}
+                isLoading={mutateDeleteBookIsPending}
                 icon={<MdDelete />}
               />
             </>
@@ -235,7 +276,7 @@ const Books = () => {
       showHeroSection
       isAllBooksQuery={isAllBooksQuery}
       onClickAddBook={onOpen}>
-      <HStack justifyContent="space-between" marginBottom='10px'>
+      <HStack justifyContent="space-between" marginBottom="10px">
         {isBorrower ? (
           <Flex gap="12px" marginBottom="10px">
             <FilterBooksButton isActive={isAllBooksQuery} onClick={() => setIsAllBooksQuery(true)}>
@@ -252,7 +293,7 @@ const Books = () => {
         )}
         <IconButton
           colorScheme="primary"
-          variant='outline'
+          variant="outline"
           marginLeft="auto"
           icon={tileView ? <FaThList /> : <BsFillGrid3X3GapFill />}
           onClick={() => setTileView(!tileView)}
@@ -287,6 +328,14 @@ const Books = () => {
                       handleOnClickEdit(data);
                     }}
                     isBorrowView={!isAllBooksQuery}
+                    isMutationRequestPending={
+                      mutateBorrowBookIsPending ||
+                      mutateReturnBorrowedBookIsPending ||
+                      mutateDeleteBookIsPending
+                    }
+                    mutateBorrowBook={mutateBorrowBook}
+                    mutateReturnBorrowedBook={mutateReturnBorrowedBook}
+                    mutateDeleteBook={mutateDeleteBook}
                   />
                 );
               })}
