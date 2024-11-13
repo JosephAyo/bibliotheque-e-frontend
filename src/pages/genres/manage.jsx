@@ -8,13 +8,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Table,
-  Thead,
-  Tbody,
   Tr,
-  Th,
   Td,
-  TableContainer,
   Wrap,
   IconButton,
   Flex
@@ -34,6 +29,7 @@ import useAppStore from '@/lib/store';
 import { AuthorizationGate } from '@/components/Wrappers';
 import { FormInputField } from '@/components/Inputs';
 import { IoMdAddCircle } from 'react-icons/io';
+import TableListContainer from '@/components/Tables/TableListContainer';
 
 const ManageGenres = () => {
   const {
@@ -153,50 +149,37 @@ const ManageGenres = () => {
           Add
         </Button>
       </Flex>
-      <TableContainer width="100%">
-        <Table variant="striped" colorScheme="gray" layout="fixed">
-          <Thead>
-            <Tr>
-              {cols.map((col) => (
-                <Th key={col.key} padding="20px 10px">
-                  {col.label}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {getOr(data, 'data', []).map((genre) => (
-              <Tr key={genre.id}>
-                {cols.map((col) => {
-                  const onClickHandler = () => {
-                    setSelectedGenre({
-                      ...genre
-                    });
-                  };
-                  let element = get(genre, col.path);
-                  if (col.render) {
-                    if (col.key === 'action')
-                      element = col.render(onClickHandler, currentUser.name === genre.name);
-                    else element = col.render(get(genre, col.path));
-                  }
-                  return (
-                    <Td
-                      key={col.key}
-                      textStyle="caption"
-                      padding="20px 10px"
-                      style={{
-                        whiteSpace: 'normal',
-                        wordWrap: 'break-word'
-                      }}>
-                      {element}
-                    </Td>
-                  );
-                })}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <TableListContainer cols={cols}>
+        {getOr(data, 'data', []).map((genre) => (
+          <Tr key={genre.id}>
+            {cols.map((col) => {
+              const onClickHandler = () => {
+                setSelectedGenre({
+                  ...genre
+                });
+              };
+              let element = get(genre, col.path);
+              if (col.render) {
+                if (col.key === 'action')
+                  element = col.render(onClickHandler, currentUser.name === genre.name);
+                else element = col.render(get(genre, col.path));
+              }
+              return (
+                <Td
+                  key={col.key}
+                  textStyle="caption"
+                  padding="20px 10px"
+                  style={{
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word'
+                  }}>
+                  {element}
+                </Td>
+              );
+            })}
+          </Tr>
+        ))}
+      </TableListContainer>
       <Modal
         isOpen={!isEmpty(selectedGenre)}
         onClose={() => setSelectedGenre(null)}

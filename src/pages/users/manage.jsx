@@ -8,13 +8,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Table,
-  Thead,
-  Tbody,
   Tr,
-  Th,
   Td,
-  TableContainer,
   Wrap,
   Tag,
   IconButton,
@@ -37,6 +32,7 @@ import { USER_ROLES } from '@/utils/constants';
 import useAppStore from '@/lib/store';
 import { iff } from '@/utils/helpers';
 import { AuthorizationGate } from '@/components/Wrappers';
+import TableListContainer from '@/components/Tables/TableListContainer';
 
 const ManageAccounts = () => {
   const { roles } = useUserRoles();
@@ -168,53 +164,40 @@ const ManageAccounts = () => {
   return (
     <UserAccountPageLayout pageTitle="Manage">
       <Text textStyle="headline-5-medium" textTransform="uppercase">
-      Users
+        Users
       </Text>
-      <TableContainer width="100%">
-        <Table variant="striped" colorScheme="gray" layout="fixed">
-          <Thead>
-            <Tr>
-              {cols.map((col) => (
-                <Th key={col.key} padding="20px 10px">
-                  {col.label}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {getOr(resBody, 'data', []).map((user) => (
-              <Tr key={user.email}>
-                {cols.map((col) => {
-                  const onClickHandler = () => {
-                    setSelectedUser({
-                      ...user,
-                      roles: user.user_role_associations.map((item) => item.role)
-                    });
-                  };
-                  let element = get(user, col.path);
-                  if (col.render) {
-                    if (col.key === 'action')
-                      element = col.render(onClickHandler, currentUser.email === user.email);
-                    else element = col.render(get(user, col.path));
-                  }
-                  return (
-                    <Td
-                      key={col.key}
-                      textStyle="caption"
-                      padding="20px 10px"
-                      style={{
-                        whiteSpace: 'normal',
-                        wordWrap: 'break-word'
-                      }}>
-                      {element}
-                    </Td>
-                  );
-                })}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <TableListContainer cols={cols} width="100%">
+        {getOr(resBody, 'data', []).map((user) => (
+          <Tr key={user.email}>
+            {cols.map((col) => {
+              const onClickHandler = () => {
+                setSelectedUser({
+                  ...user,
+                  roles: user.user_role_associations.map((item) => item.role)
+                });
+              };
+              let element = get(user, col.path);
+              if (col.render) {
+                if (col.key === 'action')
+                  element = col.render(onClickHandler, currentUser.email === user.email);
+                else element = col.render(get(user, col.path));
+              }
+              return (
+                <Td
+                  key={col.key}
+                  textStyle="caption"
+                  padding="20px 10px"
+                  style={{
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word'
+                  }}>
+                  {element}
+                </Td>
+              );
+            })}
+          </Tr>
+        ))}
+      </TableListContainer>
       <Modal isOpen={!isEmpty(selectedUser)} onClose={() => setSelectedUser(null)} variant="themed">
         <ModalOverlay />
         <Formik
