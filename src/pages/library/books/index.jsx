@@ -29,6 +29,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from '@/utils/objects';
 import {
   bookSearch,
+  clampText,
   formatDate,
   getDueStatusAndColor,
   getGenreNameTagColorScheme,
@@ -194,7 +195,8 @@ const Books = () => {
     {
       key: 'description',
       label: 'description',
-      path: 'description'
+      path: 'description',
+      render: (book, description) => clampText(description, 60)
     },
     {
       key: 'public_shelf_quantity',

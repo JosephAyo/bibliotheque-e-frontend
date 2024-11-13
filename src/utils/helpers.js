@@ -74,3 +74,9 @@ export const getGenreNameTagColorScheme = (genreName) => {
   }
   return colorPalette[hash % colorPalette.length];
 };
+
+
+
+export function clampText(text, limit) {
+  return text.length > limit ? `${text.slice(0, limit)}...` : text;
+}
