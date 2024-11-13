@@ -11,7 +11,7 @@ const MainContentContainer = ({ children }) => (
     marginRight="auto"
     paddingY="20px"
     paddingX="23px"
-    rowGap="10px">
+    rowGap="20px">
     {children}
 
     <DueSoonReminderBanners />

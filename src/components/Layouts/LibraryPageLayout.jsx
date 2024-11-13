@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import { Box, ButtonGroup, Center, Flex, IconButton, Text } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Center, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import { ThemeToggleButton } from '@/components/ThemeToggle';
 import { UserMenu } from '@/components/UserMenu';
 import { LibrarianMenu } from '@/components/LibrarianMenu';
 import MainContentContainer from './MainContentContainer';
 import { UserAuthWrapper } from '@/components/Wrappers';
 import { HeadTitle } from '@/components/Head';
-import { BsBookHalf } from 'react-icons/bs';
+import { BsBookHalf, BsPlusCircleFill } from 'react-icons/bs';
 import Link from 'next/link';
 import bgImage from '../../../public/assets/hero-section-bg.jpg';
 import useUserRoles from '@/hooks/useUserRoles';
@@ -21,9 +21,10 @@ const LibraryPageLayout = ({
   showHeroSection,
   filters,
   setFilters,
-  isAllBooksQuery
+  isAllBooksQuery,
+  onClickAddBook
 }) => {
-  const { isLibrarian } = useUserRoles();
+  const { isLibrarian, isProprietor } = useUserRoles();
   const genres = useGenreContext();
 
   return (
@@ -105,21 +106,38 @@ const LibraryPageLayout = ({
                 ''
               )}
             </Box>
-            {filters ? (
-              <Box alignSelf="flex-start">
-                <Select
-                  isMulti
-                  placeholder="Filter by genres"
-                  value={filters.genres}
-                  onChange={(value) => setFilters((prevValue) => ({ ...prevValue, genres: value }))}
-                  options={genres}
-                  isDisabled={!isAllBooksQuery}
-                  closeMenuOnSelect={false}
-                />
-              </Box>
-            ) : (
-              ''
-            )}
+            <HStack justifyContent="space-between" width="100%">
+              {filters ? (
+                <>
+                  <Box alignSelf="flex-start">
+                    <Select
+                      isMulti
+                      placeholder="Filter by genres"
+                      value={filters.genres}
+                      onChange={(value) =>
+                        setFilters((prevValue) => ({ ...prevValue, genres: value }))
+                      }
+                      options={genres}
+                      isDisabled={!isAllBooksQuery}
+                      closeMenuOnSelect={false}
+                    />
+                  </Box>
+                  {isProprietor ? (
+                    <Button
+                      variant="primary_action"
+                      rightIcon={<BsPlusCircleFill />}
+                      marginLeft="auto"
+                      onClick={onClickAddBook}>
+                      Add Book
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                </>
+              ) : (
+                ''
+              )}
+            </HStack>
             <Box minHeight="80vh" width="100%" sx={{ '&>div': { width: '100%' } }} marginTop="10px">
               {children}
             </Box>

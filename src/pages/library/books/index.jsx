@@ -102,7 +102,8 @@ const Books = () => {
       filters={filters}
       setFilters={setFilters}
       showHeroSection
-      isAllBooksQuery={isAllBooksQuery}>
+      isAllBooksQuery={isAllBooksQuery}
+      onClickAddBook={onOpen}>
       {isBorrower ? (
         <Flex gap="12px" marginBottom="10px">
           <FilterBooksButton isActive={isAllBooksQuery} onClick={() => setIsAllBooksQuery(true)}>
