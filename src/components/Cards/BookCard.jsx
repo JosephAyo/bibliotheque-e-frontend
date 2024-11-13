@@ -175,11 +175,7 @@ const BookCard = ({
           }}>
           <HStack marginRight="20px">
             <Link href={`/library/books/${id}`}>
-              <strong>
-                {title}
-                {title}
-              </strong>{' '}
-              <br />
+              <strong>{title}</strong> <br />
               <Text textStyle="subtitle-1-medium">{author_name}</Text>
             </Link>
             <CopyLinkButton link={`${window.location.origin}/library/books/${id}`} />

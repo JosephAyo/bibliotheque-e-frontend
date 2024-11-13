@@ -13,7 +13,6 @@ const MainContentContainer = ({ children }) => (
     paddingX="23px"
     rowGap="20px">
     {children}
-
     <DueSoonReminderBanners />
   </Flex>
 );
