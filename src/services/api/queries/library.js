@@ -116,6 +116,16 @@ export const viewBorrowedBooks = async () => {
   return getAxiosResponseBody(res);
 };
 
+export const viewBorrowedBooksAsManager = async ({ queryKey }) => {
+  const [_, status] = queryKey;
+  const res = await axios.get(`${URI_MAP.library.viewBorrowed()}/manager?status=${status || 'all'}`, {
+    headers: {
+      Authorization: getAuthToken()
+    }
+  });
+  return getAxiosResponseBody(res);
+};
+
 export const borrowBook = async (data) => {
   const res = await axios.put(`${URI_MAP.library.borrow()}`, JSON.stringify(data), {
     headers: {

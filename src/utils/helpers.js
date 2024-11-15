@@ -18,7 +18,7 @@ export const bookSearch = (books = [], searchText = '') =>
       book.description.toLowerCase().indexOf(searchText.toLowerCase()) > -1
   );
 
-export const formatDate = (date) => dayjs.utc(date).local().format('DD/MM/YYYY, HH:mm');
+export const formatDate = (date) => dayjs.utc(date).local().format('YYYY-MMM-DD, HH:mm');
 
 export const getDueStatus = (date) => {
   const daysToDue = dayjs.utc(date).local().diff(dayjs(), 'day', true);

@@ -25,17 +25,12 @@ import { errorToast, successToast } from '@/utils/toast';
 import * as yup from 'yup';
 import { FaEdit } from 'react-icons/fa';
 import { USER_ROLES } from '@/utils/constants';
-import useAppStore from '@/lib/store';
 import { AuthorizationGate } from '@/components/Wrappers';
 import { FormInputField } from '@/components/Inputs';
 import { IoMdAddCircle } from 'react-icons/io';
 import TableListContainer from '@/components/Tables/TableListContainer';
 
 const ManageGenres = () => {
-  const {
-    userSlice: { currentUser }
-  } = useAppStore();
-
   const [selectedGenre, setSelectedGenre] = useState(null);
 
   const validationSchema = yup.object().shape({
@@ -160,8 +155,7 @@ const ManageGenres = () => {
               };
               let element = get(genre, col.path);
               if (col.render) {
-                if (col.key === 'action')
-                  element = col.render(onClickHandler, currentUser.name === genre.name);
+                if (col.key === 'action') element = col.render(onClickHandler);
                 else element = col.render(get(genre, col.path));
               }
               return (
