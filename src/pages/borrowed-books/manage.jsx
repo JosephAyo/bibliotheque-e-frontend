@@ -8,7 +8,7 @@ import { FaClock } from 'react-icons/fa';
 import { DUE_STATUSES, USER_ROLES } from '@/utils/constants';
 import { AuthorizationGate } from '@/components/Wrappers';
 import TableListContainer from '@/components/Tables/TableListContainer';
-import { viewBorrowedBooksAsManager } from '@/services/api/queries/library';
+import { sendBorrowedBookReminder, viewBorrowedBooksAsManager } from '@/services/api/queries/library';
 import {
   clampText,
   formatDate,
@@ -33,13 +33,8 @@ const ManageBorrowedBooks = () => {
   });
 
   const { mutate: mutateSendReminder, isPending: mutateSendReminderIsPending } = useMutation({
-    mutationFn: () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(`Promise resolved after ${3000} milliseconds`);
-        }, 3000);
-      }),
-    mutationKey: 'editGenre',
+    mutationFn: sendBorrowedBookReminder,
+    mutationKey: 'sendBorrowedBookReminder',
     onSuccess: (response) => {
       successToast({ message: get(getAxiosResponseBody(response), 'detail', '') });
       refetch();

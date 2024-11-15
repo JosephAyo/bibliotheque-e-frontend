@@ -118,12 +118,28 @@ export const viewBorrowedBooks = async () => {
 
 export const viewBorrowedBooksAsManager = async ({ queryKey }) => {
   const [_, status] = queryKey;
-  const res = await axios.get(`${URI_MAP.library.viewBorrowed()}/manager?status=${status || 'all'}`, {
-    headers: {
-      Authorization: getAuthToken()
+  const res = await axios.get(
+    `${URI_MAP.library.viewBorrowed()}/manager?status=${status || 'all'}`,
+    {
+      headers: {
+        Authorization: getAuthToken()
+      }
     }
-  });
+  );
   return getAxiosResponseBody(res);
+};
+
+export const sendBorrowedBookReminder = async (borrowId) => {
+  const res = await axios.post(
+    `${URI_MAP.library.viewBorrowed()}/manager/${borrowId}`,
+    {},
+    {
+      headers: {
+        Authorization: getAuthToken()
+      }
+    }
+  );
+  return res;
 };
 
 export const borrowBook = async (data) => {
