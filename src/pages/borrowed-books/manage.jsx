@@ -17,10 +17,17 @@ import {
   iff
 } from '@/utils/helpers';
 import Link from 'next/link';
+import { Select } from 'chakra-react-select';
+import { useState } from 'react';
 
 const ManageBorrowedBooks = () => {
+  const [filter, setFilter] = useState({
+    value: 'all',
+    label: 'All'
+  });
+
   const { data, refetch } = useQuery({
-    queryKey: ['viewBorrowedBooksAsManager'],
+    queryKey: ['viewBorrowedBooksAsManager', filter.value],
     queryFn: viewBorrowedBooksAsManager,
     refetchOnWindowFocus: true
   });
@@ -151,6 +158,27 @@ const ManageBorrowedBooks = () => {
       <Text textStyle="headline-5-medium" textTransform="uppercase">
         Borrowed books
       </Text>
+      <Box alignSelf="flex-start">
+        <Select
+          placeholder="Filter by status"
+          value={filter}
+          onChange={(value) => setFilter(value)}
+          options={[
+            {
+              value: 'all',
+              label: 'All'
+            },
+            {
+              value: 'due-soon',
+              label: 'Due soon'
+            },
+            {
+              value: 'late',
+              label: 'Late'
+            }
+          ]}
+        />
+      </Box>
       <TableListContainer cols={cols}>
         {getOr(data, 'data', []).map((borrowedBook) => {
           const { returned } = borrowedBook;
@@ -184,6 +212,7 @@ const ManageBorrowedBooks = () => {
           );
         })}
       </TableListContainer>
+      <Box height="20px" />
     </UserAccountPageLayout>
   );
 };
