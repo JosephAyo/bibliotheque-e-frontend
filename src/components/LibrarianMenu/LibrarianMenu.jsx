@@ -17,6 +17,9 @@ const LibrarianMenu = () => (
         <MenuItem as={Link} href="/genres/manage" textStyle="caption-medium">
           Genres
         </MenuItem>
+        <MenuItem as={Link} href="/curations/manage" textStyle="caption-medium">
+          Curations
+        </MenuItem>
       </MenuOptionGroup>
     </MenuList>
   </Menu>

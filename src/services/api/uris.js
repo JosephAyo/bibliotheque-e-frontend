@@ -75,6 +75,9 @@ const URI_MAP = {
     },
     genres() {
       return `${this.library_base_url}/genres`;
+    },
+    curations() {
+      return `${this.library_base_url}/curations`;
     }
   }
 };

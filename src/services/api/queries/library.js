@@ -47,9 +47,11 @@ export const editBookDetails = async (data) => {
 
 export const viewLibraryAsManager = async ({ queryKey }) => {
   const [_, filters] = queryKey;
-  const queryParams = new URLSearchParams({
-    genres: filters.genres.map((item) => item.value).join(',')
-  });
+  let queryParams = '';
+  if (filters)
+    queryParams = new URLSearchParams({
+      genres: filters.genres.map((item) => item.value).join(',')
+    });
 
   const res = await axios.get(`${URI_MAP.library.viewAsManager()}?${queryParams.toString()}`, {
     headers: {
