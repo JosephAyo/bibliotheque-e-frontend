@@ -20,6 +20,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getOr } from '@/utils/objects';
 import { BookCard } from '@/components/Cards';
+import CreateEditCurationModal from '@/components/Modals/CreateEditCurationModal';
 
 const Curation = () => {
   const router = useRouter();
@@ -29,16 +30,29 @@ const Curation = () => {
   const {
     data,
     isLoading: viewCurationIsLoading,
+    refetch
   } = useQuery({
     placeholderData: {},
     enabled: !!router.query.id,
     queryKey: [`viewOneCuration`, router.query.id],
     queryFn: viewOneCuration,
     refetchOnWindowFocus: true,
-    select: (queryResponse) => getOr(queryResponse, 'data', {})
+    select: (queryResponse) => {
+      const curation = getOr(queryResponse, 'data', {});
+      return {
+        ...curation,
+        book_ids: getOr(curation, 'curation_associations', []).map((assoc) => {
+          const book = getOr(assoc, 'book', {});
+          return {
+            value: book.id,
+            label: `${book.title} | ${book.author_name}`
+          };
+        })
+      };
+    }
   });
 
-  const [_selectedEditCuration, setSelectedEditCuration] = useState(null);
+  const [selectedEditCuration, setSelectedEditCuration] = useState(null);
 
   const { title, description, curation_associations } = data;
 
@@ -91,12 +105,16 @@ const Curation = () => {
           </Wrap>
         </Stack>
       )}
-      {/* <CreateEditCurationModal
+      {selectedEditCuration ? (
+        <CreateEditCurationModal
           selectedCuration={selectedEditCuration}
-          isOpen={!!selectedEditCuration}
+          isOpen
           onClose={() => setSelectedEditCuration(null)}
           refetch={refetch}
-        /> */}
+        />
+      ) : (
+        ''
+      )}
     </LibraryPageLayout>
   );
 };
