@@ -15,7 +15,8 @@ import {
   Flex,
   Switch,
   Tag,
-  Textarea
+  Textarea,
+  Box
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { UserAccountPageLayout } from '@/components/Layouts';
@@ -34,6 +35,7 @@ import { IoMdAddCircle } from 'react-icons/io';
 import TableListContainer from '@/components/Tables/TableListContainer';
 import { Select } from 'chakra-react-select';
 import { viewLibraryAsManager } from '@/services/api/queries/library';
+import Link from 'next/link';
 
 const ManageCurations = () => {
   const [selectedCuration, setSelectedCuration] = useState(null);
@@ -116,7 +118,18 @@ const ManageCurations = () => {
       key: 'title',
       label: 'Title',
       path: 'title',
-      editable: true
+      editable: true,
+      render: (curation, title) => (
+        <Link href={`/curations/${curation.id}`}>
+          <Box
+            as="span"
+            _hover={{
+              textDecorationLine: 'underline'
+            }}>
+            {title}
+          </Box>
+        </Link>
+      )
     },
     {
       key: 'description',

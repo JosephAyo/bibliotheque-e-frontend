@@ -232,7 +232,7 @@ const BookCard = ({
             )}
           </VStack>
           <ButtonGroup size="sm" fontSize="16px" justifyContent="end" marginTop="auto">
-            {isBorrower ? (
+            {isBorrower && (mutateReturnBorrowedBook || mutateBorrowBook) ? (
               <Button
                 variant="primary_action"
                 onClick={() => {
@@ -252,19 +252,27 @@ const BookCard = ({
             ) : (
               ''
             )}
-            {isProprietor ? (
+            {isProprietor || isLibrarian ? (
               <>
-                <IconButton
-                  variant="primary_action"
-                  onClick={onClickEditBook}
-                  icon={<MdModeEdit />}
-                />
-                <IconButton
-                  variant="delete_action"
-                  onClick={() => mutateDeleteBook(details.id)}
-                  isLoading={isMutationRequestPending}
-                  icon={<MdDelete />}
-                />
+                {onClickEditBook ? (
+                  <IconButton
+                    variant="primary_action"
+                    onClick={onClickEditBook}
+                    icon={<MdModeEdit />}
+                  />
+                ) : (
+                  ''
+                )}
+                {mutateDeleteBook ? (
+                  <IconButton
+                    variant="delete_action"
+                    onClick={() => mutateDeleteBook(details.id)}
+                    isLoading={isMutationRequestPending}
+                    icon={<MdDelete />}
+                  />
+                ) : (
+                  ''
+                )}
               </>
             ) : (
               ''

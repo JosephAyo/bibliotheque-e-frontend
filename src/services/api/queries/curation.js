@@ -2,6 +2,16 @@ import URI_MAP from '../uris';
 import { axios, getAuthToken } from '@/config/axios';
 import { getAxiosResponseBody } from '@/utils/objects';
 
+export const viewOneCuration = async ({ queryKey }) => {
+  const [_, id] = queryKey;
+  const res = await axios.get(`${URI_MAP.library.curations()}/${id}`, {
+    headers: {
+      Authorization: getAuthToken()
+    }
+  });
+  return getAxiosResponseBody(res);
+};
+
 export const viewCurations = async () => {
   const res = await axios.get(`${URI_MAP.library.curations()}`, {
     headers: {
