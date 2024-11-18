@@ -11,12 +11,7 @@ import {
   Tr,
   Td,
   Wrap,
-  IconButton,
-  Flex,
-  Switch,
-  Tag,
-  Textarea,
-  Box
+  Flex
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { UserAccountPageLayout } from '@/components/Layouts';
@@ -27,15 +22,13 @@ import { viewCurations, editCuration, createCuration } from '@/services/api/quer
 import { getAxiosErrorDetail, getAxiosResponseBody, getOr } from '@/utils/objects';
 import { errorToast, successToast } from '@/utils/toast';
 import * as yup from 'yup';
-import { FaEdit } from 'react-icons/fa';
 import { USER_ROLES } from '@/utils/constants';
 import { AuthorizationGate } from '@/components/Wrappers';
 import { FormInputField } from '@/components/Inputs';
 import { IoMdAddCircle } from 'react-icons/io';
 import TableListContainer from '@/components/Tables/TableListContainer';
-import { Select } from 'chakra-react-select';
 import { viewLibraryAsManager } from '@/services/api/queries/library';
-import Link from 'next/link';
+import curationTableAndEditorLayout from '@/components/TableDataLayout/curation';
 
 const ManageCurations = () => {
   const [selectedCuration, setSelectedCuration] = useState(null);
@@ -113,143 +106,6 @@ const ManageCurations = () => {
     }
   });
 
-  const cols = [
-    {
-      key: 'title',
-      label: 'Title',
-      path: 'title',
-      editable: true,
-      render: (curation, title) => (
-        <Link href={`/curations/${curation.id}`}>
-          <Box
-            as="span"
-            _hover={{
-              textDecorationLine: 'underline'
-            }}>
-            {title}
-          </Box>
-        </Link>
-      )
-    },
-    {
-      key: 'description',
-      label: 'Description',
-      path: 'description',
-      editable: true,
-      renderEditor: (value, error, onChange) => (
-        <FormInputField
-          fieldLabel="Description"
-          hasError={error}
-          errorText={error}
-          InputComponent={
-            <Textarea
-              value={value}
-              placeholder="Description"
-              onChange={(e) => onChange(e.target.value)}
-            />
-          }
-        />
-      )
-    },
-    {
-      key: 'book_ids',
-      label: 'Books',
-      path: 'book_ids',
-      editable: true,
-      hideInTable: true,
-      renderEditor: (selection, error, onChange) => (
-        <FormInputField
-          fieldLabel="Books"
-          hasError={error}
-          errorText={error}
-          InputComponent={
-            <Select
-              isMulti
-              placeholder="Select books"
-              value={selection}
-              onChange={(value) => onChange(value)}
-              options={booksOptions}
-              closeMenuOnSelect={false}
-              styles={{
-                container: {
-                  width: '100%'
-                }
-              }}
-            />
-          }
-        />
-      )
-    },
-    {
-      key: 'published',
-      label: 'Published',
-      path: 'published',
-      editable: true,
-      render: (curation, published) => (
-        <Tag colorScheme={published ? 'green' : 'red'} fontSize="12.5px">
-          {published ? 'published' : 'draft'}
-        </Tag>
-      ),
-      renderEditor: (value, error, onChange) => (
-        <FormInputField
-          fieldLabel="Published"
-          hasError={error}
-          errorText={error}
-          InputComponent={
-            <Switch
-              id="publish-curation"
-              isChecked={value}
-              onChange={() => {
-                onChange(!value);
-              }}
-            />
-          }
-        />
-      )
-    },
-    {
-      key: 'created_at',
-      label: 'Created',
-      path: 'created_at',
-      render: (curation, date) =>
-        new Intl.DateTimeFormat(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric'
-        }).format(new Date(date))
-    },
-    {
-      key: 'updated_at',
-      label: 'Updated',
-      path: 'updated_at',
-      render: (curation, date) =>
-        new Intl.DateTimeFormat(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric'
-        }).format(new Date(date))
-    },
-    {
-      key: 'action',
-      label: 'action',
-      path: null,
-      render: (curation, onClickHandler, isDisabled) => (
-        <IconButton
-          variant="primary_action"
-          icon={<FaEdit />}
-          onClick={() => onClickHandler()}
-          isDisabled={isDisabled}
-        />
-      )
-    }
-  ];
-
   return (
     <UserAccountPageLayout pageTitle="Manage Curations">
       <Text textStyle="headline-5-medium" textTransform="uppercase">
@@ -270,10 +126,10 @@ const ManageCurations = () => {
           Add
         </Button>
       </Flex>
-      <TableListContainer cols={cols.filter((col) => !col.hideInTable)}>
+      <TableListContainer cols={curationTableAndEditorLayout.filter((col) => !col.hideInTable)}>
         {(data || []).map((curation) => (
           <Tr key={curation.id}>
-            {cols
+            {curationTableAndEditorLayout
               .filter((col) => !col.hideInTable)
               .map((col) => {
                 const onClickHandler = () => {
@@ -343,14 +199,17 @@ const ManageCurations = () => {
                 <ModalCloseButton />
                 <ModalBody pb={6}>
                   <Wrap width="100%" spacing="20px">
-                    {cols
+                    {curationTableAndEditorLayout
                       .filter((col) => col.key !== 'action' && col.editable)
                       .map((col) => {
                         if (col.renderEditor)
                           return col.renderEditor(
                             get(formValues, col.key),
                             get(errors, col.key),
-                            (value) => setFieldValue(col.key, value, submitCount > 0)
+                            (value) => setFieldValue(col.key, value, submitCount > 0),
+                            {
+                              booksOptions
+                            }
                           );
                         return (
                           <FormInputField
