@@ -29,7 +29,7 @@ import { getTagBadgeColorScheme, iff } from '@/utils/helpers';
 import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
 
-const ManageCurations = () => {
+const CurationsPage = () => {
   const [selectedCuration, setSelectedCuration] = useState(null);
   const { currentUserRoleName, isLibrarian } = useUserRoles();
   const [tileView, setTileView] = useState(true);
@@ -63,9 +63,9 @@ const ManageCurations = () => {
   const displayedBooksLimit = 5;
 
   return (
-    <UserAccountPageLayout pageTitle="Manage Curations">
+    <UserAccountPageLayout pageTitle="Curations">
       <Text textStyle="headline-5-medium" textTransform="uppercase">
-        Curations
+        Recommendations
       </Text>
       {isLibrarian ? (
         <Flex width="100%" justifyContent="flex-end">
@@ -93,49 +93,57 @@ const ManageCurations = () => {
       )}
       {iff(
         tileView,
-        (data || []).map((curation) => (
-          <Flex key={curation.id} justifyContent="space-between" width="100%" alignItems="center">
-            <VStack gap="10px" alignItems="flex-start">
-              <Link href={`/curations/${curation.id}`}>
-                <Box
-                  as="span"
-                  _hover={{
-                    textDecorationLine: 'underline'
-                  }}>
-                  <Heading>{curation.title}</Heading>
-                  <Text textStyle="headline-5-medium">{curation.description}</Text>
-                </Box>
-              </Link>
-              <Wrap spacing="5px">
-                <Text textStyle="caption">Books:</Text>
-                {getOr(curation, 'curation_associations', [])
-                  .slice(0, displayedBooksLimit)
-                  .map((assoc) => (
-                    <Badge
-                      key={assoc.id}
-                      paddingBottom={0}
-                      colorScheme={getTagBadgeColorScheme(
-                        assoc.book.title + assoc.book.author_name
-                      )}>
-                      {assoc.book.title} | {assoc.book.author_name}
-                    </Badge>
-                  ))}
-                {getOr(curation, 'curation_associations', []).length > displayedBooksLimit
-                  ? '...'
-                  : ''}
-              </Wrap>
-            </VStack>
-            {isLibrarian ? (
-              <IconButton
-                variant="primary_action"
-                icon={<FaEdit />}
-                onClick={() => setSelectedCuration(curation)}
-              />
-            ) : (
-              ''
-            )}
-          </Flex>
-        )),
+        data.length < 1
+          ? 'No recommendations'
+          : data.map((curation) => (
+              <Flex
+                key={curation.id}
+                justifyContent="space-between"
+                width="100%"
+                alignItems="center">
+                <VStack gap="10px" alignItems="flex-start">
+                  <Link href={`/curations/${curation.id}`}>
+                    <Box
+                      as="span"
+                      _hover={{
+                        textDecorationLine: 'underline'
+                      }}>
+                      <Heading>{curation.title}</Heading>
+                      <Text textStyle="headline-5-medium">{curation.description}</Text>
+                    </Box>
+                  </Link>
+                  <Wrap spacing="5px">
+                    <Text textStyle="caption">Books:</Text>
+                    {getOr(curation, 'curation_associations', [])
+                      .slice(0, displayedBooksLimit)
+                      .map((assoc) => (
+                        <Badge
+                          key={assoc.id}
+                          paddingBottom={0}
+                          colorScheme={getTagBadgeColorScheme(
+                            assoc.book.title + assoc.book.author_name
+                          )}>
+                          {assoc.book.title} | {assoc.book.author_name}
+                        </Badge>
+                      ))}
+                    {getOr(curation, 'curation_associations', []).length > displayedBooksLimit ? (
+                      <Text textStyle="caption">...</Text>
+                    ) : (
+                      ''
+                    )}
+                  </Wrap>
+                </VStack>
+                {isLibrarian ? (
+                  <IconButton
+                    variant="primary_action"
+                    icon={<FaEdit />}
+                    onClick={() => setSelectedCuration(curation)}
+                  />
+                ) : (
+                  ''
+                )}
+              </Flex>
+            )),
         <TableListContainer cols={filteredCols}>
           {(data || []).map((curation) => (
             <Tr key={curation.id}>
@@ -181,11 +189,11 @@ const ManageCurations = () => {
   );
 };
 
-const ManageCurationsComponent = () => (
+const CurationsPageComponent = () => (
   <AuthorizationGate
     permittedRoles={[USER_ROLES.BORROWER, USER_ROLES.PROPRIETOR, USER_ROLES.LIBRARIAN]}>
-    <ManageCurations />
+    <CurationsPage />
   </AuthorizationGate>
 );
 
-export default ManageCurationsComponent;
+export default CurationsPageComponent;
