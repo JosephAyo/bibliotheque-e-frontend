@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FormInputField } from '../Inputs';
 import { Select } from 'chakra-react-select';
 import { FaEdit } from 'react-icons/fa';
+import { USER_ROLES } from '@/utils/constants';
 
 const curationTableAndEditorLayout = [
   {
@@ -76,6 +77,7 @@ const curationTableAndEditorLayout = [
     label: 'Published',
     path: 'published',
     editable: true,
+    allowedRoles: [USER_ROLES.LIBRARIAN],
     render: (curation, published) => (
       <Tag colorScheme={published ? 'green' : 'red'} fontSize="12.5px">
         {published ? 'published' : 'draft'}
@@ -102,6 +104,7 @@ const curationTableAndEditorLayout = [
     key: 'created_at',
     label: 'Created',
     path: 'created_at',
+    allowedRoles: [USER_ROLES.LIBRARIAN],
     render: (curation, date) =>
       new Intl.DateTimeFormat(undefined, {
         year: 'numeric',
@@ -116,6 +119,7 @@ const curationTableAndEditorLayout = [
     key: 'updated_at',
     label: 'Updated',
     path: 'updated_at',
+    allowedRoles: [USER_ROLES.LIBRARIAN],
     render: (curation, date) =>
       new Intl.DateTimeFormat(undefined, {
         year: 'numeric',
@@ -130,6 +134,7 @@ const curationTableAndEditorLayout = [
     key: 'action',
     label: 'action',
     path: null,
+    allowedRoles: [USER_ROLES.LIBRARIAN],
     render: (curation, onClickHandler, isDisabled) => (
       <IconButton
         variant="primary_action"

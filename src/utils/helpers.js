@@ -53,29 +53,25 @@ export const getDueStatusAndColor = (date) => {
 };
 
 const colorPalette = [
-  'whiteAlpha',
-  'blackAlpha',
-  'gray',
-  'red',
-  'orange',
   'yellow',
-  'green',
-  'teal',
-  'blue',
-  'cyan',
   'purple',
-  'pink'
+  'red',
+  'teal',
+  'gray',
+  'pink',
+  'orange',
+  'green',
+  'cyan',
+  'blue'
 ];
 
-export const getGenreNameTagColorScheme = (genreName) => {
+export const getTagBadgeColorScheme = (key) => {
   let hash = 0;
-  for (let i = 0; i < genreName.length; i += 1) {
-    hash += genreName.charCodeAt(i);
+  for (let i = 0; i < key.length; i += 1) {
+    hash += key.charCodeAt(i);
   }
   return colorPalette[hash % colorPalette.length];
 };
-
-
 
 export function clampText(text, limit) {
   return text.length > limit ? `${text.slice(0, limit)}...` : text;

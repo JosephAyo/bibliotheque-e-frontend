@@ -22,7 +22,7 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAxiosErrorDetail, getOr } from '@/utils/objects';
-import { getGenreNameTagColorScheme } from '@/utils/helpers';
+import { getTagBadgeColorScheme } from '@/utils/helpers';
 import { errorToast, successToast } from '@/utils/toast';
 import CreateEditBookModal from '@/components/Modals/CreateEditBookModal';
 
@@ -104,7 +104,7 @@ const Book = () => {
                   key={genreName}
                   size="sm"
                   textTransform="capitalize"
-                  colorScheme={getGenreNameTagColorScheme(genreName)}>
+                  colorScheme={getTagBadgeColorScheme(genreName)}>
                   {genreName}
                 </Tag>
               ))}

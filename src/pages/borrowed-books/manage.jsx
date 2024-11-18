@@ -13,7 +13,7 @@ import {
   clampText,
   formatDate,
   getDueStatusAndColor,
-  getGenreNameTagColorScheme,
+  getTagBadgeColorScheme,
   iff
 } from '@/utils/helpers';
 import Link from 'next/link';
@@ -85,7 +85,7 @@ const ManageBorrowedBooks = () => {
                 key={genreAssocName}
                 size="sm"
                 textTransform="capitalize"
-                colorScheme={getGenreNameTagColorScheme(genreAssocName)}>
+                colorScheme={getTagBadgeColorScheme(genreAssocName)}>
                 {genreAssocName}
               </Tag>
             ))}

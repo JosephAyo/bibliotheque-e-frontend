@@ -26,7 +26,7 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { LuBookUp } from 'react-icons/lu';
 import { IconBookQuantity } from '@/components/DataDisplay';
 import { TbBooksOff } from 'react-icons/tb';
-import { formatDate, getGenreNameTagColorScheme, getDueStatusAndColor } from '@/utils/helpers';
+import { formatDate, getTagBadgeColorScheme, getDueStatusAndColor } from '@/utils/helpers';
 import Link from 'next/link';
 import CopyLinkButton from '../Buttons/CopyLinkButton';
 
@@ -169,7 +169,7 @@ const BookCard = ({
                 key={genreName}
                 size="sm"
                 textTransform="capitalize"
-                colorScheme={getGenreNameTagColorScheme(genreName)}>
+                colorScheme={getTagBadgeColorScheme(genreName)}>
                 {genreName}
               </Tag>
             ))}

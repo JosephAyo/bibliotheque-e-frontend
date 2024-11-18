@@ -11,8 +11,8 @@ const useUserRoles = () => {
     userSlice: { currentUser }
   } = useAppStore();
 
-  const { isLibrarian, isProprietor, isBorrower } = useMemo(() => {
-    const currentUserRoleName = get(
+  const { isLibrarian, isProprietor, isBorrower, currentUserRoleName } = useMemo(() => {
+    const userRoleName = get(
       currentUser.user_role_associations.find(
         (user_role_association) => user_role_association.role_id === currentUser.current_role_id
       ),
@@ -21,9 +21,10 @@ const useUserRoles = () => {
     );
 
     return {
-      isLibrarian: currentUserRoleName === USER_ROLES.LIBRARIAN,
-      isProprietor: currentUserRoleName === USER_ROLES.PROPRIETOR,
-      isBorrower: currentUserRoleName === USER_ROLES.BORROWER
+      isLibrarian: userRoleName === USER_ROLES.LIBRARIAN,
+      isProprietor: userRoleName === USER_ROLES.PROPRIETOR,
+      isBorrower: userRoleName === USER_ROLES.BORROWER,
+      currentUserRoleName: userRoleName
     };
   }, [currentUser.current_role_id, currentUser.user_role_associations]);
 
@@ -54,7 +55,8 @@ const useUserRoles = () => {
       getOr(resBody, 'data', []).find((role) => role.name === USER_ROLES.BORROWER),
       'id',
       null
-    )
+    ),
+    currentUserRoleName
   };
 };
 

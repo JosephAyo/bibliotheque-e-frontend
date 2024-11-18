@@ -32,7 +32,7 @@ import {
   clampText,
   formatDate,
   getDueStatusAndColor,
-  getGenreNameTagColorScheme,
+  getTagBadgeColorScheme,
   iff
 } from '@/utils/helpers';
 import { GiCrossMark } from 'react-icons/gi';
@@ -46,9 +46,8 @@ import TableListContainer from '@/components/Tables/TableListContainer';
 import { get } from 'lodash';
 import { MdDelete, MdModeEdit } from 'react-icons/md';
 import Link from 'next/link';
-import { FaThList } from 'react-icons/fa';
-import { BsFillGrid3X3GapFill } from 'react-icons/bs';
 import { errorToast, successToast } from '@/utils/toast';
+import ItemLayoutSwitchButton from '@/components/Buttons/ItemLayoutSwitchButton';
 
 const Books = () => {
   const { isProprietor, isLibrarian, isBorrower } = useUserRoles();
@@ -222,7 +221,7 @@ const Books = () => {
                 key={genreName}
                 size="sm"
                 textTransform="capitalize"
-                colorScheme={getGenreNameTagColorScheme(genreName)}>
+                colorScheme={getTagBadgeColorScheme(genreName)}>
                 {genreName}
               </Tag>
             ))}
@@ -314,13 +313,7 @@ const Books = () => {
         ) : (
           ''
         )}
-        <IconButton
-          colorScheme="primary"
-          variant="outline"
-          marginLeft="auto"
-          icon={tileView ? <FaThList /> : <BsFillGrid3X3GapFill />}
-          onClick={() => setTileView(!tileView)}
-        />
+        <ItemLayoutSwitchButton tileView={tileView} onClick={() => setTileView(!tileView)} />
       </HStack>
       {iff(
         viewLibraryIsLoading || isLoadingBorrowedBooks,
