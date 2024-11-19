@@ -3,6 +3,7 @@ import axiosConfig from 'axios';
 axiosConfig.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 axiosConfig.defaults.headers.patch['Content-Type'] = 'application/json';
 axiosConfig.defaults.headers.put['Content-Type'] = 'application/json';
+axiosConfig.defaults.headers['ngrok-skip-browser-warning'] = 'any-value';
 
 // const UNAUTHORIZED = 401;
 // axiosConfig.interceptors.response.use(
