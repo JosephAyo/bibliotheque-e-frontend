@@ -1214,42 +1214,42 @@
 
 "@next/swc-darwin-x64@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-darwin-x64/-/swc-darwin-x64-14.0.2.tgz#8adb4dfc3d596c0816da67df9b75603218cf2a42"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-14.0.2.tgz#8adb4dfc3d596c0816da67df9b75603218cf2a42"
   integrity sha512-zRCAO0d2hW6gBEa4wJaLn+gY8qtIqD3gYd9NjruuN98OCI6YyelmhWVVLlREjS7RYrm9OUQIp/iVJFeB6kP1hg==
 
 "@next/swc-linux-arm64-gnu@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-14.0.2.tgz#1f88d066d44c9229a861815e3d449b0037dae14e"
+  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-14.0.2.tgz#1f88d066d44c9229a861815e3d449b0037dae14e"
   integrity sha512-tSJmiaon8YaKsVhi7GgRizZoV0N1Sx5+i+hFTrCKKQN7s3tuqW0Rov+RYdPhAv/pJl4qiG+XfSX4eJXqpNg3dA==
 
 "@next/swc-linux-arm64-musl@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-14.0.2.tgz#de9b2708abc35dd19429a662a11785d0c54d1ec7"
+  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-14.0.2.tgz#de9b2708abc35dd19429a662a11785d0c54d1ec7"
   integrity sha512-dXJLMSEOwqJKcag1BeX1C+ekdPPJ9yXbWIt3nAadhbLx5CjACoB2NQj9Xcqu2tmdr5L6m34fR+fjGPs+ZVPLzA==
 
 "@next/swc-linux-x64-gnu@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.0.2.tgz#64bd555dcbc7fd6c38cb86028baf7d7fc80bd4ac"
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.0.2.tgz#64bd555dcbc7fd6c38cb86028baf7d7fc80bd4ac"
   integrity sha512-WC9KAPSowj6as76P3vf1J3mf2QTm3Wv3FBzQi7UJ+dxWjK3MhHVWsWUo24AnmHx9qDcEtHM58okgZkXVqeLB+Q==
 
 "@next/swc-linux-x64-musl@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.0.2.tgz#69e6abf0f516df69acbf663eeb8ed6fd8eebcc38"
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.0.2.tgz#69e6abf0f516df69acbf663eeb8ed6fd8eebcc38"
   integrity sha512-KSSAwvUcjtdZY4zJFa2f5VNJIwuEVnOSlqYqbQIawREJA+gUI6egeiRu290pXioQXnQHYYdXmnVNZ4M+VMB7KQ==
 
 "@next/swc-win32-arm64-msvc@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-14.0.2.tgz#82bc49af0986f4b2c113b5f223a559fc51b49b9d"
+  resolved "https://registry.npmjs.org/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-14.0.2.tgz#82bc49af0986f4b2c113b5f223a559fc51b49b9d"
   integrity sha512-2/O0F1SqJ0bD3zqNuYge0ok7OEWCQwk55RPheDYD0va5ij7kYwrFkq5ycCRN0TLjLfxSF6xI5NM6nC5ux7svEQ==
 
 "@next/swc-win32-ia32-msvc@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-14.0.2.tgz#2f1958ad82b7f7ec5da8ad8ac2f18ef7a8e7757f"
+  resolved "https://registry.npmjs.org/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-14.0.2.tgz#2f1958ad82b7f7ec5da8ad8ac2f18ef7a8e7757f"
   integrity sha512-vJI/x70Id0oN4Bq/R6byBqV1/NS5Dl31zC+lowO8SDu1fHmUxoAdILZR5X/sKbiJpuvKcCrwbYgJU8FF/Gh50Q==
 
 "@next/swc-win32-x64-msvc@14.0.2":
   version "14.0.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.0.2.tgz#629174f587beb640a431a4a3fe4e26d5d4f8de52"
+  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.0.2.tgz#629174f587beb640a431a4a3fe4e26d5d4f8de52"
   integrity sha512-Ut4LXIUvC5m8pHTe2j0vq/YDnTEyq6RSR9vHYPqnELrDapPhLNz9Od/L5Ow3J8RNDWpEnfCiQXuVdfjlNEJ7ug==
 
 "@nodelib/fs.scandir@2.1.5":
@@ -2195,7 +2195,7 @@ eslint-config-prettier@^8.8.0:
 
 eslint-import-resolver-alias@^1.1.2:
   version "1.1.2"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/eslint-import-resolver-alias/-/eslint-import-resolver-alias-1.1.2.tgz"
+  resolved "https://registry.npmjs.org/eslint-import-resolver-alias/-/eslint-import-resolver-alias-1.1.2.tgz"
   integrity sha512-WdviM1Eu834zsfjHtcGHtGfcu+F30Od3V7I9Fi57uhBEwPkjDcii7/yW8jAT+gOhn4P/vOxxNAXbFAKsrrc15w==
 
 eslint-import-resolver-node@^0.3.6, eslint-import-resolver-node@^0.3.9:
@@ -2229,7 +2229,7 @@ eslint-module-utils@^2.7.4, eslint-module-utils@^2.8.0:
 
 eslint-plugin-import@^2.28.1, eslint-plugin-import@^2.29.0:
   version "2.29.0"
-  resolved "https://mavtek-840225427682.d.codeartifact.us-east-1.amazonaws.com/npm/npm/eslint-plugin-import/-/eslint-plugin-import-2.29.0.tgz"
+  resolved "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.29.0.tgz"
   integrity sha512-QPOO5NO6Odv5lpoTkddtutccQjysJuFxoPS7fAHO+9m9udNHvTCPSAMW9zGAYj8lAIdr40I8yPCdUYrncXtrwg==
   dependencies:
     array-includes "^3.1.7"
