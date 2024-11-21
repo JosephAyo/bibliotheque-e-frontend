@@ -143,7 +143,7 @@ const Book = () => {
                 </Text>
               )}
             </VStack>
-            <ButtonGroup size="sm" fontSize="16px" marginLeft="auto">
+            <ButtonGroup size="sm" fontSize="16px">
               {isBorrower ? (
                 <Button
                   variant="primary_action"
