@@ -21,7 +21,7 @@ const AuthorizationGate = ({ children, permittedRoles }) => {
   const isAuthorized = (permittedRoles || []).includes(currentRoleName);
 
   useEffect(() => {
-    if (!isAuthorized && !currentUser.not_set) router.push('/logout');
+    if (!isAuthorized && currentUser.not_set) router.push('/logout');
   }, [router, isAuthorized, currentUser.not_set]);
 
   return !isAuthorized ? (
