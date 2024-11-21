@@ -169,6 +169,7 @@ const Books = () => {
     setSelectedEditBook(book);
     onOpen();
   };
+
   const cols = [
     {
       key: 'title',
@@ -206,7 +207,7 @@ const Books = () => {
       key: 'private_shelf_quantity',
       label: 'private shelf quantity',
       path: 'private_shelf_quantity',
-      hide: isBorrower
+      hide: !(isProprietor || isLibrarian)
     },
     {
       key: 'genres',
@@ -246,6 +247,7 @@ const Books = () => {
       key: 'actions',
       label: 'actions',
       path: null,
+      hide: !(isProprietor || isBorrower),
       render: (book) => (
         <ButtonGroup size="sm" fontSize="16px" justifyContent="end" marginTop="auto">
           {isBorrower ? (
