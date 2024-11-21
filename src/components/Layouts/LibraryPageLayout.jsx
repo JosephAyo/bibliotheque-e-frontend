@@ -14,6 +14,7 @@ import useGenreContext from '@/hooks/useGenreContext';
 import { Select } from 'chakra-react-select';
 import { SearchInputField } from '../Inputs';
 import { BiSolidSearchAlt2 } from 'react-icons/bi';
+import { FaStar } from 'react-icons/fa';
 
 const LibraryPageLayout = ({
   children,
@@ -125,7 +126,9 @@ const LibraryPageLayout = ({
                   <HStack>
                     {!isLibrarian ? (
                       <Link href="/curations">
-                        <Button variant="secondary_action">Recommended reads</Button>
+                        <Button variant="secondary_action" rightIcon={<FaStar />}>
+                          Recommended reads
+                        </Button>
                       </Link>
                     ) : (
                       ''
