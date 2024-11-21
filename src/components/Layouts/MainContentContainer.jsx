@@ -1,5 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import DueSoonReminderBanners from '../Banners/DueSoonReminderBanners';
+import ScrollToTopButton from '../Buttons/ScrollToTopButton';
 
 const MainContentContainer = ({ children }) => (
   <Flex
@@ -14,6 +15,7 @@ const MainContentContainer = ({ children }) => (
     rowGap="20px">
     {children}
     <DueSoonReminderBanners />
+    <ScrollToTopButton />
   </Flex>
 );
 
