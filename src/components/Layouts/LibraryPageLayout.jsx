@@ -25,7 +25,7 @@ const LibraryPageLayout = ({
   isAllBooksQuery,
   onClickAddBook
 }) => {
-  const { isLibrarian, isProprietor } = useUserRoles();
+  const { isLibrarian, isProprietor, isBorrower } = useUserRoles();
   const genres = useGenreContext();
 
   return (
@@ -124,7 +124,7 @@ const LibraryPageLayout = ({
                     />
                   </Box>
                   <HStack>
-                    {!isLibrarian ? (
+                    {isProprietor || isBorrower ? (
                       <Link href="/curations">
                         <Button variant="secondary_action" rightIcon={<FaStar />}>
                           Recommended reads
