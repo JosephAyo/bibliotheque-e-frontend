@@ -122,17 +122,25 @@ const LibraryPageLayout = ({
                       closeMenuOnSelect={false}
                     />
                   </Box>
-                  {isProprietor ? (
-                    <Button
-                      variant="primary_action"
-                      rightIcon={<BsPlusCircleFill />}
-                      marginLeft="auto"
-                      onClick={onClickAddBook}>
-                      Add Book
-                    </Button>
-                  ) : (
-                    ''
-                  )}
+                  <HStack>
+                    {!isLibrarian ? (
+                      <Link href="/curations">
+                        <Button variant="secondary_action">Recommended reads</Button>
+                      </Link>
+                    ) : (
+                      ''
+                    )}
+                    {isProprietor ? (
+                      <Button
+                        variant="primary_action"
+                        rightIcon={<BsPlusCircleFill />}
+                        onClick={onClickAddBook}>
+                        Add Book
+                      </Button>
+                    ) : (
+                      ''
+                    )}
+                  </HStack>
                 </>
               ) : (
                 ''
