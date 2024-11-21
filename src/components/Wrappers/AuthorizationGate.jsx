@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getOr } from '@/utils/objects';
 import UserAuthWrapper from './UserAuthWrapper';
+import { getAuthToken } from '@/config/axios';
+import { isEmpty } from 'lodash';
 
 const AuthorizationGate = ({ children, permittedRoles }) => {
   const router = useRouter();
@@ -21,7 +23,13 @@ const AuthorizationGate = ({ children, permittedRoles }) => {
   const isAuthorized = (permittedRoles || []).includes(currentRoleName);
 
   useEffect(() => {
-    if (!isAuthorized && currentUser.not_set) router.push('/logout');
+    if (isEmpty(getAuthToken())) {
+      router.push('/logout');
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (!isAuthorized && !currentUser.not_set) router.push('/logout');
   }, [router, isAuthorized, currentUser.not_set]);
 
   return !isAuthorized ? (
