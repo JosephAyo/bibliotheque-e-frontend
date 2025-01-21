@@ -33,6 +33,7 @@ const Curation = () => {
     refetch
   } = useQuery({
     placeholderData: {},
+    initialData: {},
     enabled: !!router.query.id,
     queryKey: [`viewOneCuration`, router.query.id],
     queryFn: viewOneCuration,

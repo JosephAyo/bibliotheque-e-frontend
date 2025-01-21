@@ -39,6 +39,7 @@ const Book = () => {
     refetch
   } = useQuery({
     placeholderData: {},
+    initialData: {},
     enabled: !!router.query.id,
     queryKey: [`viewOneBook`, router.query.id],
     queryFn: viewOneBook,
