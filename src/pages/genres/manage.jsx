@@ -182,6 +182,7 @@ const ManageGenres = () => {
         <Formik
           validationSchema={validationSchema}
           initialValues={{
+            id: get(selectedGenre, 'id'),
             name: get(selectedGenre, 'name'),
             description: get(selectedGenre, 'description', [])
           }}
